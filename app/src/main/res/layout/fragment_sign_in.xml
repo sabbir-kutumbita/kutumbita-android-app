@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.authentication.SignInFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:id="@+id/ivKutumBita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/kutumbita_without_logo" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passWraper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="30dp"
+        app:passwordToggleEnabled="true">
+
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/circularstd_book"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/emailWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/passWraper"
+        android:layout_marginHorizontal="30dp">
+
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/circularstd_book"
+            android:hint="Email or Phone" />
+
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/bSignIn"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passWraper"
+        android:layout_marginHorizontal="60dp"
+        android:background="@color/primaryColor"
+        android:fontFamily="@font/circularstd_book"
+        android:text="Sign in"
+        android:textAllCaps="false"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="10sp" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/bForgotPassword"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="35sp"
+        android:layout_below="@+id/bSignIn"
+        android:layout_marginHorizontal="60dp"
+        android:background="@color/primaryColor"
+        android:fontFamily="@font/circularstd_book"
+        android:text="Forgot your password?"
+        android:textAllCaps="false"
+        android:textColor="@color/primaryColor"
+        android:textSize="10sp" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/bReqForAccount"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="35sp"
+        android:layout_below="@+id/bForgotPassword"
+        android:layout_marginHorizontal="60dp"
+        android:background="@color/primaryColor"
+        android:fontFamily="@font/circularstd_book"
+        android:text="Request for account"
+        android:textAllCaps="false"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="10sp" />
+
+</RelativeLayout>

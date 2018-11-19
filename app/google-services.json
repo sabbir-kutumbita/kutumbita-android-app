@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "134404469540",
+    "firebase_url": "https://kutumbita-mobile-mvp.firebaseio.com",
+    "project_id": "kutumbita-mobile-mvp",
+    "storage_bucket": "kutumbita-mobile-mvp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134404469540:android:a1f4501f523cd02a",
+        "android_client_info": {
+          "package_name": "com.kutumbita.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134404469540-0d4pit3jgihl4rkec2mnfqtprfbt4uip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kutumbita.app",
+            "certificate_hash": "f5e0c691f79abb4c0041b62eef869eabb2490a13"
+          }
+        },
+        {
+          "client_id": "134404469540-bsgf56qfhp4fsr2sj3s88ninvo6g0ouj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxBrBbk1CgR94tpCkXQuukuzwPUUrHVE8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134404469540-bsgf56qfhp4fsr2sj3s88ninvo6g0ouj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

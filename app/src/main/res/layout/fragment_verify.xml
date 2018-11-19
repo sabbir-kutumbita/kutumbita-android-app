@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.authentication.VerifyFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvEnterCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/circularstd_book"
+        android:text="Enter your code"
+        android:textColor="@color/primaryColor" />
+
+    <com.github.glomadrian.codeinputlib.CodeInput
+        android:id="@+id/codeInput"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEnterCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:codes="4"
+        app:text_color="@color/primaryColor" />
+
+</RelativeLayout>

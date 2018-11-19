@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".fragment.HomeFragment">
+
+
+    <ImageView
+        android:id="@+id/ivK"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/k" />
+
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivK"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/circularstd_medium"
+        android:gravity="center"
+        android:textColor="@color/primaryTextColor"
+        tools:text="Welcome Rameez, how can I help you?" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvWelcome"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/round"
+        android:fontFamily="@font/circularstd_medium"
+        android:hint="e. g. I need a leave"
+        android:padding="5dp"
+        android:textSize="14sp" />
+
+</RelativeLayout>
