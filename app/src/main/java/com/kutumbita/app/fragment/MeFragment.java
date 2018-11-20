@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -50,6 +51,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     MaterialButton mbLogOut;
     View v;
     PreferenceUtility preferenceUtility;
+    View layout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,13 +64,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_me, container, false);
-
+        layout = v.findViewById(R.id.header);
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Me");
         mbLogOut = v.findViewById(R.id.bLogout);
         mbLogOut.setOnClickListener(this);
         return v;
 
     }
-
 
 
     @Override

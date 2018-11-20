@@ -33,5 +33,6 @@ dependencies {
     implementation 'com.github.glomadrian:CodeInput:1.1@aar'
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 apply plugin: 'com.google.gms.google-services'

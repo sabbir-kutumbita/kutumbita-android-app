@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -21,6 +26,7 @@ import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
 import com.kutumbita.app.MainActivity;
 import com.kutumbita.app.R;
+import com.kutumbita.app.adapter.InboxAdapter;
 import com.kutumbita.app.model.Inbox;
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
@@ -35,6 +41,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -49,8 +56,9 @@ public class InboxFragment extends Fragment {
     View v;
     PreferenceUtility preferenceUtility;
     ArrayList<Inbox> inboxes = new ArrayList<>();
-
-
+    RecyclerView rcv;
+    InboxAdapter adapter;
+View layout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +72,15 @@ public class InboxFragment extends Fragment {
 
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
+        layout=v.findViewById(R.id.header);
+        ((TextView)layout.findViewById(R.id.tvTbTitle)).setText("Inbox");
+        rcv = v.findViewById(R.id.rcvInbox);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rcv.setLayoutManager(layoutManager);
+        rcv.setItemAnimator(new DefaultItemAnimator());
+        rcv.addItemDecoration(new DividerItemDecoration(rcv.getContext(),DividerItemDecoration.VERTICAL));
         parseInbox();
         return v;
     }
@@ -98,6 +115,7 @@ public class InboxFragment extends Fragment {
                     e.printStackTrace();
                 }
 
+                loadRecycleView();
 
             }
         }, new Response.ErrorListener() {
@@ -135,6 +153,18 @@ public class InboxFragment extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         GlobalData.getInstance().addToRequestQueue(loginRequest);
 
+    }
+
+    private void loadRecycleView() {
+
+        adapter = new InboxAdapter(getActivity(), inboxes);
+        adapter.setOnRecycleViewItemClickListener(new InboxAdapter.OnRecycleViewItemClickListener() {
+            @Override
+            public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
+
+            }
+        });
+        rcv.setAdapter(adapter);
     }
 
 
