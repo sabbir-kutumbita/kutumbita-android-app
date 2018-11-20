@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +48,7 @@ public class InboxFragment extends Fragment {
 
     View v;
     PreferenceUtility preferenceUtility;
+    ArrayList<Inbox> inboxes = new ArrayList<>();
 
 
     @Override
@@ -71,19 +73,25 @@ public class InboxFragment extends Fragment {
         StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                inboxes.clear();
                 S.L(response);
                 try {
-                    JSONObject object= new JSONObject(response);
-                    JSONArray jsonArray= object.getJSONArray("results");
-                    Inbox.MessageType messageType;
-                    Inbox.Message message;
-                    String uuId;
-                    for(int i=0;i<jsonArray.length();i++){
-                        JSONObject resultObject= jsonArray.getJSONObject(i);
-                        uuId =resultObject.getString("uuid");
+                    JSONObject object = new JSONObject(response);
+                    JSONArray jsonArray = object.getJSONArray("results");
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject resultObject = jsonArray.getJSONObject(i);
+
                         JSONObject messageTypeObject = resultObject.getJSONObject("message_type");
-                        messageType= new Inbox.MessageType(messageTypeObject.getString("uuid"),messageTypeObject.getString("title"),messageTypeObject.getString("icon"));
+
+                        inboxes.add(new Inbox(resultObject.getString("uuid"), resultObject.getString("title"), resultObject.getString("message_body"),
+                                resultObject.getString("sent_at"), resultObject.getString("timezone"),
+                                resultObject.getString("company_uuid"), resultObject.getString("link"),
+                                resultObject.getString("venue"), resultObject.getString("date"), resultObject.getString("time"),
+                                resultObject.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
+                                messageTypeObject.getString("icon"))));
+
                     }
                 } catch (JSONException e) {
 
