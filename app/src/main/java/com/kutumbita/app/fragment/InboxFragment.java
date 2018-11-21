@@ -24,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
+import com.kutumbita.app.InboxDetailsActivity;
 import com.kutumbita.app.MainActivity;
 import com.kutumbita.app.R;
 import com.kutumbita.app.adapter.InboxAdapter;
@@ -58,7 +59,8 @@ public class InboxFragment extends Fragment {
     ArrayList<Inbox> inboxes = new ArrayList<>();
     RecyclerView rcv;
     InboxAdapter adapter;
-View layout;
+    View layout;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +74,15 @@ View layout;
 
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
-        layout=v.findViewById(R.id.header);
-        ((TextView)layout.findViewById(R.id.tvTbTitle)).setText("Inbox");
+        layout = v.findViewById(R.id.header);
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Inbox");
         rcv = v.findViewById(R.id.rcvInbox);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rcv.setLayoutManager(layoutManager);
         rcv.setItemAnimator(new DefaultItemAnimator());
-        rcv.addItemDecoration(new DividerItemDecoration(rcv.getContext(),DividerItemDecoration.VERTICAL));
+        rcv.addItemDecoration(new DividerItemDecoration(rcv.getContext(), DividerItemDecoration.VERTICAL));
         parseInbox();
         return v;
     }
@@ -98,10 +100,9 @@ View layout;
 
 
                     for (int i = 0; i < jsonArray.length(); i++) {
+
                         JSONObject resultObject = jsonArray.getJSONObject(i);
-
                         JSONObject messageTypeObject = resultObject.getJSONObject("message_type");
-
                         inboxes.add(new Inbox(resultObject.getString("uuid"), resultObject.getString("title"), resultObject.getString("message_body"),
                                 resultObject.getString("sent_at"), resultObject.getString("timezone"),
                                 resultObject.getString("company_uuid"), resultObject.getString("link"),
@@ -162,9 +163,14 @@ View layout;
             @Override
             public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
 
+                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
+
+                startActivity(goDetails);
+
             }
         });
         rcv.setAdapter(adapter);
+
     }
 
 
