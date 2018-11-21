@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="hundread_dp">150dp</dimen>
+    <dimen name="hundread_twenty_dp">180dp</dimen>
+    <dimen name="fifteen_sp">19sp</dimen>
+    <dimen name="ten_sp">15sp</dimen>
+    <dimen name="sixty_dp">90dp</dimen>
+    <dimen name="ten_dp">15dp</dimen>
+    <dimen name="thirty_dp">45dp</dimen>
+</resources>

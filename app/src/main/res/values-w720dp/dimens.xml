@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="hundread_dp">200dp</dimen>
+    <dimen name="hundread_twenty_dp">240dp</dimen>
+    <dimen name="fifteen_sp">26sp</dimen>
+    <dimen name="ten_sp">20sp</dimen>
+    <dimen name="sixty_dp">120dp</dimen>
+    <dimen name="ten_dp">20dp</dimen>
+    <dimen name="thirty_dp">60dp</dimen>
+</resources>
