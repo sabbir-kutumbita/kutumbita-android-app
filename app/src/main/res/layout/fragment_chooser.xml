@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".fragment.authentication.ChooserFragment">
 
-
-    <ImageView
-        android:id="@+id/ivKutumBita"
-        android:layout_width="@dimen/hundread_twenty_dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/hundread_dp"
-        android:src="@drawable/kutumbita_without_logo" />
-
-    <TextView
-        android:textSize="@dimen/fifteen_sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivKutumBita"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/circularstd_medium"
-        android:text="All your work in one place" />
-
-    <android.support.design.button.MaterialButton
-        android:id="@+id/bReqForAccount"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixty_dp"
-        android:layout_above="@+id/bSignIn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/sixty_dp"
-        android:layout_marginRight="@dimen/sixty_dp"
-        android:layout_marginBottom="@dimen/ten_dp"
-        android:background="@color/primaryColor"
-        android:fontFamily="@font/circularstd_book"
-        android:text="Request for Account"
-        android:textAllCaps="false"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="@dimen/ten_sp" />
+        android:layout_height="match_parent"
+        tools:context=".fragment.authentication.ChooserFragment">
 
 
-    <android.support.design.button.MaterialButton
-        android:id="@+id/bSignIn"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/sixty_dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/sixty_dp"
-        android:layout_marginRight="@dimen/sixty_dp"
-        android:layout_marginBottom="@dimen/thirty_dp"
-        android:fontFamily="@font/circularstd_book"
-        android:text="Sign in"
-        android:textAllCaps="false"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/ten_sp" />
+        <ImageView
+            android:id="@+id/ivKutumBita"
+            android:layout_width="@dimen/hundread_twenty_dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/hundread_dp"
+            android:src="@drawable/kutumbita_without_logo" />
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivKutumBita"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/circularstd_medium"
+            android:text="All your work in one place"
+            android:textSize="@dimen/fifteen_sp" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/bReqForAccount"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_above="@+id/bSignIn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/sixty_dp"
+            android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:background="@color/primaryColor"
+            android:fontFamily="@font/circularstd_book"
+            android:text="Request for Account"
+            android:textAllCaps="false"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/ten_sp" />
+
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/bSignIn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/sixty_dp"
+            android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/thirty_dp"
+            android:fontFamily="@font/circularstd_book"
+            android:text="Sign in"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/ten_sp" />
+
+    </RelativeLayout>
+</ScrollView>

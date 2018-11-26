@@ -55,6 +55,7 @@ public class InboxFragment extends Fragment {
     RecyclerView rcv;
     InboxAdapter adapter;
     View layout;
+    StringRequest loginRequest;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,9 +83,18 @@ public class InboxFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (loginRequest != null) {
+
+            loginRequest.cancel();
+        }
+    }
+
     private void parseInbox() {
 
-        StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
+        loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 inboxes.clear();
@@ -158,9 +168,9 @@ public class InboxFragment extends Fragment {
             @Override
             public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
 
-                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-
-                startActivity(goDetails);
+//                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
+//
+//                startActivity(goDetails);
 
             }
         });

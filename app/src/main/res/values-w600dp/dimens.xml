@@ -8,4 +8,15 @@
     <dimen name="sixty_dp">90dp</dimen>
     <dimen name="ten_dp">15dp</dimen>
     <dimen name="thirty_dp">45dp</dimen>
+    <dimen name="thirty_five_dp">52dp</dimen>
+    <dimen name="eighty_dp">120dp</dimen>
+    <dimen name="forty_dp">60dp</dimen>
+    <dimen name="fifty_dp">75dp</dimen>
+    <dimen name="twenty_dp">30dp</dimen>
+    <dimen name="one_eighty_dp">270dp</dimen>
+    <dimen name="two_dp">3dp</dimen>
+    <dimen name="five_dp">7dp</dimen>
+    <dimen name="seventy_dp">105dp</dimen>
+    <dimen name="one_dp">1.5dp</dimen>
+    <dimen name="fifteen_dp">22dp</dimen>
 </resources>

@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="@dimen/seventy_dp">
 
 
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_height="@dimen/eighty_dp"
+        android:padding="@dimen/ten_dp">
 
         <ImageView
             android:id="@+id/ivType"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
             android:src="@drawable/ic_me_selected" />
 
         <TextView
             android:id="@+id/tvType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
+            android:layout_marginLeft="@dimen/eighty_dp"
             android:background="@color/primaryTextColor"
-            android:padding="2dp"
+            android:padding="@dimen/two_dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/fifteen_sp"
             tools:text="Admin" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="180dp"
+            android:layout_width="@dimen/one_eighty_dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvType"
-            android:layout_marginLeft="90dp"
-            android:padding="2dp"
+            android:layout_marginLeft="@dimen/eighty_dp"
+            android:maxLines="2"
+            android:padding="@dimen/two_dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/ten_sp"
             tools:text="Acknowledge a recent change to you insurance rates" />
 
         <TextView
@@ -46,9 +47,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
-            android:padding="2dp"
+            android:layout_marginTop="@dimen/two_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:padding="@dimen/two_dp"
+            android:textSize="@dimen/ten_sp"
             tools:text="25 jun" />
 
 

@@ -37,6 +37,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         mbForgotPass = v.findViewById(R.id.bForgotPassword);
         mbReqAccount = v.findViewById(R.id.bReqForAccount);
         mbLogin.setOnClickListener(this);
+        mbForgotPass.setOnClickListener(this);
+        mbReqAccount.setOnClickListener(this);
         return v;
     }
 
@@ -63,10 +65,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
             case R.id.bForgotPassword:
 
+                listener.onForgotPasswordClicked();
                 break;
 
             case R.id.bReqForAccount:
-
+                listener.onRequestButtonClicked();
                 break;
 
 

@@ -1,21 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.MeFragment">
+    android:fillViewport="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <include
-        android:id="@+id/header"
-        layout="@layout/header"></include>
-    <android.support.design.button.MaterialButton
-        android:id="@+id/bLogout"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Log Out"
-        android:textAllCaps="false" />
+        android:layout_height="match_parent"
+        android:background="@color/appBackground"
+        tools:context=".fragment.MeFragment">
 
-</RelativeLayout>
+        <!-- TODO: Update blank fragment layout -->
+        <include
+            android:id="@+id/header"
+            layout="@layout/header"></include>
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:background="@color/primaryTextColor"
+            android:padding="@dimen/one_dp">
+
+            <TextView
+                android:id="@+id/tvVerify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/circularstd_book"
+                android:text="Verify your account"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="@dimen/fifteen_sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tvVerify"
+                android:src="@drawable/ic_navigate_next_white_24dp" />
+
+        </RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/eighty_dp"
+            android:layout_height="@dimen/eighty_dp"
+            android:layout_below="@+id/rl"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/five_dp"
+            android:src="@drawable/ic_person_black_24dp"
+            app:civ_border_color="@color/secondaryTextColor"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/five_dp"
+            android:fontFamily="@font/circularstd_medium"
+            android:textColor="@color/primaryTextColor"
+            tools:text="Sabbir Ahmed" />
+
+        <include
+            android:id="@+id/tvNameField"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"></include>
+
+        <include
+            android:id="@+id/tvPositionField"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvNameField"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+        <include
+            android:id="@+id/tvCompanyNameField"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPositionField"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+        <include
+
+            android:id="@+id/tvMobileNum"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCompanyNameField"
+            android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+        <include
+            android:id="@+id/tvPresentAddress"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMobileNum"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+        <include
+            android:id="@+id/tvParmanentAddress"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPresentAddress"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+
+        <include
+            android:id="@+id/tvJoiningDate"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvParmanentAddress"
+            android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+        <include
+            android:id="@+id/tvEmergencyContact"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvJoiningDate"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+
+        <include
+
+            android:id="@+id/tvBloodGroup"
+            layout="@layout/dropdown_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEmergencyContact"
+            android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/bLogout"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvBloodGroup"
+            android:text="Log Out"
+            android:textAllCaps="false" />
+
+
+    </RelativeLayout>
+</ScrollView>

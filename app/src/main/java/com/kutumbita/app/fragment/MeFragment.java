@@ -52,6 +52,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     View v;
     PreferenceUtility preferenceUtility;
     View layout;
+    View nameLayout, positionLayout, companyNameLayout, mblNumberLayout, presentAddressLayout,
+            parmanentAddressLayout, joinDateLayout, emergencyLayout, bldGroupLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +70,53 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Me");
         mbLogOut = v.findViewById(R.id.bLogout);
         mbLogOut.setOnClickListener(this);
+
+        loadProfileData();
         return v;
+
+    }
+
+    private void loadProfileData() {
+
+        nameLayout = v.findViewById(R.id.tvNameField);
+        positionLayout = v.findViewById(R.id.tvPositionField);
+        companyNameLayout = v.findViewById(R.id.tvCompanyNameField);
+        mblNumberLayout = v.findViewById(R.id.tvMobileNum);
+        presentAddressLayout = v.findViewById(R.id.tvPresentAddress);
+        parmanentAddressLayout = v.findViewById(R.id.tvParmanentAddress);
+        joinDateLayout = v.findViewById(R.id.tvJoiningDate);
+        emergencyLayout = v.findViewById(R.id.tvEmergencyContact);
+        bldGroupLayout = v.findViewById(R.id.tvBloodGroup);
+
+        ((TextView) nameLayout.findViewById(R.id.key)).setText("Name");
+        ((TextView) nameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getName());
+
+
+        ((TextView) positionLayout.findViewById(R.id.key)).setText("Position");
+        ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+
+        ((TextView) companyNameLayout.findViewById(R.id.key)).setText("Company Name");
+        ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+
+
+        ((TextView) mblNumberLayout.findViewById(R.id.key)).setText("Mobile Number");
+        ((TextView) mblNumberLayout.findViewById(R.id.value)).setText("Me");
+
+        ((TextView) presentAddressLayout.findViewById(R.id.key)).setText("Present Address");
+        ((TextView) presentAddressLayout.findViewById(R.id.value)).setText("Me");
+
+        ((TextView) parmanentAddressLayout.findViewById(R.id.key)).setText("Parmanent Address");
+        ((TextView) parmanentAddressLayout.findViewById(R.id.value)).setText("Me");
+
+        ((TextView) joinDateLayout.findViewById(R.id.key)).setText("Joining Date");
+        ((TextView) joinDateLayout.findViewById(R.id.value)).setText("Me");
+
+        ((TextView) emergencyLayout.findViewById(R.id.key)).setText("Emergency Contact");
+        ((TextView) emergencyLayout.findViewById(R.id.value)).setText("Me");
+
+        ((TextView) bldGroupLayout.findViewById(R.id.key)).setText("Blood Group");
+        ((TextView) bldGroupLayout.findViewById(R.id.value)).setText("Me");
+
 
     }
 

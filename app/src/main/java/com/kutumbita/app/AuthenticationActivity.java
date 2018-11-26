@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kutumbita.app.fragment.authentication.ChooserFragment;
+import com.kutumbita.app.fragment.authentication.ForgotPasswordFragment;
 import com.kutumbita.app.fragment.authentication.RequestForAccountFragment;
 import com.kutumbita.app.fragment.authentication.SignInFragment;
 import com.kutumbita.app.model.Me;
@@ -84,7 +85,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
 
     }
 
@@ -188,14 +189,33 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void onForgotPasswordClicked() {
 
+                loadForgotPassFragment();
+
             }
 
             @Override
             public void onRequestButtonClicked() {
-
+                loadRequestForAccountFragment();
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+    }
+
+    private void loadForgotPassFragment() {
+
+        fr = new ForgotPasswordFragment();
+        ((ForgotPasswordFragment) fr).setOnButtonClickListener(new ForgotPasswordFragment.OnButtonClickListener() {
+            @Override
+            public void OnSendCodeClicked(String emailOrPhone) {
+
+            }
+
+            @Override
+            public void OnCancelClicked() {
+                getSupportFragmentManager().popBackStack();
+            }
+        });
+        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
     }
 
 }
