@@ -1,16 +1,13 @@
 package com.kutumbita.app;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.kutumbita.app.fragment.ChatFragment;
 import com.kutumbita.app.fragment.HomeFragment;
@@ -74,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
         bnv.setSelectedItemId(R.id.item_home);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        putToken();
+    }
+
+    private void putToken() {
+
+
+
+    }
 
     private void loadInboxFragment() {
 

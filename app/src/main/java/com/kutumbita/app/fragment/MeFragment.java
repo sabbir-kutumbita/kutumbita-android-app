@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -54,6 +55,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     View layout;
     View nameLayout, positionLayout, companyNameLayout, mblNumberLayout, presentAddressLayout,
             parmanentAddressLayout, joinDateLayout, emergencyLayout, bldGroupLayout;
+    TextView textViewAccountName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mbLogOut.setOnClickListener(this);
 
         loadProfileData();
+
         return v;
 
     }
@@ -87,37 +90,138 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         joinDateLayout = v.findViewById(R.id.tvJoiningDate);
         emergencyLayout = v.findViewById(R.id.tvEmergencyContact);
         bldGroupLayout = v.findViewById(R.id.tvBloodGroup);
+        textViewAccountName = v.findViewById(R.id.tvName);
+
+        textViewAccountName.setText(preferenceUtility.getMe().getName());
 
         ((TextView) nameLayout.findViewById(R.id.key)).setText("Name");
         ((TextView) nameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getName());
+        ((ImageView) nameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.name);
+
+        nameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(nameLayout);
+
+            }
+        });
 
 
         ((TextView) positionLayout.findViewById(R.id.key)).setText("Position");
         ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+        ((ImageView) positionLayout.findViewById(R.id.icon)).setImageResource(R.drawable.position);
+        positionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(positionLayout);
+
+            }
+        });
 
         ((TextView) companyNameLayout.findViewById(R.id.key)).setText("Company Name");
         ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+        ((ImageView) companyNameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.company_name);
+        companyNameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(companyNameLayout);
+
+            }
+        });
 
 
         ((TextView) mblNumberLayout.findViewById(R.id.key)).setText("Mobile Number");
-        ((TextView) mblNumberLayout.findViewById(R.id.value)).setText("Me");
+        ((TextView) mblNumberLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPhone());
+        ((ImageView) mblNumberLayout.findViewById(R.id.icon)).setImageResource(R.drawable.mobile_number);
+        mblNumberLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(mblNumberLayout);
+
+            }
+        });
 
         ((TextView) presentAddressLayout.findViewById(R.id.key)).setText("Present Address");
-        ((TextView) presentAddressLayout.findViewById(R.id.value)).setText("Me");
+        ((TextView) presentAddressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
+        ((ImageView) presentAddressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
+        presentAddressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        ((TextView) parmanentAddressLayout.findViewById(R.id.key)).setText("Parmanent Address");
-        ((TextView) parmanentAddressLayout.findViewById(R.id.value)).setText("Me");
+                switchView(presentAddressLayout);
+
+            }
+        });
+
+        ((TextView) parmanentAddressLayout.findViewById(R.id.key)).setText("Permanent Address");
+        ((TextView) parmanentAddressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
+        ((ImageView) parmanentAddressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.permanent_address);
+        parmanentAddressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(parmanentAddressLayout);
+
+            }
+        });
+
 
         ((TextView) joinDateLayout.findViewById(R.id.key)).setText("Joining Date");
         ((TextView) joinDateLayout.findViewById(R.id.value)).setText("Me");
+        ((ImageView) joinDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
+        joinDateLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(joinDateLayout);
+
+            }
+        });
+
 
         ((TextView) emergencyLayout.findViewById(R.id.key)).setText("Emergency Contact");
-        ((TextView) emergencyLayout.findViewById(R.id.value)).setText("Me");
+        ((TextView) emergencyLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getEmergencyContact());
+        ((ImageView) emergencyLayout.findViewById(R.id.icon)).setImageResource(R.drawable.emergency_contact);
+         emergencyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(emergencyLayout);
+
+            }
+        });
+
 
         ((TextView) bldGroupLayout.findViewById(R.id.key)).setText("Blood Group");
-        ((TextView) bldGroupLayout.findViewById(R.id.value)).setText("Me");
+        ((TextView) bldGroupLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getDepartment());
+        ((ImageView) bldGroupLayout.findViewById(R.id.icon)).setImageResource(R.drawable.blood_group);
+         bldGroupLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchView(bldGroupLayout);
+
+            }
+        });
 
 
+    }
+
+    private void switchView(View nameLayout) {
+
+        if ((nameLayout.findViewById(R.id.value)).getVisibility() == View.VISIBLE) {
+
+            nameLayout.findViewById(R.id.value).setVisibility(View.GONE);
+            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_navigate_next_black_24dp);
+        } else {
+
+            nameLayout.findViewById(R.id.value).setVisibility(View.VISIBLE);
+            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        }
     }
 
 
