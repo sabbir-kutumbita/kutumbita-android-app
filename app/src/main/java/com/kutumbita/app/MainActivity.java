@@ -21,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment fr;
     BottomNavigationView bnv;
     Toolbar toolbar;
-    ActionBar actionBar;
-
+    Fragment currentFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +32,18 @@ public class MainActivity extends AppCompatActivity {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+                String tag = null;
+                Fragment fragment = null;
+                if (currentFragment == null) {
+                    currentFragment = getSupportFragmentManager().findFragmentById(R.id.frMain);
+                }
                 switch (menuItem.getItemId()) {
 
 
                     case R.id.item_home:
+
+
+
 
                         loadHomeFragment();
 
@@ -65,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 return true;
+            }
+        });
+
+        bnv.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+
             }
         });
 

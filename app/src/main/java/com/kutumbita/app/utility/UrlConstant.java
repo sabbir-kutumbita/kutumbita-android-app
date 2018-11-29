@@ -6,5 +6,6 @@ public class UrlConstant {
     public static final String URL_LOGIN = URL_BASE + "login";
     public static final String URL_LOGOUT = URL_BASE + "logout";
     public static final String URL_INBOX = URL_BASE + "inbox";
-
+    public static final String URL_ME = URL_BASE + "me";
+    public static final String URL_INBOX_DETAILS = URL_BASE + "inbox/";
 }

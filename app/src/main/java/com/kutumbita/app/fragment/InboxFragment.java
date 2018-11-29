@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +56,16 @@ public class InboxFragment extends Fragment {
     RecyclerView rcv;
     InboxAdapter adapter;
     View layout;
-    StringRequest loginRequest;
+    StringRequest inboxRequest;
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            swipeRefreshLayout.setRefreshing(true);
+            parseInbox();
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,22 +89,28 @@ public class InboxFragment extends Fragment {
         rcv.setLayoutManager(layoutManager);
         rcv.setItemAnimator(new DefaultItemAnimator());
         rcv.addItemDecoration(new DividerItemDecoration(rcv.getContext(), DividerItemDecoration.VERTICAL));
-        parseInbox();
+        swipeRefreshLayout = v.findViewById(R.id.srl);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.primaryColor,
+                R.color.primaryTextColor);
+        swipeRefreshLayout.setOnRefreshListener(listener);
+        listener.onRefresh();
+
         return v;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (loginRequest != null) {
+        if (inboxRequest != null) {
 
-            loginRequest.cancel();
+            inboxRequest.cancel();
         }
     }
 
     private void parseInbox() {
 
-        loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
+        inboxRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 inboxes.clear();
@@ -120,7 +136,7 @@ public class InboxFragment extends Fragment {
 
                     e.printStackTrace();
                 }
-
+                swipeRefreshLayout.setRefreshing(false);
                 loadRecycleView();
 
             }
@@ -128,7 +144,7 @@ public class InboxFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 S.L("error: " + error.networkResponse.statusCode);
-
+                swipeRefreshLayout.setRefreshing(false);
                 try {
                     String str = new String(error.networkResponse.data, "UTF-8");
                     JSONObject object = new JSONObject(str);
@@ -143,21 +159,22 @@ public class InboxFragment extends Fragment {
             }
         }) {
 
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getToken());
+                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
                 return params;
             }
 
 
         };
 
-        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+        inboxRequest.setRetryPolicy(new DefaultRetryPolicy(
                 Constant.TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        GlobalData.getInstance().addToRequestQueue(loginRequest);
+        GlobalData.getInstance().addToRequestQueue(inboxRequest);
 
     }
 
@@ -168,9 +185,10 @@ public class InboxFragment extends Fragment {
             @Override
             public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
 
-//                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-//
-//                startActivity(goDetails);
+                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
+
+                goDetails.putExtra(Constant.EXTRA_MESSAGE, model.get(position));
+                startActivity(goDetails);
 
             }
         });

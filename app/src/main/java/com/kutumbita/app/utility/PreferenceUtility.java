@@ -31,6 +31,7 @@ public class PreferenceUtility {
 
     public void deleteUser(Me me) {
 
+
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(Constant.PREF_ME);
         editor.commit();
@@ -45,15 +46,16 @@ public class PreferenceUtility {
 
     }
 
-    public void setToken(String id) {
+    public void setFcmToken(String id) {
         SharedPreferences.Editor edit = pref.edit();
         edit.putString(Constant.KEY_TOKEN, id);
         edit.commit();
     }
 
-    public String getToken() {
+    public String getFcmToken() {
 
         return pref.getString(Constant.KEY_TOKEN, "");
 
     }
+
 }

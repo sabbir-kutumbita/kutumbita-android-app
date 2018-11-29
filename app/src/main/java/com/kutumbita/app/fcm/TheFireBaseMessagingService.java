@@ -14,7 +14,7 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String s) {
         preferenceUtility= new PreferenceUtility(this);
         S.L("token", s);
-        preferenceUtility.setToken(s);
+        preferenceUtility.setFcmToken(s);
 
     }
 }

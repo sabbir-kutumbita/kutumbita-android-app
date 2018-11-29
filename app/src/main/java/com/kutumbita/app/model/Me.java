@@ -5,16 +5,18 @@ import java.io.Serializable;
 public class Me implements Serializable {
 
 
-    private String token, id, uuId, name, factory, department, position,
+    private String accessToken, refreshToken, id, uuId, name, company, factory, department, position,
             phone, gender, address, emergencyContact, emergencyPhone;
 
-    public Me(String token, String id, String uuId, String name, String factory, String department, String position,
+    public Me(String accessToken, String refreshToken, String id, String uuId, String name, String company, String factory, String department, String position,
               String phone, String gender, String address, String emergencyContact, String emergencyPhone) {
 
-        this.token = token;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.id = id;
         this.uuId = uuId;
         this.name = name;
+        this.company=company;
         this.factory = factory;
         this.department = department;
         this.position = position;
@@ -27,12 +29,28 @@ public class Me implements Serializable {
 
     }
 
-    public String getToken() {
-        return token;
+    public String getCompany() {
+        return company;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getId() {

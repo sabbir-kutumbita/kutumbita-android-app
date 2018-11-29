@@ -16,6 +16,8 @@
             android:id="@+id/header"
             layout="@layout/header"></include>
 
+
+
         <RelativeLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
@@ -37,6 +39,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tvVerify"
                 android:src="@drawable/ic_navigate_next_white_24dp" />
 
@@ -97,46 +100,20 @@
             android:layout_marginTop="@dimen/fifteen_dp"></include>
 
         <include
-            android:id="@+id/tvPresentAddress"
+            android:id="@+id/tvAddress"
             layout="@layout/dropdown_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvMobileNum"
             android:layout_marginTop="@dimen/one_dp"></include>
 
-        <include
-            android:id="@+id/tvParmanentAddress"
-            layout="@layout/dropdown_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvPresentAddress"
-            android:layout_marginTop="@dimen/one_dp"></include>
-
-
-        <include
-            android:id="@+id/tvJoiningDate"
-            layout="@layout/dropdown_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvParmanentAddress"
-            android:layout_marginTop="@dimen/fifteen_dp"></include>
 
         <include
             android:id="@+id/tvEmergencyContact"
             layout="@layout/dropdown_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvJoiningDate"
-            android:layout_marginTop="@dimen/one_dp"></include>
-
-
-        <include
-
-            android:id="@+id/tvBloodGroup"
-            layout="@layout/dropdown_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvEmergencyContact"
+            android:layout_below="@+id/tvAddress"
             android:layout_marginTop="@dimen/fifteen_dp"></include>
 
 
@@ -145,10 +122,11 @@
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvBloodGroup"
+            android:layout_below="@+id/tvEmergencyContact"
             android:text="Log Out"
             android:textAllCaps="false" />
 
 
     </RelativeLayout>
+
 </ScrollView>

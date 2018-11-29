@@ -53,8 +53,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     View v;
     PreferenceUtility preferenceUtility;
     View layout;
-    View nameLayout, positionLayout, companyNameLayout, mblNumberLayout, presentAddressLayout,
-            parmanentAddressLayout, joinDateLayout, emergencyLayout, bldGroupLayout;
+    View nameLayout, positionLayout, companyNameLayout,
+            mblNumberLayout, addressLayout,
+            emergencyLayout;
     TextView textViewAccountName;
 
     @Override
@@ -74,8 +75,75 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mbLogOut.setOnClickListener(this);
 
         loadProfileData();
+       // parseMe();
+
 
         return v;
+
+    }
+
+    private void parseMe() {
+
+        StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                S.L(response);
+                try {
+
+                    JSONObject userObject = new JSONObject(response);
+
+
+
+                    Me me = new Me(preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"),
+                            userObject.getString("company"), userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
+                            userObject.getString("phone"), userObject.getString("gender"), userObject.getString("address"),
+                            userObject.getString("emergency_contact"), userObject.getString("emergency_phone"));
+
+                    preferenceUtility.setMe(me);
+
+                    loadProfileData();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                S.L("error: " + error.networkResponse.statusCode);
+
+                try {
+                    String str = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject object = new JSONObject(str);
+                    JSONObject errorObject = object.getJSONObject("error");
+                    S.T(getActivity(), errorObject.getString("message"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
+                return params;
+            }
+
+        };
+
+        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        GlobalData.getInstance().addToRequestQueue(loginRequest);
 
     }
 
@@ -85,11 +153,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         positionLayout = v.findViewById(R.id.tvPositionField);
         companyNameLayout = v.findViewById(R.id.tvCompanyNameField);
         mblNumberLayout = v.findViewById(R.id.tvMobileNum);
-        presentAddressLayout = v.findViewById(R.id.tvPresentAddress);
-        parmanentAddressLayout = v.findViewById(R.id.tvParmanentAddress);
-        joinDateLayout = v.findViewById(R.id.tvJoiningDate);
+        addressLayout = v.findViewById(R.id.tvAddress);
+
         emergencyLayout = v.findViewById(R.id.tvEmergencyContact);
-        bldGroupLayout = v.findViewById(R.id.tvBloodGroup);
+
         textViewAccountName = v.findViewById(R.id.tvName);
 
         textViewAccountName.setText(preferenceUtility.getMe().getName());
@@ -121,7 +188,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         });
 
         ((TextView) companyNameLayout.findViewById(R.id.key)).setText("Company Name");
-        ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+        ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getCompany());
         ((ImageView) companyNameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.company_name);
         companyNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,39 +212,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        ((TextView) presentAddressLayout.findViewById(R.id.key)).setText("Present Address");
-        ((TextView) presentAddressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
-        ((ImageView) presentAddressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
-        presentAddressLayout.setOnClickListener(new View.OnClickListener() {
+        ((TextView) addressLayout.findViewById(R.id.key)).setText("Address");
+        ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
+        ((ImageView) addressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
+        addressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                switchView(presentAddressLayout);
-
-            }
-        });
-
-        ((TextView) parmanentAddressLayout.findViewById(R.id.key)).setText("Permanent Address");
-        ((TextView) parmanentAddressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
-        ((ImageView) parmanentAddressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.permanent_address);
-        parmanentAddressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switchView(parmanentAddressLayout);
-
-            }
-        });
-
-
-        ((TextView) joinDateLayout.findViewById(R.id.key)).setText("Joining Date");
-        ((TextView) joinDateLayout.findViewById(R.id.value)).setText("Me");
-        ((ImageView) joinDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
-        joinDateLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switchView(joinDateLayout);
+                switchView(addressLayout);
 
             }
         });
@@ -186,24 +228,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((TextView) emergencyLayout.findViewById(R.id.key)).setText("Emergency Contact");
         ((TextView) emergencyLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getEmergencyContact());
         ((ImageView) emergencyLayout.findViewById(R.id.icon)).setImageResource(R.drawable.emergency_contact);
-         emergencyLayout.setOnClickListener(new View.OnClickListener() {
+        emergencyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 switchView(emergencyLayout);
-
-            }
-        });
-
-
-        ((TextView) bldGroupLayout.findViewById(R.id.key)).setText("Blood Group");
-        ((TextView) bldGroupLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getDepartment());
-        ((ImageView) bldGroupLayout.findViewById(R.id.icon)).setImageResource(R.drawable.blood_group);
-         bldGroupLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switchView(bldGroupLayout);
 
             }
         });
@@ -217,6 +246,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             nameLayout.findViewById(R.id.value).setVisibility(View.GONE);
             ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_navigate_next_black_24dp);
+
         } else {
 
             nameLayout.findViewById(R.id.value).setVisibility(View.VISIBLE);
@@ -228,8 +258,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
 
     public void onClick(View v) {
-        switch (v.getId()) {
 
+        switch (v.getId()) {
 
             case R.id.bLogout:
 

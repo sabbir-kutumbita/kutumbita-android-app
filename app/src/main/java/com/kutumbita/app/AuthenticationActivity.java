@@ -131,36 +131,20 @@ public class AuthenticationActivity extends AppCompatActivity {
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_LOGIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-
                 S.L(response);
-
-
                 try {
 
                     JSONObject object = new JSONObject(response);
-                    JSONObject userObject = object.getJSONObject("user");
-
-                    Me me = new Me(object.getString("token"), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"),
-                            userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
-                            userObject.getString("phone"), userObject.getString("gender"), userObject.getString("address"),
-                            userObject.getString("emergency_contact"), userObject.getString("emergency_phone"));
-
-                    preferenceUtility.setMe(me);
 
 
-                    Intent goMain = new Intent(AuthenticationActivity.this, MainActivity.class);
-                    startActivity(goMain);
-
-                    finish();
+                    getMe(object.getString("access_token"), object.getString("refresh_token"));
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -179,7 +163,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
         }) {
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 
@@ -187,7 +170,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                 params.put("Content-Type", "application/json");
                 return params;
             }
-
 
             @Override
             public byte[] getBody() throws AuthFailureError {
@@ -201,7 +183,71 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
 
         };
+        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        GlobalData.getInstance().addToRequestQueue(loginRequest);
 
+    }
+
+    private void getMe(final String accessToken, final String refreshToken) {
+        StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                S.L(response);
+                try {
+
+                    JSONObject userObject = new JSONObject(response);
+
+
+                    Me me = new Me(accessToken, refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"),
+                            userObject.getString("company"),
+                            userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
+                            userObject.getString("phone"), userObject.getString("gender"), userObject.getString("address"),
+                            userObject.getString("emergency_contact"), userObject.getString("emergency_phone"));
+
+                    preferenceUtility.setMe(me);
+
+
+                    Intent goMain = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    startActivity(goMain);
+
+                    finish();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                S.L("error: " + error.networkResponse.statusCode);
+
+                try {
+                    String str = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject object = new JSONObject(str);
+                    JSONObject errorObject = object.getJSONObject("error");
+                    S.T(getApplicationContext(), errorObject.getString("message"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + accessToken);
+                return params;
+            }
+
+        };
         loginRequest.setRetryPolicy(new DefaultRetryPolicy(
                 Constant.TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
