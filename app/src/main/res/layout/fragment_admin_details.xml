@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/twenty_dp"
+    tools:context=".fragment.inbox.AdminDetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:fontFamily="@font/circularstd_bold"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/twenty_sp" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/fifteen_sp" />
+
+    <android.support.design.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fifty_dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/thirty_five_dp"
+        android:layout_marginRight="@dimen/thirty_five_dp"
+        android:layout_marginBottom="@dimen/ten_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:text="Yes I can Join"
+        android:textAllCaps="false"
+        android:textSize="@dimen/ten_sp" />
+
+
+</RelativeLayout>

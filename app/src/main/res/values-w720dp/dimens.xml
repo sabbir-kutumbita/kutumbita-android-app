@@ -19,4 +19,5 @@
     <dimen name="seventy_dp">140dp</dimen>
     <dimen name="one_dp">2dp</dimen>
     <dimen name="fifteen_dp">30dp</dimen>
+    <dimen name="twenty_sp">40sp</dimen>
 </resources>

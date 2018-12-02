@@ -123,7 +123,7 @@ public class Inbox implements Serializable {
         this.image = image;
     }
 
-    public static class MessageType {
+    public static class MessageType implements Serializable{
 
 
 

@@ -186,7 +186,6 @@ public class InboxFragment extends Fragment {
             public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
 
                 Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-
                 goDetails.putExtra(Constant.EXTRA_MESSAGE, model.get(position));
                 startActivity(goDetails);
 

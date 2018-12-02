@@ -80,7 +80,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.TheViewHolde
             date = itemView.findViewById(R.id.tvDate);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onRecycleViewItemClick(itemView, listModel, getAdapterPosition());

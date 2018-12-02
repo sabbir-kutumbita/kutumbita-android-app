@@ -16,12 +16,13 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header">
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/frInbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-        </RelativeLayout>
+        </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
