@@ -19,4 +19,6 @@
     <dimen name="one_dp">1dp</dimen>
     <dimen name="fifteen_dp">15dp</dimen>
     <dimen name="twenty_sp">20sp</dimen>
+    <dimen name="eighteen_sp">18sp</dimen>
+    <dimen name="twelve_dp">12dp</dimen>
 </resources>

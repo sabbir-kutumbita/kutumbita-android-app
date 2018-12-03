@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bnv.setSelectedItemId(R.id.item_home);
+        loadHomeFragment();
     }
 
     @Override

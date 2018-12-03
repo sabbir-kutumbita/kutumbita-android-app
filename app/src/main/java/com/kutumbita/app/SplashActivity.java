@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         Utility.setFullScreen(this);
-        preferenceUtility= new PreferenceUtility(this);
+        preferenceUtility = new PreferenceUtility(this);
         Thread thread = new Thread(new WaitThread());
         thread.start();
 
@@ -38,10 +38,10 @@ public class SplashActivity extends AppCompatActivity {
             } finally {
                 if (Utility.isNetworkAvailable(SplashActivity.this)) {
 
-                    if(preferenceUtility.getMe()==null) {
+                    if (preferenceUtility.getMe() == null) {
                         Intent goAuth = new Intent(SplashActivity.this, AuthenticationActivity.class);
                         startActivity(goAuth);
-                    }else{
+                    } else {
 
                         Intent goMain = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(goMain);
@@ -49,8 +49,13 @@ public class SplashActivity extends AppCompatActivity {
 
                 } else {
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            S.T(SplashActivity.this, "Internet not available");
+                        }
+                    });
 
-                    S.T(getApplicationContext(), "Internet not available");
 
                 }
 

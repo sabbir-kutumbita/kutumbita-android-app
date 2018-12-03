@@ -20,4 +20,6 @@
     <dimen name="one_dp">2dp</dimen>
     <dimen name="fifteen_dp">30dp</dimen>
     <dimen name="twenty_sp">40sp</dimen>
+    <dimen name="eighteen_sp">36sp</dimen>
+    <dimen name="twelve_dp">12dp</dimen>
 </resources>

@@ -6,8 +6,8 @@
     tools:context=".SplashActivity">
 
     <ImageView
-        android:layout_width="@dimen/hundread_dp"
-        android:layout_height="@dimen/hundread_dp"
+        android:layout_width="@dimen/hundread_twenty_dp"
+        android:layout_height="@dimen/hundread_twenty_dp"
         android:layout_centerInParent="true"
         android:src="@drawable/kutumbita_with_logo" />
 
