@@ -21,13 +21,13 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.95"
             tools:src="@drawable/name"></ImageView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.05"
             android:orientation="vertical"
             android:padding="@dimen/twenty_dp">
 
@@ -47,6 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/star"
+                    android:textSize="@dimen/fifteen_sp"
                     android:fontFamily="@font/circularstd_bold"
                     android:text="@{inbox.title}"
                     android:textColor="@color/primaryTextColor"
@@ -72,6 +73,7 @@
                     android:layout_toRightOf="@+id/event"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@{inbox.date}"
+                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
                     tools:text="Fire extinguisher using method" />
 
@@ -95,6 +97,7 @@
                     android:layout_toRightOf="@+id/time"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@{inbox.time}"
+                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
                     tools:text="Fire extinguisher using method" />
 
@@ -118,6 +121,7 @@
                     android:layout_toRightOf="@+id/venue"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@{inbox.venue}"
+                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
                     tools:text="Fire extinguisher using method" />
 
@@ -128,7 +132,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.9"
+            android:layout_weight="1.0"
             android:fillViewport="true">
 
             <LinearLayout
@@ -155,6 +159,7 @@
                         android:layout_toRightOf="@+id/note"
                         android:fontFamily="@font/circularstd_bold"
                         android:text="Notes"
+                        android:textSize="@dimen/sixteen_sp"
                         android:textColor="@color/primaryTextColor" />
 
                 </RelativeLayout>
@@ -167,6 +172,7 @@
                     android:fontFamily="@font/circularstd_book"
                     android:gravity="left"
                     android:text="@{inbox.body}"
+                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
                     tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
 
@@ -176,12 +182,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.1"
+            android:layout_weight="1.0"
             android:padding="@dimen/twenty_dp">
 
             <android.support.design.button.MaterialButton
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/fifty_dp"
+                android:layout_height="@dimen/sixty_dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/thirty_five_dp"
                 android:layout_marginRight="@dimen/thirty_five_dp"
@@ -189,7 +195,7 @@
                 android:fontFamily="@font/circularstd_book"
                 android:text="Yes I can Join"
                 android:textAllCaps="false"
-                android:textSize="@dimen/ten_sp" />
+                android:textSize="@dimen/fifteen_sp" />
 
         </RelativeLayout>
 

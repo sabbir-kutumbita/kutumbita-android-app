@@ -21,4 +21,6 @@
     <dimen name="twenty_sp">20sp</dimen>
     <dimen name="eighteen_sp">18sp</dimen>
     <dimen name="twelve_dp">12dp</dimen>
+    <dimen name="hundread_forty_dp">140dp</dimen>
+    <dimen name="sixteen_sp">16sp</dimen>
 </resources>

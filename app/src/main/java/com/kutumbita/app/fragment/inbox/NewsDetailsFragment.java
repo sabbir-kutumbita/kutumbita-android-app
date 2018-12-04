@@ -28,13 +28,14 @@ public class NewsDetailsFragment extends Fragment {
     }
 
     View v;
+
     Inbox inbox;
+
     FragmentNewsDetailsBinding binding;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         inbox = (Inbox) getArguments().getSerializable(Constant.EXTRA_MESSAGE);
     }
 

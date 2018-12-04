@@ -2,13 +2,15 @@
 <resources>
     <color name="primaryColor">#ef6563</color>
     <color name="primaryLightColor">#ff9791</color>
-    <color name="primaryDarkColor">#b73339</color>
+    <color name="primaryDarkColor">#E6E7E8</color>
     <color name="secondaryColor">#ef6563</color>
     <color name="secondaryLightColor">#ff9791</color>
     <color name="secondaryDarkColor">#b73339</color>
     <color name="primaryTextColor">#455A64</color>
     <color name="secondaryTextColor">#FFFFFF</color>
     <color name="appBackground">#F8F6F8</color>
+    <color name="grey">#D1D3D4</color>
+    <color name="dark_grey">#939598</color>
 
 
 </resources>

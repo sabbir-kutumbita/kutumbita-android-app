@@ -23,6 +23,7 @@
             android:layout_marginTop="@dimen/twenty_dp"
             android:fontFamily="@font/circularstd_bold"
             android:text="@{inbox.title}"
+            tools:text="Title will be here, title will be here, Title will be here?"
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/twenty_sp" />
 
@@ -30,26 +31,26 @@
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_below="@+id/tvTitle"
             android:layout_marginTop="@dimen/twenty_dp"
-            android:fontFamily="@font/circularstd_book"
+            tools:text="Title will be here, title will be here, Title will be here? Title will be here, title will be here, Title will be here? Title will be here, title will be here, Title will be here?"
+            android:fontFamily="@font/sourcesanspro_regular"
             android:text="@{inbox.body}"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/fifteen_sp" />
+            android:textSize="@dimen/sixteen_sp" />
 
         <android.support.design.button.MaterialButton
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/thirty_five_dp"
             android:layout_marginRight="@dimen/thirty_five_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:fontFamily="@font/circularstd_book"
-            android:text="Yes I can Join"
+            android:text="Yes I can join"
             android:textAllCaps="false"
-            android:textSize="@dimen/ten_sp" />
+            android:textSize="@dimen/fifteen_sp" />
 
 
     </RelativeLayout>

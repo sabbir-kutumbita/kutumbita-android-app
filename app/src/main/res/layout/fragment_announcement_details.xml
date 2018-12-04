@@ -18,7 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/twenty_dp"
+            android:padding="@dimen/thirty_dp"
             tools:context=".fragment.inbox.AnnouncementDetailsFragment">
 
             <!-- TODO: Update blank fragment layout -->

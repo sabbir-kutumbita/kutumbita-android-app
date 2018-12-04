@@ -86,7 +86,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(response);
                     JSONArray jsonArray = object.getJSONArray("results");
-                    JSONObject resultObject = jsonArray.getJSONObject(0);
+                    JSONObject resultObject = jsonArray.getJSONObject(2);
                     JSONObject messageTypeObject = resultObject.getJSONObject("message_type");
                     inboxDetails = new Inbox(resultObject.getString("uuid"), resultObject.getString("title"), resultObject.getString("message_body"),
                             resultObject.getString("sent_at"), resultObject.getString("timezone"),

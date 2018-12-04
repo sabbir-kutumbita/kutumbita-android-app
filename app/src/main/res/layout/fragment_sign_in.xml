@@ -15,7 +15,7 @@
 
         <ImageView
             android:id="@+id/ivKutumBita"
-            android:layout_width="@dimen/hundread_twenty_dp"
+            android:layout_width="@dimen/hundread_forty_dp"
             android:layout_height="@dimen/thirty_five_dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/hundread_dp"
@@ -34,9 +34,12 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Password"
                 android:inputType="textPassword"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
 
         </android.support.design.widget.TextInputLayout>
@@ -55,8 +58,11 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Email or Phone"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
 
 

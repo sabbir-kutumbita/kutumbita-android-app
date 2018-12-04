@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/ivKutumBita"
-            android:layout_width="@dimen/hundread_twenty_dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/hundread_forty_dp"
+            android:layout_height="@dimen/thirty_five_dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/hundread_dp"
             android:src="@drawable/kutumbita_without_logo" />
@@ -30,8 +30,11 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Email or Phone"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
 
 
@@ -51,8 +54,11 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Company name"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
 
 
@@ -72,8 +78,11 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Name"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
 
 
@@ -83,7 +92,7 @@
             android:id="@+id/bReqForAccount"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_above="@+id/bSignIn"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/eighty_dp"
@@ -94,14 +103,14 @@
             android:text="Request"
             android:textAllCaps="false"
             android:textColor="@color/secondaryTextColor"
-            android:textSize="@dimen/ten_sp" />
+            android:textSize="@dimen/fifteen_sp" />
 
 
         <android.support.design.button.MaterialButton
             android:id="@+id/bSignIn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/eighty_dp"
@@ -111,7 +120,7 @@
             android:text="Cancel"
             android:textAllCaps="false"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/ten_sp" />
+            android:textSize="@dimen/fifteen_sp" />
 
     </RelativeLayout>
 </ScrollView>

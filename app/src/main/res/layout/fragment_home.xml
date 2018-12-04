@@ -12,7 +12,7 @@
         android:layout_width="@dimen/forty_dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/hundread_dp"
+        android:layout_marginTop="@dimen/hundread_twenty_dp"
         android:src="@drawable/k" />
 
 
@@ -21,24 +21,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivK"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:padding="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/fifteen_dp"
         android:fontFamily="@font/circularstd_medium"
         android:gravity="center"
         android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/fifteen_sp"
+        android:textSize="@dimen/eighteen_sp"
         tools:text="Welcome Rameez, how can I help you?" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/fifty_dp"
         android:layout_below="@+id/tvWelcome"
         android:layout_marginLeft="@dimen/thirty_five_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:layout_marginRight="@dimen/thirty_five_dp"
+        android:textColorHint="@color/dark_grey"
         android:background="@drawable/round"
         android:fontFamily="@font/circularstd_medium"
         android:hint="e. g. I need a leave"
         android:padding="@dimen/ten_dp"
-        android:textSize="@dimen/fifteen_sp" />
+        android:textSize="@dimen/eighteen_sp" />
 
 </RelativeLayout>

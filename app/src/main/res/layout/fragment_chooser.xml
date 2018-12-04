@@ -15,7 +15,7 @@
 
         <ImageView
             android:id="@+id/ivKutumBita"
-            android:layout_width="@dimen/hundread_twenty_dp"
+            android:layout_width="@dimen/one_eighty_dp"
             android:layout_height="@dimen/thirty_five_dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/hundread_dp"
@@ -27,6 +27,7 @@
             android:layout_below="@+id/ivKutumBita"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:textColor="@color/primaryTextColor"
             android:fontFamily="@font/circularstd_medium"
             android:text="All your work in one place"
             android:textSize="@dimen/eighteen_sp" />
