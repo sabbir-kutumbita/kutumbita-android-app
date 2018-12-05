@@ -78,21 +78,23 @@ public class InboxDetailsActivity extends AppCompatActivity {
     private void parseDetails() {
 
         S.L("link", UrlConstant.URL_INBOX_DETAILS + inbox.getUuId());
-        messageDetailsRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX_DETAILS + inbox.getUuId(), new Response.Listener<String>() {
+
+
+        messageDetailsRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX_DETAILS + "xxxyyyzzz", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 swipeRefreshLayout.setRefreshing(false);
                 try {
                     JSONObject object = new JSONObject(response);
-                    JSONArray jsonArray = object.getJSONArray("results");
-                    JSONObject resultObject = jsonArray.getJSONObject(2);
-                    JSONObject messageTypeObject = resultObject.getJSONObject("message_type");
-                    inboxDetails = new Inbox(resultObject.getString("uuid"), resultObject.getString("title"), resultObject.getString("message_body"),
-                            resultObject.getString("sent_at"), resultObject.getString("timezone"),
-                            resultObject.getString("company_uuid"), resultObject.getString("link"),
-                            resultObject.getString("venue"), resultObject.getString("date"), resultObject.getString("time"),
-                            resultObject.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
+
+
+                    JSONObject messageTypeObject = object.getJSONObject("message_type");
+                    inboxDetails = new Inbox(object.getString("uuid"), object.getString("title"), object.getString("message_body"),
+                            object.getString("sent_at"), object.getString("timezone"),
+                            object.getString("company_uuid"), object.getString("link"),
+                            object.getString("venue"), object.getString("date"), object.getString("time"),
+                            object.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
                             messageTypeObject.getString("icon")));
 
 

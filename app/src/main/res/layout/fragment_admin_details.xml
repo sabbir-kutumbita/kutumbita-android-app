@@ -8,6 +8,7 @@
         <variable
             name="inbox"
             type="com.kutumbita.app.model.Inbox" />
+
     </data>
 
     <RelativeLayout
@@ -16,6 +17,7 @@
         android:padding="@dimen/thirty_dp">
 
         <!-- TODO: Update blank fragment layout -->
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
