@@ -120,13 +120,14 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         JSONObject object = new JSONObject();
         try {
-            object.put("user_id", emailOrPhone);
+            object.put("username", emailOrPhone);
             object.put("password", password);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         final String body = object.toString();
+        S.L("body", body);
 
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_LOGIN, new Response.Listener<String>() {
             @Override
@@ -137,11 +138,13 @@ public class AuthenticationActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(response);
 
 
-                    getMe(object.getString("access_token"), object.getString("refresh_token"));
+                    // getMe(object.getString("access_token"), object.getString("refresh_token"));
+                    getMe(object.getString("access_token"), "refresh");
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    S.T(AuthenticationActivity.this, "Something went wrong!");
                 }
             }
 
@@ -156,8 +159,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                     JSONObject errorObject = object.getJSONObject("error");
                     S.T(getApplicationContext(), errorObject.getString("message"));
                 } catch (UnsupportedEncodingException e) {
+                    S.T(AuthenticationActivity.this, "Something went wrong!");
                     e.printStackTrace();
                 } catch (JSONException e) {
+                    S.T(AuthenticationActivity.this, "Something went wrong!");
                     e.printStackTrace();
                 }
 
@@ -201,11 +206,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                     JSONObject userObject = new JSONObject(response);
 
 
-                    Me me = new Me(accessToken, refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"),
-                            userObject.getString("company"),
+                    Me me = new Me(accessToken, refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), "Star Group",
+                            //userObject.getString("company"),
                             userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
-                            userObject.getString("phone"), userObject.getString("gender"), userObject.getString("address"),
-                            userObject.getString("emergency_contact"), userObject.getString("emergency_phone"));
+                            userObject.getString("phone"), userObject.getString("gender"),
+                             userObject.getString("location"),
+                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"), userObject.getString("avatar"));
 
                     preferenceUtility.setMe(me);
 
@@ -218,6 +224,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    S.T(AuthenticationActivity.this, "Something went wrong!");
                 }
             }
 
@@ -233,8 +240,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                     S.T(getApplicationContext(), errorObject.getString("message"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
+                    S.T(AuthenticationActivity.this, "Something went wrong!");
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    S.T(AuthenticationActivity.this, "Something went wrong!");
                 }
 
             }

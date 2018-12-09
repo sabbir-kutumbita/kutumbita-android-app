@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragment.inbox.EventDetailsFragment">
 
     <data>
-
         <variable
             name="inbox"
             type="com.kutumbita.app.model.Inbox" />
@@ -47,10 +47,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/star"
-                    android:textSize="@dimen/fifteen_sp"
                     android:fontFamily="@font/circularstd_bold"
                     android:text="@{inbox.title}"
                     android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
 
             </RelativeLayout>
@@ -73,8 +73,8 @@
                     android:layout_toRightOf="@+id/event"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@{inbox.date}"
-                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
 
             </RelativeLayout>
@@ -97,8 +97,8 @@
                     android:layout_toRightOf="@+id/time"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@{inbox.time}"
-                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
 
             </RelativeLayout>
@@ -121,8 +121,8 @@
                     android:layout_toRightOf="@+id/venue"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@{inbox.venue}"
-                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
 
             </RelativeLayout>
@@ -132,12 +132,15 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
             android:layout_weight="1.0"
             android:fillViewport="true">
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1.0"
                 android:orientation="vertical"
                 android:padding="@dimen/twenty_dp">
 
@@ -159,8 +162,8 @@
                         android:layout_toRightOf="@+id/note"
                         android:fontFamily="@font/circularstd_bold"
                         android:text="Notes"
-                        android:textSize="@dimen/sixteen_sp"
-                        android:textColor="@color/primaryTextColor" />
+                        android:textColor="@color/primaryTextColor"
+                        android:textSize="@dimen/sixteen_sp" />
 
                 </RelativeLayout>
 
@@ -172,9 +175,10 @@
                     android:fontFamily="@font/circularstd_book"
                     android:gravity="left"
                     android:text="@{inbox.body}"
-                    android:textSize="@dimen/fifteen_sp"
                     android:textColor="@color/primaryTextColor"
-                    tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
+                    android:textSize="@dimen/fifteen_sp"
+                    app:autoSizeTextType="uniform"
+                    tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

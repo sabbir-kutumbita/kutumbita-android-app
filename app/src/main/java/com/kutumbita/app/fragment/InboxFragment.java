@@ -1,7 +1,10 @@
 package com.kutumbita.app.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -67,6 +70,8 @@ public class InboxFragment extends Fragment {
         }
     };
 
+    BroadcastReceiver receiver;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +100,23 @@ public class InboxFragment extends Fragment {
                 R.color.primaryTextColor);
         swipeRefreshLayout.setOnRefreshListener(listener);
         listener.onRefresh();
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
 
+                listener.onRefresh();
+            }
+        };
         return v;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST);
+        if (getActivity() != null)
+            getActivity().registerReceiver(receiver, filter);
     }
 
     @Override
@@ -106,6 +126,9 @@ public class InboxFragment extends Fragment {
 
             inboxRequest.cancel();
         }
+        if (getActivity() != null)
+            getActivity().unregisterReceiver(receiver);
+
     }
 
     private void parseInbox() {
@@ -186,7 +209,7 @@ public class InboxFragment extends Fragment {
             public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
 
                 Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-                goDetails.putExtra(Constant.EXTRA_MESSAGE, model.get(position));
+                goDetails.putExtra(Constant.EXTRA_UUID, model.get(position).getUuId());
                 startActivity(goDetails);
 
             }

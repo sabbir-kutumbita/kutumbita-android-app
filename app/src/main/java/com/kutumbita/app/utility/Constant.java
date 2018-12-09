@@ -6,4 +6,6 @@ public class Constant {
     public static final int TIME_OUT = 5000;
     public static final String KEY_TOKEN = "keyToken";
     public static final String EXTRA_MESSAGE = "exMsg";
+    public static final String EXTRA_UUID = "exUuid";
+    public static final String ACTION_BROADCAST = "com.kutumbita.app.NEW_INBOX";
 }

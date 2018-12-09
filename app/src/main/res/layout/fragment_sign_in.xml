@@ -49,6 +49,7 @@
             android:id="@+id/emailWrapper"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
+
             android:layout_above="@+id/passWraper"
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginRight="@dimen/thirty_dp"

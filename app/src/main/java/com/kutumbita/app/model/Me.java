@@ -6,17 +6,17 @@ public class Me implements Serializable {
 
 
     private String accessToken, refreshToken, id, uuId, name, company, factory, department, position,
-            phone, gender, address, emergencyContact, emergencyPhone;
+            phone, gender, address, emergencyContact, emergencyPhone, avatar;
 
     public Me(String accessToken, String refreshToken, String id, String uuId, String name, String company, String factory, String department, String position,
-              String phone, String gender, String address, String emergencyContact, String emergencyPhone) {
+              String phone, String gender, String address, String emergencyContact, String emergencyPhone, String avatar) {
 
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.id = id;
         this.uuId = uuId;
         this.name = name;
-        this.company=company;
+        this.company = company;
         this.factory = factory;
         this.department = department;
         this.position = position;
@@ -25,8 +25,17 @@ public class Me implements Serializable {
         this.address = address;
         this.emergencyContact = emergencyContact;
         this.emergencyPhone = emergencyPhone;
+        this.avatar = avatar;
 
 
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getCompany() {

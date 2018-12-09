@@ -36,7 +36,8 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
 
     StringRequest messageDetailsRequest;
-    Inbox inbox, inboxDetails;
+    String uuID;
+    Inbox inboxDetails;
     SwipeRefreshLayout swipeRefreshLayout;
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -53,7 +54,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox_details);
         Utility.setFullScreen(this);
-        inbox = (Inbox) getIntent().getSerializableExtra(Constant.EXTRA_MESSAGE);
+        uuID = getIntent().getStringExtra(Constant.EXTRA_UUID);
         preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
 
@@ -77,10 +78,10 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
     private void parseDetails() {
 
-        S.L("link", UrlConstant.URL_INBOX_DETAILS + inbox.getUuId());
+        S.L("link", UrlConstant.URL_INBOX_DETAILS + uuID);
 
 
-        messageDetailsRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX_DETAILS + "xxxyyyzzz", new Response.Listener<String>() {
+        messageDetailsRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX_DETAILS + uuID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
