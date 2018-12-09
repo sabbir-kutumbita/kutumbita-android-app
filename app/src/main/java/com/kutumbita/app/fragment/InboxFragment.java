@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -157,6 +158,7 @@ public class InboxFragment extends Fragment {
                     }
                 } catch (JSONException e) {
 
+
                     e.printStackTrace();
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -214,6 +216,7 @@ public class InboxFragment extends Fragment {
 
             }
         });
+
         rcv.setAdapter(adapter);
 
     }

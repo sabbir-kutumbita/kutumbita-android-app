@@ -272,6 +272,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void OnSendCodeClicked(String emailOrPhone) {
 
+
             }
 
             @Override

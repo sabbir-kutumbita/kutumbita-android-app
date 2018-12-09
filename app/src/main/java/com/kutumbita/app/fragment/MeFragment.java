@@ -77,7 +77,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         mbLogOut.setOnClickListener(this);
 
         loadProfileData();
-        // parseMe();
+       // parseMe();
 
 
         return v;
