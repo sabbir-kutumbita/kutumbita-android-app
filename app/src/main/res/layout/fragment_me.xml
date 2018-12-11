@@ -17,7 +17,6 @@
             layout="@layout/header"></include>
 
 
-
         <RelativeLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"

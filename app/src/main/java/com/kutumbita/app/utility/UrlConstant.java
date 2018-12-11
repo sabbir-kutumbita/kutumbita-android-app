@@ -12,4 +12,5 @@ public class UrlConstant {
     public static final String URL_ME = URL_BASE + "me";
     public static final String URL_INBOX_DETAILS = URL_BASE + "inbox/";
     public static final String URL_TOKEN = URL_BASE + "token";
+
 }

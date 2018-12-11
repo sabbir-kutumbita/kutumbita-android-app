@@ -8,9 +8,9 @@ public class Inbox implements Serializable {
 
     MessageType messageType;
 
-    String uuId, title, body, sentTime, timeZone, companyUuid, link, venue, date, time, image;
+    String uuId, title, body, sentTime, timeZone, companyUuid, link, venue, startDate, endDate, image;
 
-    public Inbox(String uuId, String title, String body, String sentTime, String timeZone, String companyUuid, String link, String venue, String date, String time, String image, MessageType messageType) {
+    public Inbox(String uuId, String title, String body, String sentTime, String timeZone, String companyUuid, String link, String venue, String startDate, String endDate, String image, MessageType messageType) {
         this.uuId = uuId;
         this.title = title;
         this.body = body;
@@ -19,8 +19,8 @@ public class Inbox implements Serializable {
         this.companyUuid = companyUuid;
         this.link = link;
         this.venue = venue;
-        this.date = date;
-        this.time = time;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.image = image;
         this.messageType = messageType;
 
@@ -99,20 +99,20 @@ public class Inbox implements Serializable {
         this.venue = venue;
     }
 
-    public String getDate() {
-        return date;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getTime() {
-        return time;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getImage() {
@@ -123,8 +123,7 @@ public class Inbox implements Serializable {
         this.image = image;
     }
 
-    public static class MessageType implements Serializable{
-
+    public static class MessageType implements Serializable {
 
 
         String uuid, title, icon;

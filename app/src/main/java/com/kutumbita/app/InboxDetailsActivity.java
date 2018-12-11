@@ -94,7 +94,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
                     inboxDetails = new Inbox(object.getString("uuid"), object.getString("title"), object.getString("message_body"),
                             object.getString("sent_at"), object.getString("timezone"),
                             object.getString("company_uuid"), object.getString("link"),
-                            object.getString("venue"), object.getString("date"), object.getString("time"),
+                            object.getString("venue"), object.getString("start_date_time"), object.getString("start_date_time"),
                             object.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
                             messageTypeObject.getString("icon")));
 
@@ -147,6 +147,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
         Fragment fragment = null;
         if (inboxDetails.getMessageType().getTitle().toLowerCase().contentEquals("event")) {
+
             ((TextView) findViewById(R.id.tvTbTitle)).setText("Event");
             fragment = new EventDetailsFragment();
         } else if (inboxDetails.getMessageType().getTitle().toLowerCase().contentEquals("news")) {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.model.Inbox;
+import com.kutumbita.app.utility.DateUtility;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -45,9 +46,9 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.TheViewHolde
     public void onBindViewHolder(TheViewHolder holder, int position) {
 
         Inbox inbox = listModel.get(position);
-        holder.title.setText(inbox.getTitle());
+        holder.title.setText(inbox.getBody());
         holder.type.setText(inbox.getMessageType().getTitle());
-        holder.date.setText(inbox.getDate());
+        holder.date.setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd-MMM", inbox.getSentTime()));
         Picasso.get().load(inbox.getMessageType().getIcon()).into(holder.img);
 
     }

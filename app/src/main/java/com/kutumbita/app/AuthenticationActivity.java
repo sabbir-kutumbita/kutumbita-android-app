@@ -127,12 +127,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
 
         final String body = object.toString();
-        S.L("body", body);
+
 
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_LOGIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                S.L(response);
+                S.L("sign in", response);
                 try {
 
                     JSONObject object = new JSONObject(response);
@@ -200,7 +200,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                S.L(response);
+                S.L("me", response);
                 try {
 
                     JSONObject userObject = new JSONObject(response);
@@ -210,7 +210,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                             //userObject.getString("company"),
                             userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
                             userObject.getString("phone"), userObject.getString("gender"),
-                             userObject.getString("location"),
+                            userObject.getString("location"),
                             userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"), userObject.getString("avatar"));
 
                     preferenceUtility.setMe(me);

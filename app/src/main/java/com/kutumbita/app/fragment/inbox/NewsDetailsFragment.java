@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.kutumbita.app.R;
@@ -47,7 +48,14 @@ public class NewsDetailsFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news_details, container, false);
         v = binding.getRoot();
         binding.setInbox(inbox);
-        Picasso.get().load(inbox.getImage()).into(binding.ivNewsImage);
+
+        if (inbox.getImage().isEmpty()) {
+            binding.ivNewsImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            binding.ivNewsImage.setImageResource(R.drawable.kutumbita_with_logo);
+        } else{
+            Picasso.get().load(inbox.getImage()).into(binding.ivNewsImage);
+        }
+
         //binding.tvDaysAgo.setText(TimeAgo.using(Utility.getMilliFromDate(inbox.getSentTime(), "yyyy-MM-dd'T'HH:mm:ss'Z'")));
         return v;
     }

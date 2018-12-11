@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     private void loadInboxFragment() {
 
         fr = new InboxFragment();
@@ -182,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
                 return params;
             }
 

@@ -28,7 +28,7 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/circularstd_bold"
                 android:gravity="center"
-                android:text="@{inbox.title}"
+                android:text="@{inbox.body}"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="@dimen/twenty_sp"
                 tools:text="@string/hello_blank_fragment" />

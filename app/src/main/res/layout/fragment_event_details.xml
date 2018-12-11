@@ -72,7 +72,7 @@
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/event"
                     android:fontFamily="@font/circularstd_book"
-                    android:text="@{inbox.date}"
+
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
@@ -96,7 +96,7 @@
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/time"
                     android:fontFamily="@font/circularstd_book"
-                    android:text="@{inbox.time}"
+
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
