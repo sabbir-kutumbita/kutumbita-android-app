@@ -272,67 +272,56 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.bLogout:
 
-//                StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//
-//                        S.L(response);
-//
-//
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            if (object.getBoolean("success")) {
-//                                preferenceUtility.deleteUser(preferenceUtility.getMe());
-//                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-//                                startActivity(goSplash);
-//                                getActivity().finish();
-//
-//                            }
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//
-//                        S.L("error: " + error.getMessage());
-//
-//                    }
-//                }) {
-//
-//                    @Override
-//                    public Map<String, String> getHeaders() throws AuthFailureError {
-//                        Map<String, String> params = new HashMap<String, String>();
-//                        params.put("Content-Type", "application/json");
-//                        return params;
-//                    }
-//
-//
-//                    @Override
-//                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//
-//
-//                        S.L("" + response.statusCode);
-//                        return super.parseNetworkResponse(response);
-//                    }
-//                };
-//
-//                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
-//                        Constant.TIME_OUT,
-//                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//                GlobalData.getInstance().addToRequestQueue(loginRequest);
+                StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        S.L(response);
 
 
-                preferenceUtility.deleteUser(preferenceUtility.getMe());
-                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-                startActivity(goSplash);
-                getActivity().finish();
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if (object.getBoolean("success")) {
+                                preferenceUtility.deleteUser(preferenceUtility.getMe());
+                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
+                                startActivity(goSplash);
+                                getActivity().finish();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        S.L("error: " + error.getMessage());
+
+                    }
+                }) {
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
+                        return params;
+                    }
+
+                };
+
+                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        Constant.TIME_OUT,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                GlobalData.getInstance().addToRequestQueue(loginRequest);
+
+
+
 
                 break;
 

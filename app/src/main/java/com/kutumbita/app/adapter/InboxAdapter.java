@@ -46,7 +46,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.TheViewHolde
     public void onBindViewHolder(TheViewHolder holder, int position) {
 
         Inbox inbox = listModel.get(position);
-        holder.title.setText(inbox.getBody());
+        holder.title.setText(inbox.getTitle());
         holder.type.setText(inbox.getMessageType().getTitle());
         holder.date.setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd-MMM", inbox.getSentTime()));
         Picasso.get().load(inbox.getMessageType().getIcon()).into(holder.img);
