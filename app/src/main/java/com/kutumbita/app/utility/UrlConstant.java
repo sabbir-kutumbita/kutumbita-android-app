@@ -8,8 +8,7 @@ public class UrlConstant {
 
 
     //global
-    //public static final String URL_BASE = "http://54.169.196.102:5100/android/api/v1/";
-
+    // public static final String URL_BASE = "http://54.169.196.102:5100/android/api/v1/";
 
 
     public static final String URL_LOGIN = URL_BASE + "auth/login";

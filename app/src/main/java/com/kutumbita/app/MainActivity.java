@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void putToken() {
 
+
+        S.L("accessToken", preferenceUtility.getMe().getAccessToken());
+
         JSONObject object = new JSONObject();
         try {
             object.put("user_uuid", preferenceUtility.getMe().getUuId());
@@ -140,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final String body = object.toString();
-        S.L("body", body);
 
         StringRequest loginRequest = new StringRequest(Request.Method.PUT, UrlConstant.URL_TOKEN, new Response.Listener<String>() {
             @Override
