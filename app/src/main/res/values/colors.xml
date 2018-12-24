@@ -11,6 +11,7 @@
     <color name="appBackground">#F8F6F8</color>
     <color name="grey">#D1D3D4</color>
     <color name="dark_grey">#939598</color>
+    <color name="fade">#ADB5BD</color>
 
 
 </resources>

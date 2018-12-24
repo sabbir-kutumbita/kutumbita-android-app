@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="@dimen/five_dp"
     android:layout_height="wrap_content">
+
 
     <TextView
 
@@ -9,8 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:padding="10dp"
+        android:background="@drawable/rounded_rectangle_red"
+        android:fontFamily="@font/sourcesanspro_regular"
+        android:padding="@dimen/eight_dp"
         android:text="This is the test message"
-        android:textSize="18sp" />
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sixteen_sp" />
 
 </RelativeLayout>

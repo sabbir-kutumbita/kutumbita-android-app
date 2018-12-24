@@ -18,11 +18,7 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AuthenticationActivity"
@@ -40,7 +36,15 @@
         <activity
             android:name=".InboxDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SurveyBotActivity"></activity>
+        <activity android:name=".SurveyBotActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

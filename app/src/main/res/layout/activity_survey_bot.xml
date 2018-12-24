@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SurveyBotActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header"></include>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/header"
         android:layout_marginBottom="50dp" />
 
     <RelativeLayout
@@ -20,28 +25,45 @@
             android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/etMessage"
+            android:layout_above="@+id/ll2"
             android:orientation="vertical"></LinearLayout>
 
-        <EditText
-            android:id="@+id/etMessage"
+        <LinearLayout
+            android:id="@+id/ll2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:clickable="false"
-            android:enabled="false"
-            android:focusable="false" />
+            android:orientation="horizontal"
 
-        <Button
+            android:weightSum="7">
 
-            android:layout_width="60dp"
-            android:onClick="sendClick"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="send" />
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:clickable="false"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="Type a message"
+                android:paddingLeft="@dimen/ten_dp"
+                android:textColorHint="@color/fade" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/five_dp"
+                android:layout_weight="2"
+                android:background="@android:color/transparent"
+                android:onClick="sendClick"
+                android:src="@drawable/ic_send_black_24dp"
+                android:text="send" />
+        </LinearLayout>
 
 
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

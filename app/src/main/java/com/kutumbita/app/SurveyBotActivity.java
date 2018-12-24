@@ -1,6 +1,8 @@
 package com.kutumbita.app;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -53,15 +58,19 @@ public class SurveyBotActivity extends AppCompatActivity {
     ArrayList<String> answerArray = new ArrayList<>();
     ArrayList<Integer> positions = new ArrayList<>();
     SurveyResult result = new SurveyResult();
-
+    EditText etAnswer;
+    View layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_bot);
+        layout = findViewById(R.id.header);
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Survey");
         survey = new Survey();
         linearLayout = findViewById(R.id.ll);
         rcv = findViewById(R.id.rcv);
+        etAnswer = findViewById(R.id.etMessage);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rcv.setLayoutManager(manager);
 
@@ -104,7 +113,7 @@ public class SurveyBotActivity extends AppCompatActivity {
                     }
 
                     survey.setContents(tempContents);
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     loadChatMessage(new Message("bot", survey.getContents().get(questionPosition).getQuestion()));
 
                 } catch (JSONException e) {
@@ -127,7 +136,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
     private void loadChatMessage(Message m) {
 
-
+        etAnswer.setText("");
         messages.add(m);
         adapter.notifyItemInserted(messages.size());
         rcv.scrollToPosition(messages.size());
@@ -139,38 +148,35 @@ public class SurveyBotActivity extends AppCompatActivity {
                 result = new SurveyResult();
                 RadioGroup rg = new RadioGroup(this);
                 rg.setOrientation(RadioGroup.VERTICAL);
-                LinearLayout.LayoutParams RadioGroupParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                RadioGroupParams.gravity = Gravity.LEFT;
-                RadioGroupParams.setMargins(20, 20, 20, 20);
 
                 result.setQuestion_uuid(tempContent.getUuid());
                 for (int i = 0; i < tempContent.getAnswers().size(); i++) {
 
                     RadioButton radioButton = new RadioButton(this);
 
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(250,
-                            130);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            110);
 
 
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
-                    radioButton.setTextColor(Color.parseColor("#000000"));
+                    radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
                     radioButton.setText(tempContent.getAnswers().get(i).getTitle());
-                    //radioButton.setTextSize(30);
 
-                    //Drawable d = getResources().getDrawable(R.drawable.buttonstate);
-                    //radioButton.setBackground(d);
-                    //radioButton.setGravity(Gravity.CENTER);
-                    //radioButton.setButtonDrawable(new StateListDrawable());
-                    //radioButton.setButtonDrawable(R.drawable.radiocustomize);
+
+                    radioButton.setTextSize(16);
+                    Drawable d = getResources().getDrawable(R.drawable.rectangle);
+                    radioButton.setBackground(d);
+
+                    radioButton.setGravity(Gravity.CENTER);
+                    radioButton.setButtonDrawable(new StateListDrawable());
+                    // radioButton.setButtonDrawable(R.drawable.radiocustomize);
                     rg.addView(radioButton);
                 }
 
 
-                linearLayout.addView(rg, RadioGroupParams);
+                linearLayout.addView(rg);
 
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -178,7 +184,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                         result.setAnswers(new int[]{checkedId});
                         submittedMessage = new Message("user", ((RadioButton) group.findViewById(checkedId)).getText().toString());
-
+                        etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
                     }
                 });
 
@@ -193,11 +199,32 @@ public class SurveyBotActivity extends AppCompatActivity {
                 for (int i = 0; i < tempContent.getAnswers().size(); i++) {
                     final int pos = i;
                     final CheckBox checkBox = new CheckBox(this);
-                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT);
-                    CheckBoxParams.gravity = Gravity.LEFT;
-                    CheckBoxParams.topMargin = 5;
+
+
+                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            110);
+
+
+                    checkBox.setLayoutParams(CheckBoxParams);
+                    checkBox.setId(i);
+
+                    checkBox.setTextColor(getResources().getColor(R.color.primaryColor));
+                    checkBox.setText(tempContent.getAnswers().get(i).getTitle());
+
+
+                    checkBox.setTextSize(16);
+                    Drawable d = getResources().getDrawable(R.drawable.rectangle);
+                    checkBox.setBackground(d);
+
+                    checkBox.setGravity(Gravity.CENTER);
+                    checkBox.setButtonDrawable(new StateListDrawable());
+
+
+//                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(
+//                            LinearLayout.LayoutParams.WRAP_CONTENT,
+//                            LinearLayout.LayoutParams.MATCH_PARENT);
+//                    CheckBoxParams.gravity = Gravity.LEFT;
+//                    CheckBoxParams.topMargin = 5;
                     checkBox.setText(tempContent.getAnswers().get(i).getTitle());
                     //checkBox.setTextSize(40);
                     //checkBox.setButtonDrawable(R.drawable.checkboxcustomize);
@@ -233,6 +260,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                             //result.setPositions(positions.toArray(new int[positions.size()]));
                             submittedMessage = new Message("user", builder.toString());
+                            etAnswer.setText(builder.toString());
 
                         }
                     });
