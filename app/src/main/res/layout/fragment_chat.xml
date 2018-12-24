@@ -8,4 +8,22 @@
     <include
         android:id="@+id/header"
         layout="@layout/header"></include>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="@dimen/twenty_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:gravity="center"
+        android:text="How can I help you?"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/sixteen_sp" />
+
+    <include
+        android:id="@+id/tapSurvey"
+        layout="@layout/row_bot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"></include>
 </RelativeLayout>
