@@ -87,6 +87,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                 try {
                     survey.setName(response.getString("name"));
+                    survey.setId(response.getString("survey_id"));
                     JSONArray surveyArray = response.getJSONArray("survey");
                     ArrayList<Survey.Content> tempContents = new ArrayList();
 
@@ -240,15 +241,18 @@ public class SurveyBotActivity extends AppCompatActivity {
                             StringBuilder builder = new StringBuilder();
 
                             if (isChecked) {
+
                                 positions.add(pos);
                                 answerArray.add(checkBox.getText().toString());
                             } else {
-                                positions.remove(pos);
+
+                                positions.remove(Integer.valueOf(pos));
                                 answerArray.remove(checkBox.getText().toString());
                             }
                             result.setAnswers(new int[answerArray.size()]);
 
                             for (int i = 0; i < answerArray.size(); i++) {
+
 
                                 result.getAnswers()[i] = positions.get(i);
                                 if (i > 0)
@@ -303,9 +307,10 @@ public class SurveyBotActivity extends AppCompatActivity {
     private void postReview() {
 
 
-        final String body = "{ \"survey_result\" :" + new Gson().toJson(surveyResults) + "}";
+        final String body = "{ \"survey_id\": \"" + survey.getId() + "\", \"survey_result\" :" + new Gson().toJson(surveyResults) + "}";
 
         Log.i("result", body);
+
         StringRequest loginRequest = new StringRequest(Request.Method.POST, "https://9258cdee-766b-4546-8e14-cda0332699af.mock.pstmn.io/1b241101-e2bb-4255-8caf-4136c566a962",
                 new Response.Listener<String>() {
                     @Override
@@ -323,6 +328,7 @@ public class SurveyBotActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
                         }
+
                     }
 
                 }, new Response.ErrorListener() {

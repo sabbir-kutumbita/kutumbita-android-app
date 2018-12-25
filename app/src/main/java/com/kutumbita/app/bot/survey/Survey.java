@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Survey {
 
     private String name;
+    private String id;
     private ArrayList<Content> contents;
 
 
@@ -13,9 +14,10 @@ public class Survey {
 
     }
 
-    public Survey(String name, ArrayList<Content> contents) {
+    public Survey(String name, String id, ArrayList<Content> contents) {
 
         this.name = name;
+        this.id = id;
         this.contents = contents;
 
     }
@@ -81,7 +83,6 @@ public class Survey {
         }
 
 
-
         public ArrayList<Answer> getAnswers() {
             return answers;
         }
@@ -107,5 +108,11 @@ public class Survey {
         this.contents = contents;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

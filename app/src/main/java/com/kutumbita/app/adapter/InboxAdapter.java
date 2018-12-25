@@ -75,6 +75,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.TheViewHolde
             rl = itemView.findViewById(R.id.rl);
             img = itemView.findViewById(R.id.ivType);
 
+
             type = itemView.findViewById(R.id.tvType);
 
             title = itemView.findViewById(R.id.tvTitle);
