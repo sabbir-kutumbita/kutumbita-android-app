@@ -37,6 +37,7 @@
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Password"
+                android:text="59jWoGfy"
                 android:inputType="textPassword"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
@@ -62,6 +63,7 @@
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="Email or Phone"
+                android:text="sabbir@kutumbita.com"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />

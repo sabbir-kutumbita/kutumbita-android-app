@@ -54,7 +54,6 @@ public class Survey {
 
                 this.title = title;
 
-
             }
 
             public String getTitle() {

@@ -33,6 +33,9 @@ import com.kutumbita.app.adapter.SurveyAdapter;
 import com.kutumbita.app.bot.survey.Message;
 import com.kutumbita.app.bot.survey.Survey;
 import com.kutumbita.app.bot.survey.SurveyResult;
+import com.kutumbita.app.utility.PreferenceUtility;
+import com.kutumbita.app.utility.S;
+import com.kutumbita.app.utility.UrlConstant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +49,7 @@ import java.util.Map;
 public class SurveyBotActivity extends AppCompatActivity {
 
 
-    public static final String URL = "https://9258cdee-766b-4546-8e14-cda0332699af.mock.pstmn.io/123";
+    // public static final String URL = "https://9258cdee-766b-4546-8e14-cda0332699af.mock.pstmn.io/123";
     RecyclerView rcv;
     SurveyAdapter adapter;
     int questionPosition;
@@ -60,11 +63,13 @@ public class SurveyBotActivity extends AppCompatActivity {
     SurveyResult result = new SurveyResult();
     EditText etAnswer;
     View layout;
+    PreferenceUtility preferenceUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_bot);
+        preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Survey");
         survey = new Survey();
@@ -81,7 +86,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
     private void parseSurvey() {
 
-        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, UrlConstant.URL_SURVEY_SINGLE, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -129,7 +134,15 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
             }
-        });
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
+                return params;
+            }
+        };
 
         GlobalData.getInstance().addToRequestQueue(objectRequest);
 
@@ -311,7 +324,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
         Log.i("result", body);
 
-        StringRequest loginRequest = new StringRequest(Request.Method.POST, "https://9258cdee-766b-4546-8e14-cda0332699af.mock.pstmn.io/1b241101-e2bb-4255-8caf-4136c566a962",
+        StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_SURVEY_ANSWER + survey.getId() + "/results",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -321,8 +334,10 @@ public class SurveyBotActivity extends AppCompatActivity {
                             JSONObject object = new JSONObject(response);
 
 
-                            Toast.makeText(getApplicationContext(), object.getString("status"), Toast.LENGTH_LONG).show();
+                            //  Toast.makeText(getApplicationContext(), object.getString("success"), Toast.LENGTH_LONG).show();
 
+                            if (object.getBoolean("success"))
+                                S.T(SurveyBotActivity.this, "Successfully survey submitted");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -359,6 +374,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
                 return params;
             }
 
