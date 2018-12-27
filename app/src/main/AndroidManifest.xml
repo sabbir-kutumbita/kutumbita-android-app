@@ -40,11 +40,8 @@
         <activity
             android:name=".InboxDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SurveyBotActivity">
-
-
-
-        </activity>
+        <activity android:name=".SurveyBotActivity"></activity>
+        <activity android:name=".ChatBotActivity"></activity>
     </application>
 
 </manifest>

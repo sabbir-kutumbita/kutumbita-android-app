@@ -26,4 +26,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"></include>
+
+    <RelativeLayout
+        android:id="@+id/relIssue"
+        android:layout_width="@dimen/eighty_dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tapSurvey"
+        android:layout_centerHorizontal="true">
+
+
+        <ImageView
+            android:id="@+id/ivrGrid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/image_star" />
+
+
+        <TextView
+            android:id="@+id/tvrName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivrGrid"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:fontFamily="@font/circularstd_book"
+            android:maxLength="22"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Issue"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/fifteen_sp" />
+
+
+    </RelativeLayout>
 </RelativeLayout>

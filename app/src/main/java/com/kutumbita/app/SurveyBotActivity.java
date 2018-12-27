@@ -49,7 +49,7 @@ import java.util.Map;
 public class SurveyBotActivity extends AppCompatActivity {
 
 
-    // public static final String URL = "https://9258cdee-766b-4546-8e14-cda0332699af.mock.pstmn.io/123";
+
     RecyclerView rcv;
     SurveyAdapter adapter;
     int questionPosition;

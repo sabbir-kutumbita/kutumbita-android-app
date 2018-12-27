@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Fragment currentFragment;
     PreferenceUtility preferenceUtility;
+    boolean shouldShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,37 +60,116 @@ public class MainActivity extends AppCompatActivity {
                 if (currentFragment == null) {
                     currentFragment = getSupportFragmentManager().findFragmentById(R.id.frMain);
                 }
-                switch (menuItem.getItemId()) {
 
+
+                switch (menuItem.getItemId()) {
 
                     case R.id.item_home:
 
+                        if (!(currentFragment instanceof HomeFragment)) {
+                            fragment = getSupportFragmentManager().findFragmentByTag("home");
+                            if (fragment == null) {
+                                fragment = new HomeFragment();
+                                tag = "home";
+                                shouldShow = false;
+                            } else {
 
-                        loadHomeFragment();
-
-
+                                shouldShow = true;
+                            }
+                        }
                         break;
-
-
                     case R.id.item_chat:
 
-                        loadChatFragment();
+                        if (!(currentFragment instanceof ChatFragment)) {
+                            fragment = getSupportFragmentManager().findFragmentByTag("chat");
+                            if (fragment == null) {
+                                fragment = new ChatFragment();
+                                tag = "chat";
+                                shouldShow = false;
+                            } else {
 
+                                shouldShow = true;
+                            }
+                        }
                         break;
-
                     case R.id.item_inbox:
 
-                        loadInboxFragment();
+                        if (!(currentFragment instanceof InboxFragment)) {
+                            fragment = getSupportFragmentManager().findFragmentByTag("inbox");
+                            if (fragment == null) {
+                                fragment = new InboxFragment();
+                                tag = "inbox";
+                                shouldShow = false;
+                            } else {
 
+                                shouldShow = true;
+                            }
+                        }
                         break;
 
                     case R.id.item_me:
 
-                        loadMeFragment();
+                        if (!(currentFragment instanceof MeFragment)) {
+                            fragment = getSupportFragmentManager().findFragmentByTag("me");
+                            if (fragment == null) {
+                                fragment = new MeFragment();
+                                tag = "me";
+                                shouldShow = false;
+                            } else {
 
+                                shouldShow = true;
+                            }
+                        }
                         break;
 
                 }
+                if (fragment != null) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+                    if (shouldShow) {
+
+                        fragmentTransaction.hide(currentFragment);
+                        fragmentTransaction.show(fragment);
+                    } else {
+                        fragmentTransaction.hide(currentFragment);
+                        fragmentTransaction.add(R.id.frMain, fragment, tag);
+                    }
+                    fragmentTransaction.commit();
+                    currentFragment = fragment;
+                }
+
+
+//                switch (menuItem.getItemId()) {
+//
+//
+//                    case R.id.item_home:
+//
+//
+//                        loadHomeFragment();
+//
+//
+//                        break;
+//
+//
+//                    case R.id.item_chat:
+//
+//                        loadChatFragment();
+//
+//                        break;
+//
+//                    case R.id.item_inbox:
+//
+//                        loadInboxFragment();
+//
+//                        break;
+//
+//                    case R.id.item_me:
+//
+//                        loadMeFragment();
+//
+//                        break;
+//
+//                }
                 return true;
             }
         });
@@ -149,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 S.L("fcm", response);
-                }
+            }
 
         }, new Response.ErrorListener() {
 
