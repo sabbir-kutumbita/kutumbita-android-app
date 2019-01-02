@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         break;
+
                     case R.id.item_inbox:
 
                         if (!(currentFragment instanceof InboxFragment)) {
@@ -108,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.item_me:
-
                         if (!(currentFragment instanceof MeFragment)) {
                             fragment = getSupportFragmentManager().findFragmentByTag("me");
                             if (fragment == null) {

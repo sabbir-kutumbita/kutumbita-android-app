@@ -1,10 +1,9 @@
 package com.kutumbita.app;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,7 +48,6 @@ import java.util.Map;
 public class SurveyBotActivity extends AppCompatActivity {
 
 
-
     RecyclerView rcv;
     SurveyAdapter adapter;
     int questionPosition;
@@ -85,39 +83,25 @@ public class SurveyBotActivity extends AppCompatActivity {
     }
 
     private void parseSurvey() {
-
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, UrlConstant.URL_SURVEY_SINGLE, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 try {
                     survey.setName(response.getString("name"));
                     survey.setId(response.getString("survey_id"));
                     JSONArray surveyArray = response.getJSONArray("survey");
                     ArrayList<Survey.Content> tempContents = new ArrayList();
-
-
                     for (int i = 0; i < surveyArray.length(); i++) {
 
                         JSONObject object = surveyArray.getJSONObject(i);
                         JSONArray answerArray = object.getJSONArray("answers");
                         ArrayList<Survey.Content.Answer> answers = new ArrayList();
-
                         for (int j = 0; j < answerArray.length(); j++) {
-
-
                             answers.add(new Survey.Content.Answer(answerArray.getString(j)));
-
-
                         }
-
-
                         tempContents.add(new Survey.Content(object.getString("question"),
                                 object.getString("answer_type"), object.getString("question_uuid"), answers));
-
-
                     }
-
                     survey.setContents(tempContents);
                     //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                     loadChatMessage(new Message("bot", survey.getContents().get(questionPosition).getQuestion()));
@@ -149,7 +133,6 @@ public class SurveyBotActivity extends AppCompatActivity {
     }
 
     private void loadChatMessage(Message m) {
-
         etAnswer.setText("");
         messages.add(m);
         adapter.notifyItemInserted(messages.size());
@@ -332,7 +315,6 @@ public class SurveyBotActivity extends AppCompatActivity {
                         try {
 
                             JSONObject object = new JSONObject(response);
-
 
                             //  Toast.makeText(getApplicationContext(), object.getString("success"), Toast.LENGTH_LONG).show();
 

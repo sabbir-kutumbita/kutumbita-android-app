@@ -2,8 +2,9 @@ package com.kutumbita.app.utility;
 
 public class UrlConstant {
 
-
+    //local
     public static final String URL_BASE = "http://10.100.1.205:5100/android/api/v1/";
+
     //global
     //public static final String URL_BASE = "http://54.169.196.102:5100/android/api/v1/";
 
