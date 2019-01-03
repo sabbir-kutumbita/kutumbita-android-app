@@ -6,19 +6,30 @@ import java.util.ArrayList;
 public class Dialog implements Serializable {
 
 
-    private String question, answerType;
+    private String question, answerType, sender;
     private ArrayList<String> answers;
 
-    public Dialog(){
+    public static final String SENDER_USER="user";
+    public static final String SENDER_BOT="bot";
+
+    public Dialog() {
 
     }
 
-    public Dialog(String question, String answerType, ArrayList<String> answers){
+    public Dialog(String sender, String question, String answerType, ArrayList<String> answers) {
+        this.sender = sender;
+        this.question = question;
+        this.answerType = answerType;
+        this.answers = answers;
 
-        this.question=question;
-        this.answerType=answerType;
-        this.answers=answers;
+    }
 
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
     public String getQuestion() {

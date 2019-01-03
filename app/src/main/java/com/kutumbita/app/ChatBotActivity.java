@@ -1,15 +1,28 @@
 package com.kutumbita.app;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.bot.chat.Dialog;
 import com.kutumbita.app.utility.PreferenceUtility;
-import com.kutumbita.app.utility.S;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +40,11 @@ public class ChatBotActivity extends AppCompatActivity {
     View layout;
     PreferenceUtility preferenceUtility;
     ArrayList<Dialog> dialogs = new ArrayList<>();
+    LinearLayout linearLayout;
+    RecyclerView rcv;
+    EditText etAnswer;
+    ChatAdapter adapter;
+    ArrayList<String> answerArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +53,14 @@ public class ChatBotActivity extends AppCompatActivity {
         preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Issue");
+        linearLayout = findViewById(R.id.ll);
+        rcv = findViewById(R.id.rcv);
+        etAnswer = findViewById(R.id.etMessage);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        rcv.setLayoutManager(manager);
+
+        adapter = new ChatAdapter(this, dialogs);
+        rcv.setAdapter(adapter);
         socket = GlobalData.getInstance().getmSocket();
         socketSetup(true);
     }
@@ -43,19 +69,26 @@ public class ChatBotActivity extends AppCompatActivity {
     Emitter.Listener receiveMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-
-
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     try {
                         JSONObject obj = (JSONObject) args[0];
-                        String yourMsg = obj.toString();
-                        S.L("socket response", yourMsg);
-
-                        Toast.makeText(getApplicationContext(), yourMsg, Toast.LENGTH_LONG).show();
-
+                        JSONObject dialogObject = obj.getJSONObject("dialog");
+                        Dialog tempDialog = new Dialog();
+                        tempDialog.setSender(Dialog.SENDER_BOT);
+                        tempDialog.setQuestion(dialogObject.getString("question"));
+                        tempDialog.setAnswerType(dialogObject.getString("answer_type"));
+                        if (dialogObject.has("answers")) {
+                            JSONArray answers = dialogObject.getJSONArray("answers");
+                            ArrayList<String> answersArray = new ArrayList<>();
+                            for (int i = 0; i < answers.length(); i++) {
+                                answersArray.add(answers.getString(i));
+                            }
+                            tempDialog.setAnswers(answersArray);
+                        }
+                        //dialogs.add(tempDialog);
+                        loadChatMessage(tempDialog);
                     } catch (Exception e) {
                         e.printStackTrace();
 
@@ -67,6 +100,182 @@ public class ChatBotActivity extends AppCompatActivity {
         }
     };
 
+
+    private void loadChatMessage(Dialog d) {
+        etAnswer.setText("");
+        dialogs.add(d);
+        adapter.notifyItemInserted(dialogs.size());
+        rcv.scrollToPosition(dialogs.size());
+        // Survey.Content tempContent = survey.getContents().get(questionPosition);
+        switch (d.getAnswerType().toLowerCase()) {
+
+
+            case "none":
+
+                makeEditable(false);
+                socketSetup(false);
+                break;
+
+            case "string":
+
+                makeEditable(true);
+
+
+                break;
+
+            case "radiogroup":
+                makeEditable(false);
+                //result = new SurveyResult();
+                RadioGroup rg = new RadioGroup(this);
+                rg.setOrientation(RadioGroup.VERTICAL);
+
+                //result.setQuestion_uuid(tempContent.getUuid());
+                for (int i = 0; i < d.getAnswers().size(); i++) {
+
+                    RadioButton radioButton = new RadioButton(this);
+
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            110);
+
+
+                    radioButton.setLayoutParams(params);
+                    radioButton.setId(i);
+
+                    radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
+                    radioButton.setText(d.getAnswers().get(i));
+
+
+                    radioButton.setTextSize(16);
+                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+                    radioButton.setBackground(dr);
+
+                    radioButton.setGravity(Gravity.CENTER);
+                    radioButton.setButtonDrawable(new StateListDrawable());
+                    // radioButton.setButtonDrawable(R.drawable.radiocustomize);
+                    rg.addView(radioButton);
+                }
+
+
+                linearLayout.addView(rg);
+
+                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+//                        result.setAnswers(new int[]{checkedId});
+//                        submittedMessage = new Message("user", ((RadioButton) group.findViewById(checkedId)).getText().toString());
+                        etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                    }
+                });
+
+
+                break;
+
+            case "checkbox":
+
+                // result = new SurveyResult();
+                // result.setQuestion_uuid(tempContent.getUuid());
+                makeEditable(false);
+                for (int i = 0; i < d.getAnswers().size(); i++) {
+                    final int pos = i;
+                    final CheckBox checkBox = new CheckBox(this);
+
+
+                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            110);
+
+
+                    checkBox.setLayoutParams(CheckBoxParams);
+                    checkBox.setId(i);
+
+                    checkBox.setTextColor(getResources().getColor(R.color.primaryColor));
+                    checkBox.setText(d.getAnswers().get(i));
+
+
+                    checkBox.setTextSize(16);
+                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+                    checkBox.setBackground(dr);
+
+                    checkBox.setGravity(Gravity.CENTER);
+                    checkBox.setButtonDrawable(new StateListDrawable());
+
+
+//                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(
+//                            LinearLayout.LayoutParams.WRAP_CONTENT,
+//                            LinearLayout.LayoutParams.MATCH_PARENT);
+//                    CheckBoxParams.gravity = Gravity.LEFT;
+//                    CheckBoxParams.topMargin = 5;
+                    checkBox.setText(d.getAnswers().get(i));
+                    //checkBox.setTextSize(40);
+                    //checkBox.setButtonDrawable(R.drawable.checkboxcustomize);
+                    // checkBox.setTextAppearance(c, android.R.style.TextAppearance_Large);
+                    linearLayout.addView(checkBox, CheckBoxParams);
+                    //childLayout.setBackgroundColor(Color.WHITE);
+
+
+                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                            StringBuilder builder = new StringBuilder();
+
+                            if (isChecked) {
+
+                                // positions.add(pos);
+                                answerArray.add(checkBox.getText().toString());
+                            } else {
+
+                                // positions.remove(Integer.valueOf(pos));
+                                answerArray.remove(checkBox.getText().toString());
+                            }
+//                            result.setAnswers(new int[answerArray.size()]);
+//
+                            for (int i = 0; i < answerArray.size(); i++) {
+
+
+                                //result.getAnswers()[i] = positions.get(i);
+                                if (i > 0)
+                                    builder.append(", ");
+                                builder.append(answerArray.get(i));
+
+
+                            }
+//
+//                            //result.setPositions(positions.toArray(new int[positions.size()]));
+//                            submittedMessage = new Message("user", builder.toString());
+                            etAnswer.setText(builder.toString());
+
+                        }
+                    });
+
+                }
+
+
+                break;
+
+            default:
+
+                break;
+        }
+
+    }
+
+    private void makeEditable(boolean b) {
+        if (b) {
+            linearLayout.setVisibility(View.GONE);
+            etAnswer.requestFocus();
+            etAnswer.setEnabled(true);
+            etAnswer.setClickable(true);
+            etAnswer.setFocusable(true);
+
+        } else {
+
+            linearLayout.setVisibility(View.VISIBLE);
+            etAnswer.setEnabled(false);
+            etAnswer.setClickable(false);
+            etAnswer.setFocusable(false);
+        }
+    }
 
     Emitter.Listener OnSocketConnected = new Emitter.Listener() {
         @Override
@@ -81,6 +290,7 @@ public class ChatBotActivity extends AppCompatActivity {
                     object.put("user_id", "Sabbir");
 
                 } catch (JSONException e) {
+
 
                     e.printStackTrace();
                 }
@@ -107,5 +317,31 @@ public class ChatBotActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         socketSetup(false);
+    }
+
+    public void sendClick(View view) {
+
+
+        if (socket.connected()) {
+
+            Dialog tempDialog = new Dialog();
+            tempDialog.setSender(Dialog.SENDER_USER);
+            tempDialog.setQuestion(etAnswer.getText().toString());
+            tempDialog.setAnswerType(Dialog.SENDER_USER);
+            loadChatMessage(tempDialog);
+            JSONObject object = new JSONObject();
+
+            try {
+
+                object.put("message", etAnswer.getText().toString());
+
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+
+            socket.emit(SEND_SMS, object);
+        }
     }
 }
