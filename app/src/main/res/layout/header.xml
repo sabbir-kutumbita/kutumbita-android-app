@@ -19,5 +19,16 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/primaryTextColor" />
 
+        <ImageView
+            android:id="@+id/ivSettings"
+            android:layout_width="@dimen/twenty_dp"
+            android:layout_height="@dimen/twenty_dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/fifteen_dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/settings"
+            android:visibility="gone" />
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -36,6 +36,7 @@ public class ChatFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_chat, container, false);
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Chat");
+
         surveyView = v.findViewById(R.id.tapSurvey);
         surveyView.setOnClickListener(new View.OnClickListener() {
             @Override

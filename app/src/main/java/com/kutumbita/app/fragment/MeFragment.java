@@ -73,11 +73,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         v = inflater.inflate(R.layout.fragment_me, container, false);
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Me");
+        layout.findViewById(R.id.ivSettings).setVisibility(View.VISIBLE);
         mbLogOut = v.findViewById(R.id.bLogout);
         mbLogOut.setOnClickListener(this);
 
         loadProfileData();
-       // parseMe();
+        // parseMe();
 
 
         return v;
@@ -319,8 +320,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 GlobalData.getInstance().addToRequestQueue(loginRequest);
-
-
 
 
                 break;
