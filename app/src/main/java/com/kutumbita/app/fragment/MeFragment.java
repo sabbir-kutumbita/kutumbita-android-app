@@ -25,9 +25,11 @@ import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
 import com.kutumbita.app.MainActivity;
 import com.kutumbita.app.R;
+import com.kutumbita.app.SettingsActivity;
 import com.kutumbita.app.SplashActivity;
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
+import com.kutumbita.app.utility.DateUtility;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
@@ -54,9 +56,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     View v;
     PreferenceUtility preferenceUtility;
     View layout;
-    View nameLayout, positionLayout, companyNameLayout,
-            mblNumberLayout, addressLayout,
-            emergencyLayout;
+    View titleLayout, positionLayout, companyNameLayout,
+            mblNumberLayout, addressLayout, nIdLayout, joiningDateLayout, jobTypeLayout,
+            emergencyLayout, bloodGroupLayout;
+
     TextView textViewAccountName;
     ImageView avatar;
 
@@ -74,11 +77,18 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Me");
         layout.findViewById(R.id.ivSettings).setVisibility(View.VISIBLE);
-        mbLogOut = v.findViewById(R.id.bLogout);
-        mbLogOut.setOnClickListener(this);
+        layout.findViewById(R.id.ivSettings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goSettings = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(goSettings);
+            }
+        });
+        // mbLogOut = v.findViewById(R.id.bLogout);
+        // mbLogOut.setOnClickListener(this);
 
         loadProfileData();
-        // parseMe();
+        parseMe();
 
 
         return v;
@@ -96,18 +106,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     JSONObject userObject = new JSONObject(response);
 
 
-//                    Me me = new Me(preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"),
-//                            userObject.getString("company"), userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
-//                            userObject.getString("phone"), userObject.getString("gender"), userObject.getString("address"),
-//                            userObject.getString("emergency_contact"), userObject.getString("emergency_phone"));
-
-                    Me me = new Me(preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"),
-                            userObject.getString("name"), "Star Group",
+                    Me me = new Me(preferenceUtility.getMe().getAccessToken()
+                            , preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), "Star Group",
                             //userObject.getString("company"),
                             userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
                             userObject.getString("phone"), userObject.getString("gender"),
                             userObject.getString("location"),
-                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"), userObject.getString("avatar"));
+                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
+                            userObject.getString("avatar"), "O+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"));
 
                     preferenceUtility.setMe(me);
 
@@ -134,6 +140,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 } catch (JSONException e) {
 
                     e.printStackTrace();
+
                 }
 
             }
@@ -159,171 +166,135 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private void loadProfileData() {
         avatar = v.findViewById(R.id.profile_image);
-        nameLayout = v.findViewById(R.id.tvNameField);
+        titleLayout = v.findViewById(R.id.tvTitleField);
         positionLayout = v.findViewById(R.id.tvPositionField);
         companyNameLayout = v.findViewById(R.id.tvCompanyNameField);
         mblNumberLayout = v.findViewById(R.id.tvMobileNum);
         addressLayout = v.findViewById(R.id.tvAddress);
-
+        jobTypeLayout = v.findViewById(R.id.tvJobType);
+        nIdLayout = v.findViewById(R.id.tvNationalId);
+        joiningDateLayout = v.findViewById(R.id.tvJoiningDate);
         emergencyLayout = v.findViewById(R.id.tvEmergencyContact);
+        bloodGroupLayout = v.findViewById(R.id.tvBloodGroup);
 
         textViewAccountName = v.findViewById(R.id.tvName);
 
         textViewAccountName.setText(preferenceUtility.getMe().getName());
         Picasso.get().load(preferenceUtility.getMe().getAvatar()).into(avatar);
-        ((TextView) nameLayout.findViewById(R.id.key)).setText("Name");
-        ((TextView) nameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getName());
-        ((ImageView) nameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.name);
-
-        nameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switchView(nameLayout);
-
-            }
-        });
 
 
-        ((TextView) positionLayout.findViewById(R.id.key)).setText("Position");
+        ((TextView) titleLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+        ((ImageView) titleLayout.findViewById(R.id.icon)).setImageResource(R.drawable.designation);
+
+
         ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
         ((ImageView) positionLayout.findViewById(R.id.icon)).setImageResource(R.drawable.position);
-        positionLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                switchView(positionLayout);
 
-            }
-        });
-
-        ((TextView) companyNameLayout.findViewById(R.id.key)).setText("Company Name");
-        ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getCompany());
+        ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getFactory());
         ((ImageView) companyNameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.company_name);
-        companyNameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switchView(companyNameLayout);
-
-            }
-        });
 
 
-        ((TextView) mblNumberLayout.findViewById(R.id.key)).setText("Mobile Number");
         ((TextView) mblNumberLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPhone());
         ((ImageView) mblNumberLayout.findViewById(R.id.icon)).setImageResource(R.drawable.mobile_number);
-        mblNumberLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                switchView(mblNumberLayout);
 
-            }
-        });
-
-        ((TextView) addressLayout.findViewById(R.id.key)).setText("Address");
         ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
         ((ImageView) addressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
-        addressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                switchView(addressLayout);
+        ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
+        ((ImageView) nIdLayout.findViewById(R.id.icon)).setImageResource(R.drawable.nid);
 
-            }
-        });
+        ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy", preferenceUtility.getMe().getJoinedDate()));
+        ((ImageView) joiningDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
+
+        ((TextView) jobTypeLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getJobType());
+        ((ImageView) jobTypeLayout.findViewById(R.id.icon)).setImageResource(R.drawable.job_type);
 
 
-        ((TextView) emergencyLayout.findViewById(R.id.key)).setText("Emergency Contact");
-        ((TextView) emergencyLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getEmergencyContact());
+        ((TextView) emergencyLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getEmergencyPhone());
         ((ImageView) emergencyLayout.findViewById(R.id.icon)).setImageResource(R.drawable.emergency_contact);
-        emergencyLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                switchView(emergencyLayout);
-
-            }
-        });
-
+        ((TextView) bloodGroupLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getBloodGroup());
+        ((ImageView) bloodGroupLayout.findViewById(R.id.icon)).setImageResource(R.drawable.blood_group);
 
     }
 
-    private void switchView(View nameLayout) {
-
-        if ((nameLayout.findViewById(R.id.value)).getVisibility() == View.VISIBLE) {
-
-            nameLayout.findViewById(R.id.value).setVisibility(View.GONE);
-            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_navigate_next_black_24dp);
-
-        } else {
-
-            nameLayout.findViewById(R.id.value).setVisibility(View.VISIBLE);
-            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-        }
-    }
+//    private void switchView(View nameLayout) {
+//
+//        if ((nameLayout.findViewById(R.id.value)).getVisibility() == View.VISIBLE) {
+//
+//            nameLayout.findViewById(R.id.value).setVisibility(View.GONE);
+//            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_navigate_next_black_24dp);
+//
+//        } else {
+//
+//            nameLayout.findViewById(R.id.value).setVisibility(View.VISIBLE);
+//            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+//        }
+//    }
 
 
     @Override
 
     public void onClick(View v) {
 
-        switch (v.getId()) {
 
-            case R.id.bLogout:
-
-                StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        S.L(response);
-
-
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            if (object.getBoolean("success")) {
-                                preferenceUtility.deleteUser(preferenceUtility.getMe());
-                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-                                startActivity(goSplash);
-                                getActivity().finish();
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        S.L("error: " + error.getMessage());
-
-                    }
-                }) {
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
-                        return params;
-                    }
-
-                };
-
-                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        Constant.TIME_OUT,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                GlobalData.getInstance().addToRequestQueue(loginRequest);
-
-
-                break;
-
-        }
+//        switch (v.getId()) {
+//
+//            case R.id.bLogout:
+//
+//                StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        S.L(response);
+//
+//
+//                        try {
+//                            JSONObject object = new JSONObject(response);
+//                            if (object.getBoolean("success")) {
+//                                preferenceUtility.deleteUser(preferenceUtility.getMe());
+//                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
+//                                startActivity(goSplash);
+//                                getActivity().finish();
+//
+//                            }
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                        S.L("error: " + error.getMessage());
+//
+//                    }
+//                }) {
+//
+//                    @Override
+//                    public Map<String, String> getHeaders() throws AuthFailureError {
+//                        Map<String, String> params = new HashMap<String, String>();
+//                        params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
+//                        return params;
+//                    }
+//
+//                };
+//
+//                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                        Constant.TIME_OUT,
+//                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                GlobalData.getInstance().addToRequestQueue(loginRequest);
+//
+//
+//                break;
+//
+//        }
     }
 }

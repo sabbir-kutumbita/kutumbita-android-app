@@ -211,7 +211,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                             userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
                             userObject.getString("phone"), userObject.getString("gender"),
                             userObject.getString("location"),
-                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"), userObject.getString("avatar"));
+                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
+                            userObject.getString("avatar"), "A+", userObject.getString("national_id"), userObject.getString("joined_at"),userObject.getString("job_type"));
 
                     preferenceUtility.setMe(me);
 

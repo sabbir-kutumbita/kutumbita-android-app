@@ -25,4 +25,5 @@
     <dimen name="hundread_forty_dp">210dp</dimen>
     <dimen name="sixteen_sp">24sp</dimen>
     <dimen name="eight_dp">12dp</dimen>
+    <dimen name="twenty_five_dp">37.5dp</dimen>
 </resources>

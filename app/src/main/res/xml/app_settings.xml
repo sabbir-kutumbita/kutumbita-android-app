@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="settings_language"
+        android:title="@string/title_language" />
+
+    <Preference
+        android:key="settings_terms_and_condition"
+        android:title="@string/terms_condition" />
+
+    <Preference
+        android:key="settings_faq"
+        android:title="@string/faq" />
+
+    <android.support.v7.preference.PreferenceCategory android:title="Category 1">
+
+        <Preference
+            android:key="settings_edit_profile"
+            android:title="@string/edit_pro" />
+
+
+    </android.support.v7.preference.PreferenceCategory>
+
+</PreferenceScreen>
