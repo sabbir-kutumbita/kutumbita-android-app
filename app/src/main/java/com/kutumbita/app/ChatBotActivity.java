@@ -118,16 +118,14 @@ public class ChatBotActivity extends AppCompatActivity {
                 }
 
 
-
-
-
                 linearLayout.addView(rg);
 
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                        etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                       // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                        sendMessage(((RadioButton) group.findViewById(checkedId)).getText().toString());
                     }
                 });
 
@@ -190,7 +188,8 @@ public class ChatBotActivity extends AppCompatActivity {
 
                             }
 
-                            etAnswer.setText(builder.toString());
+                           // etAnswer.setText(builder.toString());
+                            sendMessage(builder.toString());
 
                         }
                     });
@@ -208,10 +207,15 @@ public class ChatBotActivity extends AppCompatActivity {
 
     public void sendClick(View view) {
 
+        sendMessage(etAnswer.getText().toString());
+
+    }
+
+    private void sendMessage(String msg) {
 
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
-        tempDialog.setQuestion(etAnswer.getText().toString());
+        tempDialog.setQuestion(msg);
         tempDialog.setAnswerType(Dialog.SENDER_USER);
         dialogs.add(tempDialog);
         adapter.notifyItemInserted(dialogs.size());
@@ -222,7 +226,7 @@ public class ChatBotActivity extends AppCompatActivity {
             JSONObject object = new JSONObject();
             try {
 
-                object.put("message", etAnswer.getText().toString());
+                object.put("message", msg);
 
 
             } catch (JSONException e) {

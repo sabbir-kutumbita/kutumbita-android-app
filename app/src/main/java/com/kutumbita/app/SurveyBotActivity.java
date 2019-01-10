@@ -181,7 +181,8 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                         result.setAnswers(new int[]{checkedId});
                         submittedMessage = new Message("user", ((RadioButton) group.findViewById(checkedId)).getText().toString());
-                        etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                       // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                        sendMessage();
                     }
                 });
 
@@ -260,7 +261,8 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                             //result.setPositions(positions.toArray(new int[positions.size()]));
                             submittedMessage = new Message("user", builder.toString());
-                            etAnswer.setText(builder.toString());
+                           // etAnswer.setText(builder.toString());
+                            sendMessage();
 
                         }
                     });
@@ -276,6 +278,14 @@ public class SurveyBotActivity extends AppCompatActivity {
     }
 
     public void sendClick(View view) {
+
+        sendMessage();
+
+
+
+    }
+
+    private void sendMessage() {
 
         if (submittedMessage != null) {
             surveyResults.add(result);
@@ -297,7 +307,6 @@ public class SurveyBotActivity extends AppCompatActivity {
             }
             submittedMessage = null;
         }
-
     }
 
     private void postReview() {

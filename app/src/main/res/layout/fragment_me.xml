@@ -35,14 +35,14 @@
             android:layout_below="@+id/profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/five_dp"
-            android:textSize="@dimen/twenty_sp"
             android:fontFamily="@font/circularstd_medium"
             android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/twenty_sp"
             tools:text="Sabbir Ahmed" />
 
         <include
             android:id="@+id/tvTitleField"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
@@ -50,7 +50,7 @@
 
         <include
             android:id="@+id/tvPositionField"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvTitleField"
@@ -58,7 +58,7 @@
 
         <include
             android:id="@+id/tvCompanyNameField"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPositionField"
@@ -67,7 +67,7 @@
         <include
 
             android:id="@+id/tvMobileNum"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCompanyNameField"
@@ -77,14 +77,14 @@
         <include
 
             android:id="@+id/tvNationalId"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvMobileNum"></include>
 
         <include
             android:id="@+id/tvAddress"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvNationalId"></include>
@@ -92,7 +92,7 @@
 
         <include
             android:id="@+id/tvJoiningDate"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvAddress"
@@ -100,14 +100,14 @@
 
         <include
             android:id="@+id/tvJobType"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvJoiningDate"></include>
 
         <include
             android:id="@+id/tvEmergencyContact"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvJobType"></include>
@@ -115,21 +115,11 @@
 
         <include
             android:id="@+id/tvBloodGroup"
-            layout="@layout/dropdown_textview"
+            layout="@layout/menu_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvEmergencyContact"
             android:layout_marginTop="@dimen/fifteen_dp"></include>
-
-
-        <!--<android.support.design.button.MaterialButton-->
-        <!--android:id="@+id/bLogout"-->
-        <!--style="@style/Widget.MaterialComponents.Button.UnelevatedButton"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/tvEmergencyContact"-->
-        <!--android:text="Log Out"-->
-        <!--android:textAllCaps="false" />-->
 
 
     </RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_border"
+    android:padding="@dimen/eight_dp">
+
+    <ImageView
+
+        android:id="@+id/icon"
+        android:layout_width="@dimen/twenty_five_dp"
+        android:layout_height="@dimen/twenty_five_dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/twenty_dp"
+        android:src="@drawable/name" />
+
+    <TextView
+        android:id="@+id/key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/fifty_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/sixteen_sp"
+        tools:text="Name" />
+
+
+    <EditText
+        android:id="@+id/etValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/sixty_dp"
+        android:layout_toRightOf="@+id/key"
+        android:fontFamily="@font/circularstd_book"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/sixteen_sp"
+        tools:text="Name " />
+
+
+    <ImageView
+        android:id="@+id/ivNext"
+        android:layout_width="@dimen/twenty_dp"
+        android:layout_height="@dimen/twenty_dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@android:drawable/ic_menu_edit" />
+
+
+</RelativeLayout>

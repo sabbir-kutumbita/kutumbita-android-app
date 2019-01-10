@@ -62,7 +62,7 @@ public class InboxFragment extends Fragment {
     View layout;
     StringRequest inboxRequest;
     SwipeRefreshLayout swipeRefreshLayout;
-
+    BroadcastReceiver receiver;
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
@@ -71,7 +71,7 @@ public class InboxFragment extends Fragment {
         }
     };
 
-    BroadcastReceiver receiver;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

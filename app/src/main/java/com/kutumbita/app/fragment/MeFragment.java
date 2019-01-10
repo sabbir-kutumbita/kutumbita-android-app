@@ -205,6 +205,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
         ((ImageView) nIdLayout.findViewById(R.id.icon)).setImageResource(R.drawable.nid);
 
+
         ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy", preferenceUtility.getMe().getJoinedDate()));
         ((ImageView) joiningDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
 

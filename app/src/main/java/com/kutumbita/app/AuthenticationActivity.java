@@ -1,21 +1,17 @@
 package com.kutumbita.app;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.kutumbita.app.fragment.authentication.ChooserFragment;
 import com.kutumbita.app.fragment.authentication.ForgotPasswordFragment;
 import com.kutumbita.app.fragment.authentication.RequestForAccountFragment;
@@ -31,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -245,6 +240,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     S.T(AuthenticationActivity.this, "Something went wrong!");
+
                 }
 
             }
@@ -272,6 +268,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         ((ForgotPasswordFragment) fr).setOnButtonClickListener(new ForgotPasswordFragment.OnButtonClickListener() {
             @Override
             public void OnSendCodeClicked(String emailOrPhone) {
+
 
 
             }

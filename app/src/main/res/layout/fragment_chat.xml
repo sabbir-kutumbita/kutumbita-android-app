@@ -10,6 +10,7 @@
         layout="@layout/header"></include>
 
     <TextView
+        android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
@@ -25,14 +26,17 @@
         layout="@layout/row_bot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"></include>
+        android:layout_below="@+id/tv"
+        android:layout_margin="@dimen/twenty_dp"></include>
 
     <RelativeLayout
         android:id="@+id/relIssue"
         android:layout_width="@dimen/eighty_dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tapSurvey"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@+id/tv"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/twenty_dp"
+        android:layout_toRightOf="@+id/tapSurvey">
 
 
         <ImageView
@@ -41,7 +45,7 @@
             android:layout_height="@dimen/fifty_dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/image_star" />
+            android:src="@drawable/name" />
 
 
         <TextView
