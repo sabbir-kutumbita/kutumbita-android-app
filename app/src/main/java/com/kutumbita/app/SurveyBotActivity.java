@@ -117,6 +117,7 @@ public class SurveyBotActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+
             }
         }) {
 

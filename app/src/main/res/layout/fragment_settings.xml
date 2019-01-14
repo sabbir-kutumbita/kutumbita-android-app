@@ -6,9 +6,7 @@
     android:orientation="vertical"
     tools:context=".fragment.SettingsFragment">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/header"></include>
+
 
     <include
         android:id="@+id/tvLanguage"

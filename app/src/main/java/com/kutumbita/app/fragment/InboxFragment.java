@@ -87,7 +87,7 @@ public class InboxFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
         layout = v.findViewById(R.id.header);
-        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Inbox");
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.inbox));
         rcv = v.findViewById(R.id.rcvInbox);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

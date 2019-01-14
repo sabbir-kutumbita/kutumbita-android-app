@@ -62,6 +62,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     TextView textViewAccountName;
     ImageView avatar;
+    StringRequest loginRequest;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_me, container, false);
         layout = v.findViewById(R.id.header);
-        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Me");
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.me));
         layout.findViewById(R.id.ivSettings).setVisibility(View.VISIBLE);
         layout.findViewById(R.id.ivSettings).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +98,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
     private void parseMe() {
 
-        StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
+        loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 S.L(response);
@@ -297,5 +298,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //                break;
 //
 //        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (loginRequest != null)
+            loginRequest.cancel();
     }
 }

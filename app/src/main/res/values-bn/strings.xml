@@ -1,4 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
     <string name="app_name">Kutumbita</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -9,9 +12,10 @@
     <string name="faq">FAQ</string>
     <string name="edit_pro">Edit Profile</string>
     <string name="logout">Log Out</string>
-    <string name="chat">Chat</string>
-    <string name="inbox">Inbox</string>
-    <string name="me">Me</string>
-    <string name="settings">Settings</string>
-    <string name="language">Language</string>
+    <string name="chat">চ্যাট</string>
+    <string name="inbox">ইনবক্স</string>
+    <string name="me">আমি</string>
+    <string name="settings">সেটিংস</string>
+    <string name="language">ভাষা</string>
+
 </resources>

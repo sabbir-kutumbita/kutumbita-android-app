@@ -2,6 +2,7 @@ package com.kutumbita.app.utility;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Utility {
 
@@ -39,18 +41,14 @@ public class Utility {
         }
     }
 
-    public static long getMilliFromDate(String dateString, String format) {
+
+    public static void detectLanguage(String lCode, Context context) {
 
 
-        try {
-
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
-            Date date = sdf.parse(dateString);
-            return date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return 0;
-        }
-
+        Locale locale = new Locale(lCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        context.getResources().updateConfiguration(config, null);
     }
 }

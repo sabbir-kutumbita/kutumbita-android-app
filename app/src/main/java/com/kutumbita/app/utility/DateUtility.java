@@ -33,4 +33,20 @@ public class DateUtility {
             return "";
         }
     }
+
+
+    public static long getMilliFromDate(String dateString, String format) {
+
+
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            Date date = sdf.parse(dateString);
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
 }

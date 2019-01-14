@@ -2,15 +2,47 @@ package com.kutumbita.app;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.kutumbita.app.fragment.SettingsFragment;
+import com.kutumbita.app.fragment.settings.LanguageFragment;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    SettingsFragment fragment;
+    View layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frPref, new SettingsFragment()).commit();
+        setFragment();
+
+    }
+
+    private void setFragment() {
+        layout = findViewById(R.id.header);
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.settings));
+        fragment = new SettingsFragment();
+        fragment.setOnSettingEventListener(new SettingsFragment.OnSettingEventListener() {
+            @Override
+            public void OnLanguageClicked() {
+                ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.language));
+                getSupportFragmentManager().beginTransaction().replace(R.id.frPref, new LanguageFragment()).commit();
+
+            }
+
+            @Override
+            public void OnFaqClicked() {
+
+            }
+
+            @Override
+            public void OnTermsConditionClicked() {
+
+            }
+        });
+        getSupportFragmentManager().beginTransaction().replace(R.id.frPref, fragment).commit();
     }
 }

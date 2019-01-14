@@ -40,7 +40,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     View v;
-    View layout;
     View langLayout, termsLayout, faqLayout,
             logOutLayout;
 
@@ -59,10 +58,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
         v = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        layout = v.findViewById(R.id.header);
-        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Settings");
-        langLayout = v.findViewById(R.id.tvLanguage);
 
+
+        langLayout = v.findViewById(R.id.tvLanguage);
         termsLayout = v.findViewById(R.id.tvTermsAndCondition);
         faqLayout = v.findViewById(R.id.tvFaq);
         logOutLayout = v.findViewById(R.id.tvLogout);
@@ -108,6 +106,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
             case R.id.tvLanguage:
 
+
+                listener.OnLanguageClicked();;
 
                 break;
             case R.id.tvTermsAndCondition:
@@ -173,5 +173,20 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
         }
+    }
+
+
+    OnSettingEventListener listener;
+
+    public void setOnSettingEventListener(OnSettingEventListener listener) {
+
+        this.listener = listener;
+    }
+
+    public interface OnSettingEventListener {
+
+        void OnLanguageClicked();
+        void OnFaqClicked();
+        void OnTermsConditionClicked();
     }
 }
