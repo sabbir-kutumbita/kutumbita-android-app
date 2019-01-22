@@ -80,7 +80,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
 
     }
 
@@ -108,7 +108,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 loadRequestForAccountFragment();
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
     }
 
     private void signIn(String emailOrPhone, String password) {
@@ -278,7 +279,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 getSupportFragmentManager().popBackStack();
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
     }
 
 }

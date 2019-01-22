@@ -9,11 +9,14 @@
     <string name="required">Can not be empty</string>
     <string name="title_language">Language</string>
     <string name="terms_condition"><![CDATA[Terms & Conditions]]></string>
+
+
     <string name="faq">FAQ</string>
     <string name="edit_pro">Edit Profile</string>
     <string name="logout">Log Out</string>
     <string name="chat">চ্যাট</string>
     <string name="inbox">ইনবক্স</string>
+
     <string name="me">আমি</string>
     <string name="settings">সেটিংস</string>
     <string name="language">ভাষা</string>

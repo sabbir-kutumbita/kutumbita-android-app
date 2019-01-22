@@ -273,8 +273,9 @@ public class ChatBotActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
+                        S.L("socket receive", args[0].toString());
                         JSONObject obj = (JSONObject) args[0];
-                        S.L("socket receive", obj.toString());
+
                         JSONObject dialogObject = obj.getJSONObject("dialog");
                         Dialog tempDialog = new Dialog();
                         tempDialog.setSender(Dialog.SENDER_BOT);
