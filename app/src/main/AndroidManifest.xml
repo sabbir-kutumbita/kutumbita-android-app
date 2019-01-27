@@ -55,6 +55,15 @@
         <activity android:name=".SurveyBotActivity" />
         <activity android:name=".ChatBotActivity" />
         <activity android:name=".SettingsActivity"></activity>
+
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_home" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primaryColor" />
+
     </application>
 
 </manifest>
