@@ -267,11 +267,14 @@ public class ChatBotActivity extends AppCompatActivity {
     };
 
     Emitter.Listener receiveMessage = new Emitter.Listener() {
+
         @Override
         public void call(final Object... args) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
+
                     try {
                         S.L("socket receive", args[0].toString());
                         JSONObject obj = (JSONObject) args[0];

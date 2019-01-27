@@ -55,6 +55,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inbox_details);
         Utility.setFullScreen(this);
         uuID = getIntent().getStringExtra(Constant.EXTRA_UUID);
+        S.L("exUUid", uuID);
         preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
 
