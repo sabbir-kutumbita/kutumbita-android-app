@@ -42,6 +42,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
+
             swipeRefreshLayout.setRefreshing(true);
             parseDetails();
         }
@@ -90,7 +91,6 @@ public class InboxDetailsActivity extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(response);
 
-
                     JSONObject messageTypeObject = object.getJSONObject("message_type");
                     inboxDetails = new Inbox(object.getString("uuid"), object.getString("title"), object.getString("message_body"),
                             object.getString("sent_at"), object.getString("timezone"),
@@ -107,8 +107,10 @@ public class InboxDetailsActivity extends AppCompatActivity {
                 S.L(response);
                 loadDetailsFragment();
 
+
             }
         }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
 
@@ -146,6 +148,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
     private void loadDetailsFragment() {
 
+
         Fragment fragment = null;
         if (inboxDetails.getMessageType().getTitle().toLowerCase().contentEquals("event")) {
 
@@ -167,5 +170,6 @@ public class InboxDetailsActivity extends AppCompatActivity {
         b.putSerializable(Constant.EXTRA_MESSAGE, inboxDetails);
         fragment.setArguments(b);
         getSupportFragmentManager().beginTransaction().replace(R.id.frInbox, fragment).commitAllowingStateLoss();
+
     }
 }

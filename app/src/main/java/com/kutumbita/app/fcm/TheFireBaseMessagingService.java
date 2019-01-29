@@ -32,12 +32,11 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-
         super.onMessageReceived(remoteMessage);
         S.L("push", remoteMessage.getData().toString());
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null)
-            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("uuid"));
+            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("exUuid"));
 
     }
 
@@ -63,7 +62,6 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_home);
 
         notificationManager.notify(1, notification.build());
-
         Intent intent = new Intent(Constant.ACTION_BROADCAST);
         sendBroadcast(intent);
     }
