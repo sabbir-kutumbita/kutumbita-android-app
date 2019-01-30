@@ -19,6 +19,7 @@
             android:layout_height="@dimen/thirty_five_dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/hundread_dp"
+
             android:src="@drawable/kutumbita_without_logo" />
 
         <android.support.design.widget.TextInputLayout

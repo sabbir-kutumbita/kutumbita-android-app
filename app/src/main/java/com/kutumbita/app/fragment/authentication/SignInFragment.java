@@ -2,12 +2,14 @@ package com.kutumbita.app.fragment.authentication;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.utility.Utility;
@@ -26,6 +28,13 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
     TextInputLayout idInput, passInput;
     MaterialButton mbLogin, mbForgotPass, mbReqAccount;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

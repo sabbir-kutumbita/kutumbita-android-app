@@ -2,6 +2,7 @@ package com.kutumbita.app.fragment.authentication;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.kutumbita.app.R;
  * A simple {@link Fragment} subclass.
  */
 public class ChooserFragment extends Fragment {
+
 
 
     public ChooserFragment() {
