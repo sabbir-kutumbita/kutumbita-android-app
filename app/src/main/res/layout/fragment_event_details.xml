@@ -5,6 +5,7 @@
     tools:context=".fragment.inbox.EventDetailsFragment">
 
     <data>
+
         <variable
             name="inbox"
             type="com.kutumbita.app.model.Inbox" />
@@ -72,7 +73,7 @@
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/event"
                     android:fontFamily="@font/circularstd_book"
-
+                    android:text="@{inbox.venue}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />

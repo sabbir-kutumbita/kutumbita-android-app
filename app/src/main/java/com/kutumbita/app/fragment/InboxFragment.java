@@ -160,6 +160,7 @@ public class InboxFragment extends Fragment {
 
 
                     e.printStackTrace();
+
                 }
                 swipeRefreshLayout.setRefreshing(false);
                 loadRecycleView();
