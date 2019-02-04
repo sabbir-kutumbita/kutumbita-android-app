@@ -23,30 +23,21 @@
         android:layout_marginLeft="@dimen/fifty_dp"
         android:fontFamily="@font/circularstd_book"
         android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/sixteen_sp"
+        android:textSize="@dimen/twelve_sp"
         tools:text="Name" />
 
 
-    <EditText
-        android:id="@+id/etValue"
+    <TextView
+        android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/sixty_dp"
-        android:layout_toRightOf="@+id/key"
+        android:layout_marginLeft="@dimen/one_sixty_dp"
         android:fontFamily="@font/circularstd_book"
         android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/sixteen_sp"
+
+        android:textSize="@dimen/twelve_sp"
         tools:text="Name " />
-
-
-    <ImageView
-        android:id="@+id/ivNext"
-        android:layout_width="@dimen/twenty_dp"
-        android:layout_height="@dimen/twenty_dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@android:drawable/ic_menu_edit" />
 
 
 </RelativeLayout>

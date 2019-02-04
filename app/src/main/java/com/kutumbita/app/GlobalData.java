@@ -1,7 +1,6 @@
 package com.kutumbita.app;
 
 import android.app.Application;
-import android.content.res.Configuration;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -9,9 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.kutumbita.app.utility.UrlConstant;
 
-
 import java.net.URISyntaxException;
-import java.util.Locale;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;

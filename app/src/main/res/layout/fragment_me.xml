@@ -42,7 +42,7 @@
 
         <include
             android:id="@+id/tvTitleField"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
@@ -50,7 +50,7 @@
 
         <include
             android:id="@+id/tvPositionField"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvTitleField"
@@ -58,7 +58,7 @@
 
         <include
             android:id="@+id/tvCompanyNameField"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPositionField"
@@ -67,7 +67,7 @@
         <include
 
             android:id="@+id/tvMobileNum"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCompanyNameField"
@@ -77,14 +77,14 @@
         <include
 
             android:id="@+id/tvNationalId"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvMobileNum"></include>
 
         <include
             android:id="@+id/tvAddress"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvNationalId"></include>
@@ -92,7 +92,7 @@
 
         <include
             android:id="@+id/tvJoiningDate"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvAddress"
@@ -100,14 +100,14 @@
 
         <include
             android:id="@+id/tvJobType"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvJoiningDate"></include>
 
         <include
             android:id="@+id/tvEmergencyContact"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvJobType"></include>
@@ -115,7 +115,7 @@
 
         <include
             android:id="@+id/tvBloodGroup"
-            layout="@layout/menu_view"
+            layout="@layout/me_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvEmergencyContact"

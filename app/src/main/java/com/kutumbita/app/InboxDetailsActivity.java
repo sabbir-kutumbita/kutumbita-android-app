@@ -129,7 +129,6 @@ public class InboxDetailsActivity extends AppCompatActivity {
             }
         }) {
 
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();

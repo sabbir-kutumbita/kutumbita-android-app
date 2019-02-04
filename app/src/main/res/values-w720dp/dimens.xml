@@ -26,4 +26,6 @@
     <dimen name="sixteen_sp">32sp</dimen>
     <dimen name="eight_dp">16dp</dimen>
     <dimen name="twenty_five_dp">50dp</dimen>
+    <dimen name="twelve_sp">24sp</dimen>
+    <dimen name="one_sixty_dp">320dp</dimen>
 </resources>

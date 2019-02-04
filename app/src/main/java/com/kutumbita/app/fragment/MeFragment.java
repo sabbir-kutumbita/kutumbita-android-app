@@ -183,40 +183,43 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         textViewAccountName.setText(preferenceUtility.getMe().getName());
         Picasso.get().load(preferenceUtility.getMe().getAvatar()).into(avatar);
 
-
+        ((TextView) titleLayout.findViewById(R.id.key)).setText("Position");
         ((TextView) titleLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
         ((ImageView) titleLayout.findViewById(R.id.icon)).setImageResource(R.drawable.designation);
 
-
-        ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
+        ((TextView) positionLayout.findViewById(R.id.key)).setText("Department");
+        ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getDepartment());
         ((ImageView) positionLayout.findViewById(R.id.icon)).setImageResource(R.drawable.position);
 
-
+        ((TextView) companyNameLayout.findViewById(R.id.key)).setText("Company");
         ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getFactory());
         ((ImageView) companyNameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.company_name);
 
-
+        ((TextView) mblNumberLayout.findViewById(R.id.key)).setText("Phone");
         ((TextView) mblNumberLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPhone());
         ((ImageView) mblNumberLayout.findViewById(R.id.icon)).setImageResource(R.drawable.mobile_number);
 
-
-        ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
+        ((TextView) addressLayout.findViewById(R.id.key)).setText("National ID");
+        ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
         ((ImageView) addressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
 
-        ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
+        ((TextView) nIdLayout.findViewById(R.id.key)).setText("Address");
+        ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
         ((ImageView) nIdLayout.findViewById(R.id.icon)).setImageResource(R.drawable.nid);
 
-
+        ((TextView) joiningDateLayout.findViewById(R.id.key)).setText("Joining Date");
         ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy", preferenceUtility.getMe().getJoinedDate()));
         ((ImageView) joiningDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
 
+        ((TextView) jobTypeLayout.findViewById(R.id.key)).setText("Job Type");
         ((TextView) jobTypeLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getJobType());
         ((ImageView) jobTypeLayout.findViewById(R.id.icon)).setImageResource(R.drawable.job_type);
 
-
+        ((TextView) emergencyLayout.findViewById(R.id.key)).setText("Emergency Phone");
         ((TextView) emergencyLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getEmergencyPhone());
         ((ImageView) emergencyLayout.findViewById(R.id.icon)).setImageResource(R.drawable.emergency_contact);
 
+        ((TextView) bloodGroupLayout.findViewById(R.id.key)).setText("Blood Group");
         ((TextView) bloodGroupLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getBloodGroup());
         ((ImageView) bloodGroupLayout.findViewById(R.id.icon)).setImageResource(R.drawable.blood_group);
 

@@ -1,5 +1,9 @@
 package com.kutumbita.app;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment currentFragment;
     PreferenceUtility preferenceUtility;
     boolean shouldShow;
+    BroadcastReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,10 +186,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                finish();
+            }
+        };
         loadHomeFragment();
         putToken();
+
+
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST_LOGOUT);
+
+        registerReceiver(receiver, filter);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(receiver);
+    }
 
     private void loadInboxFragment() {
 

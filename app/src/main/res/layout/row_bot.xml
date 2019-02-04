@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
 
+
     <RelativeLayout
         android:id="@+id/relRadio"
         android:layout_width="@dimen/eighty_dp"
@@ -19,6 +20,7 @@
             android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
             android:src="@drawable/faq" />
+
 
 
         <TextView

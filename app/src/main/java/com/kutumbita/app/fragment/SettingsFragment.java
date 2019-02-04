@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kutumbita.app.GlobalData;
+import com.kutumbita.app.MainActivity;
 import com.kutumbita.app.R;
 import com.kutumbita.app.SplashActivity;
 import com.kutumbita.app.utility.Constant;
@@ -57,7 +58,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_settings, container, false);
-
 
 
         langLayout = v.findViewById(R.id.tvLanguage);
@@ -107,7 +107,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.tvLanguage:
 
 
-                listener.OnLanguageClicked();;
+                listener.OnLanguageClicked();
+                ;
 
                 break;
             case R.id.tvTermsAndCondition:
@@ -132,9 +133,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                             JSONObject object = new JSONObject(response);
                             if (object.getBoolean("success")) {
                                 preferenceUtility.deleteUser(preferenceUtility.getMe());
+                                Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
+                                getActivity().sendBroadcast(intent);
                                 Intent goSplash = new Intent(getActivity(), SplashActivity.class);
                                 startActivity(goSplash);
                                 getActivity().finish();
+
 
                             }
 
@@ -186,7 +190,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public interface OnSettingEventListener {
 
         void OnLanguageClicked();
+
         void OnFaqClicked();
+
         void OnTermsConditionClicked();
     }
 }
