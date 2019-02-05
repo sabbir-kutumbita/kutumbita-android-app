@@ -196,24 +196,18 @@ public class MainActivity extends AppCompatActivity {
         loadHomeFragment();
         putToken();
 
-
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST_LOGOUT);
-
         registerReceiver(receiver, filter);
-
     }
 
+
+
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         unregisterReceiver(receiver);
     }
+
 
     private void loadInboxFragment() {
 

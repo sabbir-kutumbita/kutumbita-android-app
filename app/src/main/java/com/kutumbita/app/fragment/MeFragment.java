@@ -157,6 +157,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         };
 
         loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+
                 Constant.TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -199,16 +200,17 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((TextView) mblNumberLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPhone());
         ((ImageView) mblNumberLayout.findViewById(R.id.icon)).setImageResource(R.drawable.mobile_number);
 
-        ((TextView) addressLayout.findViewById(R.id.key)).setText("National ID");
-        ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
+        ((TextView) addressLayout.findViewById(R.id.key)).setText("Address");
+        ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
         ((ImageView) addressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
 
-        ((TextView) nIdLayout.findViewById(R.id.key)).setText("Address");
-        ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
+        ((TextView) nIdLayout.findViewById(R.id.key)).setText("National ID");
+        ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
         ((ImageView) nIdLayout.findViewById(R.id.icon)).setImageResource(R.drawable.nid);
 
         ((TextView) joiningDateLayout.findViewById(R.id.key)).setText("Joining Date");
-        ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy", preferenceUtility.getMe().getJoinedDate()));
+        ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy",
+                preferenceUtility.getMe().getJoinedDate()));
         ((ImageView) joiningDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
 
         ((TextView) jobTypeLayout.findViewById(R.id.key)).setText("Job Type");

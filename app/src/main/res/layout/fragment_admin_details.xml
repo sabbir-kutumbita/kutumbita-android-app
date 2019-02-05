@@ -41,6 +41,7 @@
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/sixteen_sp" />
 
+
         <android.support.design.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="@dimen/sixty_dp"
@@ -50,7 +51,7 @@
             android:layout_marginRight="@dimen/thirty_five_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:fontFamily="@font/circularstd_book"
-            android:text="Yes I can join"
+            android:text="Acknowledged"
             android:textAllCaps="false"
             android:textSize="@dimen/fifteen_sp" />
 

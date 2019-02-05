@@ -15,6 +15,7 @@ import com.kutumbita.app.R;
 import com.kutumbita.app.databinding.FragmentNewsDetailsBinding;
 import com.kutumbita.app.model.Inbox;
 import com.kutumbita.app.utility.Constant;
+import com.kutumbita.app.utility.DateUtility;
 import com.kutumbita.app.utility.Utility;
 import com.squareup.picasso.Picasso;
 
@@ -50,13 +51,25 @@ public class NewsDetailsFragment extends Fragment {
         binding.setInbox(inbox);
 
         if (inbox.getImage().isEmpty()) {
+
             binding.ivNewsImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             binding.ivNewsImage.setImageResource(R.drawable.kutumbita_with_logo);
-        } else{
+
+
+        }
+
+        else{
+
+
             Picasso.get().load(inbox.getImage()).into(binding.ivNewsImage);
+            
         }
 
         //binding.tvDaysAgo.setText(TimeAgo.using(Utility.getMilliFromDate(inbox.getSentTime(), "yyyy-MM-dd'T'HH:mm:ss'Z'")));
+
+        binding.tvDaysAgo.setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM",
+                inbox.getSentTime()));
+
         return v;
     }
 

@@ -122,6 +122,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.tvLogout:
 
                 loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+
                     @Override
                     public void onResponse(String response) {
 
