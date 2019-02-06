@@ -73,7 +73,7 @@
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/event"
                     android:fontFamily="@font/circularstd_book"
-                    android:text="@{inbox.venue}"
+                    android:text="@{inbox.startDate}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
@@ -198,7 +198,7 @@
                 android:layout_marginRight="@dimen/thirty_five_dp"
                 android:layout_marginBottom="@dimen/ten_dp"
                 android:fontFamily="@font/circularstd_book"
-                android:text="Yes I can Join"
+                android:text="Yes, I can Join"
                 android:textAllCaps="false"
                 android:textSize="@dimen/fifteen_sp" />
 

@@ -9,11 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -44,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     Fragment fr;
     BottomNavigationView bnv;
-    Toolbar toolbar;
     Fragment currentFragment;
     PreferenceUtility preferenceUtility;
     boolean shouldShow;

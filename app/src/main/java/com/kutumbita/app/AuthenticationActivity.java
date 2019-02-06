@@ -147,17 +147,15 @@ public class AuthenticationActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                S.L("error: " + error.networkResponse.statusCode);
+
 
                 try {
+                    S.L("error: " + error.networkResponse.statusCode);
                     String str = new String(error.networkResponse.data, "UTF-8");
                     JSONObject object = new JSONObject(str);
                     JSONObject errorObject = object.getJSONObject("error");
                     S.T(getApplicationContext(), errorObject.getString("message"));
-                } catch (UnsupportedEncodingException e) {
-                    S.T(AuthenticationActivity.this, "Something went wrong!");
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     S.T(AuthenticationActivity.this, "Something went wrong!");
                     e.printStackTrace();
                 }
