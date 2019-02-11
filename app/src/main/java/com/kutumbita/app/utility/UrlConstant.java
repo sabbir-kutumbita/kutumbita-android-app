@@ -20,5 +20,5 @@ public class UrlConstant {
 
     public static final String URL_SURVEY_SINGLE = URL_BASE + "surveys/5c372cae60b272198f3c0548";
     public static final String URL_SURVEY_ANSWER = URL_BASE + "surveys/";
-    public static final String URL_SOCKET = "http://10.100.1.158:5002/";
+    public static final String URL_SOCKET = "http://10.100.1.77:5200?token=";
 }

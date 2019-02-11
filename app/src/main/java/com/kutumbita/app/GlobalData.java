@@ -6,7 +6,9 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.UrlConstant;
+import com.kutumbita.app.utility.Utility;
 
 import java.net.URISyntaxException;
 
@@ -20,19 +22,29 @@ public class GlobalData extends Application {
 
     private RequestQueue mRequestQueue;
 
-
+    PreferenceUtility preferenceUtility;
     private static GlobalData mInstance;
     private Socket mSocket;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        preferenceUtility = new PreferenceUtility(this);
+        if (preferenceUtility.getMe() != null) {
+
+            initializeSocket();
+
+        }
+        mInstance = this;
+    }
+
+    public void initializeSocket() {
+
         try {
-            mSocket = IO.socket(UrlConstant.URL_SOCKET);
+            mSocket = IO.socket(UrlConstant.URL_SOCKET + preferenceUtility.getMe().getAccessToken());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        mInstance = this;
     }
 
     public Socket getmSocket() {

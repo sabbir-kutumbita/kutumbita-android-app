@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:name=".GlobalData"
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -49,8 +50,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
+
         <activity android:name=".SurveyBotActivity" />
         <activity android:name=".ChatBotActivity" />
         <activity android:name=".SettingsActivity"></activity>

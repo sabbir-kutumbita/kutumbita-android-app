@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".fragment.inbox.AdminDetailsFragment">
 
-    <data>0
+    <data>
 
         <variable
             name="inbox"

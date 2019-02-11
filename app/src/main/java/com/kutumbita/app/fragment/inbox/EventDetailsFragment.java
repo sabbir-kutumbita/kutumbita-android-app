@@ -51,7 +51,8 @@ public class EventDetailsFragment extends Fragment {
         if (inbox.getImage().isEmpty()) {
             binding.ivImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             binding.ivImage.setImageResource(R.drawable.kutumbita_with_logo);
-        } else {
+        }
+        else {
             Picasso.get().load(inbox.getImage()).into(binding.ivImage);
         }
        // 2018-12-11 06:28:17.082325

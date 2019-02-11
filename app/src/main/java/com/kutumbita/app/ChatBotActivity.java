@@ -35,8 +35,11 @@ import io.socket.emitter.Emitter;
 public class ChatBotActivity extends AppCompatActivity {
 
 
+    private static final String SURVEY_START = "survey:start";
+    private static final String RECEIVE_NEXT_QUESTION = "survey:next_question";
+    private static final String NEXT_ANSWER = "survey:next_answer";
     Socket socket;
-    private static final String RECEIVE_SMS = "server response";
+    private static final String RECEIVE_FIRST_QUESTION = "survey:first_question";
     private static final String SEND_SMS = "app event";
     View layout;
     PreferenceUtility preferenceUtility;
@@ -124,7 +127,7 @@ public class ChatBotActivity extends AppCompatActivity {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                       // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                        // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
                         sendMessage(((RadioButton) group.findViewById(checkedId)).getText().toString());
                     }
                 });
@@ -141,7 +144,6 @@ public class ChatBotActivity extends AppCompatActivity {
 
                     LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             110);
-
 
                     checkBox.setLayoutParams(CheckBoxParams);
                     checkBox.setId(i);
@@ -161,7 +163,6 @@ public class ChatBotActivity extends AppCompatActivity {
                     checkBox.setText(d.getAnswers().get(i));
 
                     linearLayout.addView(checkBox, CheckBoxParams);
-
 
                     checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -188,7 +189,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
                             }
 
-                           // etAnswer.setText(builder.toString());
+                            // etAnswer.setText(builder.toString());
                             sendMessage(builder.toString());
 
                         }
@@ -248,12 +249,14 @@ public class ChatBotActivity extends AppCompatActivity {
         public void call(final Object... args) {
 
             if (socket.connected()) {
+
+                S.L("socket", "connected");
                 JSONObject object = new JSONObject();
 
                 try {
 
-                    object.put("data", "Hello, I am here");
-                    object.put("user_id", "Sabbir");
+                    object.put("surveyUUID", "abc123");
+                    //object.put("user_id", "Sabbir");
 
                 } catch (JSONException e) {
 
@@ -261,7 +264,7 @@ public class ChatBotActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                socket.emit(SEND_SMS, object);
+                socket.emit(SURVEY_START, object);
             }
         }
     };
@@ -270,6 +273,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
         @Override
         public void call(final Object... args) {
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -277,24 +281,63 @@ public class ChatBotActivity extends AppCompatActivity {
 
                     try {
                         S.L("socket receive", args[0].toString());
-                        JSONObject obj = (JSONObject) args[0];
+//                        JSONObject obj = (JSONObject) args[0];
+//
+//                        JSONObject dialogObject = obj.getJSONObject("dialog");
+//                        Dialog tempDialog = new Dialog();
+//                        tempDialog.setSender(Dialog.SENDER_BOT);
+//                        tempDialog.setQuestion(dialogObject.getString("question"));
+//                        tempDialog.setAnswerType(dialogObject.getString("answer_type"));
+//                        if (dialogObject.has("answers")) {
+//                            JSONArray answers = dialogObject.getJSONArray("answers");
+//                            ArrayList<String> answersArray = new ArrayList<>();
+//                            for (int i = 0; i < answers.length(); i++) {
+//                                answersArray.add(answers.getString(i));
+//                            }
+//                            tempDialog.setAnswers(answersArray);
+//                        }
+//
+//                        loadChatMessage(tempDialog);
 
-                        JSONObject dialogObject = obj.getJSONObject("dialog");
-                        Dialog tempDialog = new Dialog();
-                        tempDialog.setSender(Dialog.SENDER_BOT);
-                        tempDialog.setQuestion(dialogObject.getString("question"));
-                        tempDialog.setAnswerType(dialogObject.getString("answer_type"));
-                        if (dialogObject.has("answers")) {
-                            JSONArray answers = dialogObject.getJSONArray("answers");
-                            ArrayList<String> answersArray = new ArrayList<>();
-                            for (int i = 0; i < answers.length(); i++) {
-                                answersArray.add(answers.getString(i));
-                            }
-                            tempDialog.setAnswers(answersArray);
+
+                        if (socket.connected()) {
+
+//                            JSONObject object = new JSONObject();
+//                            try {
+//
+//                                object.put("message", msg);
+//
+//
+//                            } catch (JSONException e) {
+//
+//                                e.printStackTrace();
+//                            }
+
+
+                            String obj="{\n" +
+                                    "  survey_uuid: \"survey123\",\n" +
+                                    "  uuid: \"961aaf94-8373-402d-b0e4-18a476dff7e4\",\n" +
+                                    "  question_no: \"1\",\n" +
+                                    "  question: \"how is your company?\",\n" +
+                                    "  weight: 1,\n" +
+                                    "  answer_type: \"radio\",\n" +
+                                    "  user_answer: [\n" +
+                                    "    {\n" +
+                                    "      title: \"good\",\n" +
+                                    "      score: 1,\n" +
+                                    "      next: \"18c51035-a4ec-443b-a166-0c25052a8444\"\n" +
+                                    "    }\n" +
+                                    "  ],\n" +
+                                    "  next_free_text: null\n" +
+                                    "}";
+                            JSONObject object = new JSONObject(obj);
+                            socket.emit(NEXT_ANSWER, object);
+
+
                         }
 
-                        loadChatMessage(tempDialog);
                     } catch (Exception e) {
+
                         e.printStackTrace();
 
                         Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
@@ -306,14 +349,17 @@ public class ChatBotActivity extends AppCompatActivity {
     };
 
 
+
     private void socketSetup(boolean connect) {
         if (connect) {
             socket.on(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.on(RECEIVE_SMS, receiveMessage);
+            socket.on(RECEIVE_FIRST_QUESTION, receiveMessage);
+            socket.on(RECEIVE_NEXT_QUESTION, receiveMessage);
             socket = socket.connect();
         } else {
             socket.off(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.off(RECEIVE_SMS, receiveMessage);
+            socket.off(RECEIVE_FIRST_QUESTION, receiveMessage);
+            socket.on(RECEIVE_NEXT_QUESTION, receiveMessage);
             socket.disconnect();
         }
     }
