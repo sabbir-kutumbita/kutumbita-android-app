@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/primaryTextColor"
             android:fontFamily="@font/circularstd_medium"
-            android:text="All your work in one place"
+            android:text="@string/all_your_work_in_one_place"
             android:textSize="@dimen/eighteen_sp" />
 
         <android.support.design.button.MaterialButton
@@ -44,7 +44,7 @@
             android:layout_marginBottom="@dimen/ten_dp"
             android:background="@color/primaryColor"
             android:fontFamily="@font/circularstd_book"
-            android:text="Request for Account"
+            android:text="@string/request_for_account"
             android:textAllCaps="false"
             android:textColor="@color/secondaryTextColor"
             android:textSize="@dimen/fifteen_sp" />
@@ -61,7 +61,7 @@
             android:layout_marginRight="@dimen/sixty_dp"
             android:layout_marginBottom="@dimen/thirty_dp"
             android:fontFamily="@font/circularstd_book"
-            android:text="Sign in"
+            android:text="@string/sign_in"
             android:textAllCaps="false"
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/fifteen_sp" />

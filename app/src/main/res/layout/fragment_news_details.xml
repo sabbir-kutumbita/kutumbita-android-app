@@ -93,7 +93,7 @@
                 android:layout_above="@+id/tvWeb"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/circularstd_bold"
-                android:text="Read full story"
+                android:text="@string/read_full_story"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="@dimen/ten_sp" />
 

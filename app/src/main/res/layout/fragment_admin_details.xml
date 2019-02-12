@@ -51,7 +51,7 @@
             android:layout_marginRight="@dimen/thirty_five_dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:fontFamily="@font/circularstd_book"
-            android:text="Acknowledged"
+            android:text="@string/acknowledged"
             android:textAllCaps="false"
             android:textSize="@dimen/fifteen_sp" />
 

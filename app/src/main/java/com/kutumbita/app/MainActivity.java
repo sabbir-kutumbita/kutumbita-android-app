@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment currentFragment;
     PreferenceUtility preferenceUtility;
     boolean shouldShow;
-    BroadcastReceiver receiver;
+    BroadcastReceiver receiver, langReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +192,9 @@ public class MainActivity extends AppCompatActivity {
         loadHomeFragment();
         putToken();
 
-        IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST_LOGOUT);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.ACTION_BROADCAST_LOGOUT);
+        filter.addAction(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
         registerReceiver(receiver, filter);
     }
 

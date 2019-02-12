@@ -9,5 +9,6 @@ public class Constant {
     public static final String EXTRA_UUID = "exUuid";
     public static final String ACTION_BROADCAST = "com.kutumbita.app.NEW_INBOX";
     public static final String LANGUAGE_SETTINGS = "langSetting";
-    public static final String ACTION_BROADCAST_LOGOUT ="om.kutumbita.app.LOGOUT" ;
+    public static final String ACTION_BROADCAST_LOGOUT = "com.kutumbita.app.LOGOUT";
+    public static final String ACTION_BROADCAST_LANGUAGE_CHANGE = "com.kutumbita.app.LANG";
 }

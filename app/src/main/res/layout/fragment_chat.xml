@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/twenty_dp"
         android:fontFamily="@font/circularstd_book"
         android:gravity="center"
-        android:text="How can I help you?"
+        android:text="@string/how_can_i_help_you"
         android:textColor="@color/primaryTextColor"
         android:textSize="@dimen/sixteen_sp" />
 

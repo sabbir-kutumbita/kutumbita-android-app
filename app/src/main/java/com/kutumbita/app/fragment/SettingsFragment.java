@@ -108,7 +108,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
                 listener.OnLanguageClicked();
-                ;
+
 
                 break;
             case R.id.tvTermsAndCondition:

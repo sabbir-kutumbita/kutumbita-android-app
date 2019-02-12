@@ -1,6 +1,7 @@
 package com.kutumbita.app.fragment.settings;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import com.kutumbita.app.R;
+import com.kutumbita.app.SplashActivity;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.Utility;
@@ -57,7 +59,13 @@ public class LanguageFragment extends Fragment {
                     preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
                     Utility.detectLanguage("en", getContext());
                 }
+                Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
+                getActivity().sendBroadcast(intent);
 
+                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
+                startActivity(goSplash);
+
+                getActivity().finish();
             }
         });
 

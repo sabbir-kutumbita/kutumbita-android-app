@@ -248,24 +248,7 @@ public class ChatBotActivity extends AppCompatActivity {
         @Override
         public void call(final Object... args) {
 
-            if (socket.connected()) {
 
-                S.L("socket", "connected");
-                JSONObject object = new JSONObject();
-
-                try {
-
-                    object.put("surveyUUID", "abc123");
-                    //object.put("user_id", "Sabbir");
-
-                } catch (JSONException e) {
-
-
-                    e.printStackTrace();
-                }
-
-                socket.emit(SURVEY_START, object);
-            }
         }
     };
 
@@ -389,4 +372,24 @@ public class ChatBotActivity extends AppCompatActivity {
     }
 
 
+    public void connect(View view) {
+        if (socket.connected()) {
+
+            S.L("socket", "connected");
+            JSONObject object = new JSONObject();
+
+            try {
+
+                object.put("surveyUUID", "abc123");
+                //object.put("user_id", "Sabbir");
+
+            } catch (JSONException e) {
+
+
+                e.printStackTrace();
+            }
+
+            socket.emit(SURVEY_START, object);
+        }
+    }
 }

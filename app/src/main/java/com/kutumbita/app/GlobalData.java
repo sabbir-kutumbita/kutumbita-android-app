@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
@@ -30,6 +31,8 @@ public class GlobalData extends Application {
     public void onCreate() {
         super.onCreate();
         preferenceUtility = new PreferenceUtility(this);
+        String lan=preferenceUtility.getString(Constant.LANGUAGE_SETTINGS);
+        Utility.detectLanguage(lan, this);
         if (preferenceUtility.getMe() != null) {
 
             initializeSocket();

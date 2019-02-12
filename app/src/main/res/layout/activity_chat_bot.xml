@@ -9,11 +9,19 @@
         android:id="@+id/header"
         layout="@layout/header"></include>
 
+    <Button
+        android:id="@+id/bConnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:onClick="connect"
+        android:text="Connect" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/bConnect"
         android:layout_marginBottom="50dp" />
 
     <RelativeLayout

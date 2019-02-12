@@ -13,4 +13,27 @@
     <string name="me">Me</string>
     <string name="settings">Settings</string>
     <string name="language">Language</string>
+    <string name="acknowledged">Acknowledged</string>
+    <string name="how_can_i_help_you">How can I help you?</string>
+    <string name="all_your_work_in_one_place">All your work in one place</string>
+    <string name="yes_i_can_join">Yes, I can Join</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="email_or_phone">Email or Phone</string>
+    <string name="send_code">Send code</string>
+    <string name="cancel">Cancel</string>
+    <string name="e_g_i_need_a_leave">e. g. I need a leave</string>
+    <string name="bangla">Bangla</string>
+    <string name="english">English</string>
+    <string name="read_full_story">Read full story</string>
+    <string name="company_name">Company name</string>
+    <string name="name">Name</string>
+    <string name="type_a_new_password">Type a new password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="done">Done</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="request_for_account">Request for account</string>
+    <string name="home">Home</string>
+    <string name="welcome">Welcome&#160;</string>
 </resources>

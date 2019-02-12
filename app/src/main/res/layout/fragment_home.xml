@@ -39,7 +39,7 @@
         android:textColorHint="@color/dark_grey"
         android:background="@drawable/round"
         android:fontFamily="@font/circularstd_medium"
-        android:hint="e. g. I need a leave"
+        android:hint="@string/e_g_i_need_a_leave"
         android:padding="@dimen/ten_dp"
         android:textSize="@dimen/eighteen_sp" />
 

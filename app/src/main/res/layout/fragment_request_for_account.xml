@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
-                android:hint="Email or Phone"
+                android:hint="@string/email_or_phone"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
@@ -56,7 +56,7 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
-                android:hint="Company name"
+                android:hint="@string/company_name"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
@@ -80,7 +80,7 @@
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
