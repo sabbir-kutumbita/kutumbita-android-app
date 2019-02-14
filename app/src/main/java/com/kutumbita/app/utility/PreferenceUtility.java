@@ -39,6 +39,7 @@ public class PreferenceUtility {
     }
 
     public Me getMe() {
+
         Gson gson = new Gson();
         String json = pref.getString(Constant.PREF_ME, "");
         Me me = gson.fromJson(json, Me.class);

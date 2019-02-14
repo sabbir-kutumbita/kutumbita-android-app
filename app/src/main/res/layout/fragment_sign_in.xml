@@ -30,14 +30,14 @@
             android:layout_marginRight="@dimen/thirty_dp"
             app:passwordToggleEnabled="true">
 
-            2216
+            9lfHcJ9P
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="@string/password"
-                android:text="9lfHcJ9P"
+                android:text="2216"
                 android:inputType="textPassword"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"

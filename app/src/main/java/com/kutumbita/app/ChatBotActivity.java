@@ -249,6 +249,25 @@ public class ChatBotActivity extends AppCompatActivity {
         public void call(final Object... args) {
 
 
+            if (socket.connected()) {
+
+                S.L("socket", "connected");
+                JSONObject object = new JSONObject();
+
+                try {
+
+                    object.put("surveyUUID", "5c62904b1bab0a5535e4c44d");
+                    //object.put("user_id", "Sabbir");
+
+                } catch (JSONException e) {
+
+
+                    e.printStackTrace();
+                }
+
+                socket.emit(SURVEY_START, object);
+            }
+
         }
     };
 
@@ -283,41 +302,7 @@ public class ChatBotActivity extends AppCompatActivity {
 //                        loadChatMessage(tempDialog);
 
 
-                        if (socket.connected()) {
 
-//                            JSONObject object = new JSONObject();
-//                            try {
-//
-//                                object.put("message", msg);
-//
-//
-//                            } catch (JSONException e) {
-//
-//                                e.printStackTrace();
-//                            }
-
-
-                            String obj="{\n" +
-                                    "  survey_uuid: \"survey123\",\n" +
-                                    "  uuid: \"961aaf94-8373-402d-b0e4-18a476dff7e4\",\n" +
-                                    "  question_no: \"1\",\n" +
-                                    "  question: \"how is your company?\",\n" +
-                                    "  weight: 1,\n" +
-                                    "  answer_type: \"radio\",\n" +
-                                    "  user_answer: [\n" +
-                                    "    {\n" +
-                                    "      title: \"good\",\n" +
-                                    "      score: 1,\n" +
-                                    "      next: \"18c51035-a4ec-443b-a166-0c25052a8444\"\n" +
-                                    "    }\n" +
-                                    "  ],\n" +
-                                    "  next_free_text: null\n" +
-                                    "}";
-                            JSONObject object = new JSONObject(obj);
-                            socket.emit(NEXT_ANSWER, object);
-
-
-                        }
 
                     } catch (Exception e) {
 
@@ -365,6 +350,7 @@ public class ChatBotActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -375,21 +361,42 @@ public class ChatBotActivity extends AppCompatActivity {
     public void connect(View view) {
         if (socket.connected()) {
 
-            S.L("socket", "connected");
-            JSONObject object = new JSONObject();
+//                            JSONObject object = new JSONObject();
+//                            try {
+//
+//                                object.put("message", msg);
+//
+//
+//                            } catch (JSONException e) {
+//
+//                                e.printStackTrace();
+//                            }
 
+
+            String obj="{\n" +
+                    "  survey_uuid: \"5c62904b1bab0a5535e4c44d\",\n" +
+                    "  uuid: \"961aaf94-8373-402d-b0e4-18a476dff7e4\",\n" +
+                    "  question_no: \"1\",\n" +
+                    "  question: \"how is your company?\",\n" +
+                    "  weight: 1,\n" +
+                    "  answer_type: \"radio\",\n" +
+                    "  user_answer: [\n" +
+                    "   {\n" +
+                    "    title: \"good\",\n" +
+                    "    score: 1,\n" +
+                    "    next: \"18c51035-a4ec-443b-a166-0c25052a8444\"\n" +
+                    "   }\n" +
+                    "  ]\n" +
+                    "}";
+            JSONObject object = null;
             try {
-
-                object.put("surveyUUID", "abc123");
-                //object.put("user_id", "Sabbir");
-
+                object = new JSONObject(obj);
             } catch (JSONException e) {
-
-
                 e.printStackTrace();
             }
+            socket.emit(NEXT_ANSWER, object);
 
-            socket.emit(SURVEY_START, object);
+
         }
     }
 }
