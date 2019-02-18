@@ -34,13 +34,16 @@ import io.socket.emitter.Emitter;
 
 public class ChatBotActivity extends AppCompatActivity {
 
-
-    private static final String SURVEY_START = "survey:start";
-    private static final String RECEIVE_NEXT_QUESTION = "survey:next_question";
-    private static final String NEXT_ANSWER = "survey:next_answer";
     Socket socket;
+    private static final String SURVEY_START = "survey:start";
+    private static final String NEXT_ANSWER = "survey:next_answer";
+    private static final String END_ANSWER = "survey:end_answer";
+
     private static final String RECEIVE_FIRST_QUESTION = "survey:first_question";
+    private static final String RECEIVE_NEXT_QUESTION = "survey:next_question";
+    private static final String RECEIVE_END_QUESTION = "survey:end_question";
     private static final String SEND_SMS = "app event";
+
     View layout;
     PreferenceUtility preferenceUtility;
     ArrayList<Dialog> dialogs = new ArrayList<>();
@@ -271,7 +274,7 @@ public class ChatBotActivity extends AppCompatActivity {
         }
     };
 
-    Emitter.Listener receiveMessage = new Emitter.Listener() {
+    Emitter.Listener getQuestion = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
@@ -302,8 +305,6 @@ public class ChatBotActivity extends AppCompatActivity {
 //                        loadChatMessage(tempDialog);
 
 
-
-
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -317,17 +318,19 @@ public class ChatBotActivity extends AppCompatActivity {
     };
 
 
-
     private void socketSetup(boolean connect) {
         if (connect) {
+            socket.connect();
             socket.on(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.on(RECEIVE_FIRST_QUESTION, receiveMessage);
-            socket.on(RECEIVE_NEXT_QUESTION, receiveMessage);
-            socket = socket.connect();
+            socket.on(RECEIVE_FIRST_QUESTION, getQuestion);
+            socket.on(RECEIVE_NEXT_QUESTION, getQuestion);
+            socket.on(RECEIVE_END_QUESTION, getQuestion);
+
         } else {
             socket.off(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.off(RECEIVE_FIRST_QUESTION, receiveMessage);
-            socket.on(RECEIVE_NEXT_QUESTION, receiveMessage);
+            socket.off(RECEIVE_FIRST_QUESTION, getQuestion);
+            socket.off(RECEIVE_NEXT_QUESTION, getQuestion);
+            socket.off(RECEIVE_END_QUESTION, getQuestion);
             socket.disconnect();
         }
     }
@@ -373,7 +376,8 @@ public class ChatBotActivity extends AppCompatActivity {
 //                            }
 
 
-            String obj="{\n" +
+            String obj = "{\n" +
+
                     "  survey_uuid: \"5c62904b1bab0a5535e4c44d\",\n" +
                     "  uuid: \"961aaf94-8373-402d-b0e4-18a476dff7e4\",\n" +
                     "  question_no: \"1\",\n" +

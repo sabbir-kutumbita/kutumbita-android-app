@@ -91,7 +91,8 @@ public class SurveyBotActivity extends AppCompatActivity {
                     survey.setId(response.getString("survey_id"));
                     JSONArray surveyArray = response.getJSONArray("survey");
                     ArrayList<Survey.Content> tempContents = new ArrayList();
-                    for (int i = 0; i < surveyArray.length(); i++) {
+                    for (int i = 0; i
+                            < surveyArray.length(); i++) {
 
                         JSONObject object = surveyArray.getJSONObject(i);
                         JSONArray answerArray = object.getJSONArray("answers");
@@ -99,7 +100,8 @@ public class SurveyBotActivity extends AppCompatActivity {
                         for (int j = 0; j < answerArray.length(); j++) {
                             answers.add(new Survey.Content.Answer(answerArray.getString(j)));
                         }
-                        tempContents.add(new Survey.Content(object.getString("question"),
+                        tempContents.add(new Survey.Conte
+                                nt(object.getString("question"),
                                 object.getString("answer_type"), object.getString("question_uuid"), answers));
                     }
                     survey.setContents(tempContents);

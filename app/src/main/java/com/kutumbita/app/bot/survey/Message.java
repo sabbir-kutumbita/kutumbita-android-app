@@ -11,6 +11,7 @@ public class Message implements Serializable {
 
     public Message(String type, String msg) {
 
+
         this.type = type;
         this.msg = msg;
 

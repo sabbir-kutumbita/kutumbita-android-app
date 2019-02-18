@@ -5,113 +5,125 @@ import java.util.ArrayList;
 
 public class Survey {
 
-    private String name;
-    private String id;
-    private ArrayList<Content> contents;
+
+
+
+
+
+    private String qId, uuId, qNo, question, weight, answerType;
+    private ArrayList<Answer> answers;
 
 
     public Survey() {
 
     }
 
-    public Survey(String name, String id, ArrayList<Content> contents) {
+    public Survey(String qId, String uuId, String qNo, String question, String weight, String answerType, ArrayList<Answer> answers) {
 
-        this.name = name;
-        this.id = id;
-        this.contents = contents;
+        this.qId = qId;
+        this.uuId = uuId;
+        this.qNo = qNo;
+        this.question = question;
+        this.weight = weight;
+        this.answerType = answerType;
+        this.answers = answers;
 
     }
 
-    public static class Content {
+    public static class Answer {
 
-        private String question, answerType, uuid;
+        private String title, score, next;
         //private int weight;
-        private ArrayList<Answer> answers = new ArrayList<>();
 
-        public Content(String question, String answerType, String uuid, ArrayList<Answer> answers) {
 
-            this.question = question;
-            this.answerType = answerType;
-            this.uuid = uuid;
-            this.answers = answers;
+        public Answer(String title, String score, String next) {
+
+            this.title = title;
+            this.score = score;
+            this.next = next;
 
         }
 
-        public String getUuid() {
-            return uuid;
+        public String getTitle() {
+            return title;
         }
 
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public static class Answer {
-
-            private String title;
-
-
-            public Answer(String title) {
-
-                this.title = title;
-
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
+        public String getScore() {
+            return score;
         }
 
-        public String getQuestion() {
-            return question;
+        public void setScore(String score) {
+            this.score = score;
         }
 
-        public void setQuestion(String question) {
-            this.question = question;
+        public String getNext() {
+            return next;
         }
 
-        public String getAnswerType() {
-            return answerType;
-        }
-
-        public void setAnswerType(String answerType) {
-            this.answerType = answerType;
-        }
-
-
-        public ArrayList<Answer> getAnswers() {
-            return answers;
-        }
-
-        public void setAnswers(ArrayList<Answer> answers) {
-            this.answers = answers;
+        public void setNext(String next) {
+            this.next = next;
         }
     }
 
-    public String getName() {
-        return name;
+    public String getqId() {
+        return qId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setqId(String qId) {
+        this.qId = qId;
     }
 
-    public ArrayList<Content> getContents() {
-        return contents;
+    public String getUuId() {
+        return uuId;
     }
 
-    public void setContents(ArrayList<Content> contents) {
-        this.contents = contents;
+    public void setUuId(String uuId) {
+        this.uuId = uuId;
     }
 
-    public String getId() {
-        return id;
+    public String getqNo() {
+        return qNo;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setqNo(String qNo) {
+        this.qNo = qNo;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getAnswerType() {
+        return answerType;
+    }
+
+    public void setAnswerType(String answerType) {
+        this.answerType = answerType;
+    }
+
+    public ArrayList<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<Answer> answers) {
+        this.answers = answers;
     }
 }
