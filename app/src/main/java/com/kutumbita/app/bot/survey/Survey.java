@@ -6,26 +6,23 @@ import java.util.ArrayList;
 public class Survey {
 
 
-
-
-
-
-    private String qId, uuId, qNo, question, weight, answerType;
+    private String id, survey_uuid, question_no, question, weight, answer_type;
     private ArrayList<Answer> answers;
+    private ArrayList<Answer> user_answer;
 
 
     public Survey() {
 
     }
 
-    public Survey(String qId, String uuId, String qNo, String question, String weight, String answerType, ArrayList<Answer> answers) {
+    public Survey(String id, String survey_uuid, String question_no, String question, String weight, String answer_type, ArrayList<Answer> answers) {
 
-        this.qId = qId;
-        this.uuId = uuId;
-        this.qNo = qNo;
+        this.id = id;
+        this.survey_uuid = survey_uuid;
+        this.question_no = question_no;
         this.question = question;
         this.weight = weight;
-        this.answerType = answerType;
+        this.answer_type = answer_type;
         this.answers = answers;
 
     }
@@ -69,28 +66,36 @@ public class Survey {
         }
     }
 
-    public String getqId() {
-        return qId;
+    public ArrayList<Answer> getUser_answer() {
+        return user_answer;
     }
 
-    public void setqId(String qId) {
-        this.qId = qId;
+    public void setUser_answer(ArrayList<Answer> user_answer) {
+        this.user_answer = user_answer;
     }
 
-    public String getUuId() {
-        return uuId;
+    public String getId() {
+        return id;
     }
 
-    public void setUuId(String uuId) {
-        this.uuId = uuId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getqNo() {
-        return qNo;
+    public String getSurvey_uuid() {
+        return survey_uuid;
     }
 
-    public void setqNo(String qNo) {
-        this.qNo = qNo;
+    public void setSurvey_uuid(String survey_uuid) {
+        this.survey_uuid = survey_uuid;
+    }
+
+    public String getQuestion_no() {
+        return question_no;
+    }
+
+    public void setQuestion_no(String question_no) {
+        this.question_no = question_no;
     }
 
     public String getQuestion() {
@@ -101,8 +106,6 @@ public class Survey {
         this.question = question;
     }
 
-
-
     public String getWeight() {
         return weight;
     }
@@ -111,12 +114,12 @@ public class Survey {
         this.weight = weight;
     }
 
-    public String getAnswerType() {
-        return answerType;
+    public String getAnswer_type() {
+        return answer_type;
     }
 
-    public void setAnswerType(String answerType) {
-        this.answerType = answerType;
+    public void setAnswer_type(String answer_type) {
+        this.answer_type = answer_type;
     }
 
     public ArrayList<Answer> getAnswers() {

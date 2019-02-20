@@ -18,6 +18,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.bot.chat.Dialog;
 import com.kutumbita.app.bot.survey.Survey;
@@ -74,13 +76,15 @@ public class ChatBotActivity extends AppCompatActivity {
     }
 
 
-    private void loadChatMessage(Dialog d) {
+    private void loadChatMessage(final Survey s) {
+        final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
         makeEditable(false);
         etAnswer.setText("");
+        Dialog d = new Dialog(Dialog.SENDER_BOT, s.getQuestion(), s.getAnswer_type(), s.getAnswers());
         dialogs.add(d);
         adapter.notifyItemInserted(dialogs.size());
         rcv.scrollToPosition(dialogs.size());
-        switch (d.getAnswerType().toLowerCase()) {
+        switch (s.getAnswer_type().toLowerCase()) {
 
 
             case "none":
@@ -89,18 +93,20 @@ public class ChatBotActivity extends AppCompatActivity {
                 socketSetup(false);
                 break;
 
-            case "string":
+            case "free_text":
                 linearLayout.removeAllViews();
                 linearLayout.setVisibility(View.INVISIBLE);
                 makeEditable(true);
                 break;
 
-            case "radiogroup":
-
+            case "radio":
+                linearLayout.removeAllViews();
+                linearLayout.setVisibility(View.VISIBLE);
+                userAnswers.clear();
                 RadioGroup rg = new RadioGroup(this);
                 rg.setOrientation(RadioGroup.VERTICAL);
 
-                for (int i = 0; i < d.getAnswers().size(); i++) {
+                for (int i = 0; i < s.getAnswers().size(); i++) {
 
                     RadioButton radioButton = new RadioButton(this);
 
@@ -110,9 +116,9 @@ public class ChatBotActivity extends AppCompatActivity {
 
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
-
+                    radioButton.setTag(s.getAnswers().get(i));
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                    radioButton.setText(d.getAnswers().get(i));
+                    radioButton.setText(s.getAnswers().get(i).getTitle());
 
 
                     radioButton.setTextSize(16);
@@ -131,79 +137,84 @@ public class ChatBotActivity extends AppCompatActivity {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+
                         // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
-                        sendMessage(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                        userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
+
+                        s.setUser_answer(userAnswers);
+
+                        sendMessage(s);
                     }
                 });
 
                 linearLayout.setVisibility(View.VISIBLE);
                 break;
 
-            case "checkbox":
-
-                for (int i = 0; i < d.getAnswers().size(); i++) {
-                    final int pos = i;
-                    final CheckBox checkBox = new CheckBox(this);
-
-
-                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            110);
-
-                    checkBox.setLayoutParams(CheckBoxParams);
-                    checkBox.setId(i);
-
-                    checkBox.setTextColor(getResources().getColor(R.color.primaryColor));
-                    checkBox.setText(d.getAnswers().get(i));
-
-
-                    checkBox.setTextSize(16);
-                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-                    checkBox.setBackground(dr);
-
-                    checkBox.setGravity(Gravity.CENTER);
-                    checkBox.setButtonDrawable(new StateListDrawable());
-
-
-                    checkBox.setText(d.getAnswers().get(i));
-
-                    linearLayout.addView(checkBox, CheckBoxParams);
-
-                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-
-                            StringBuilder builder = new StringBuilder();
-
-                            if (isChecked) {
-
-                                answerArray.add(checkBox.getText().toString());
-                            } else {
-                                answerArray.remove(checkBox.getText().toString());
-                            }
-
-
-                            for (int i = 0; i < answerArray.size(); i++) {
-
-
-                                if (i > 0)
-                                    builder.append(", ");
-                                builder.append(answerArray.get(i));
-
-
-                            }
-
-                            // etAnswer.setText(builder.toString());
-                            sendMessage(builder.toString());
-
-                        }
-                    });
-
-                }
-
-
-                linearLayout.setVisibility(View.VISIBLE);
-                break;
+//            case "checkbox":
+//
+//                for (int i = 0; i < d.getAnswers().size(); i++) {
+//                    final int pos = i;
+//                    final CheckBox checkBox = new CheckBox(this);
+//
+//
+//                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                            110);
+//
+//                    checkBox.setLayoutParams(CheckBoxParams);
+//                    checkBox.setId(i);
+//
+//                    checkBox.setTextColor(getResources().getColor(R.color.primaryColor));
+//                    checkBox.setText(d.getAnswers().get(i));
+//
+//
+//                    checkBox.setTextSize(16);
+//                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+//                    checkBox.setBackground(dr);
+//
+//                    checkBox.setGravity(Gravity.CENTER);
+//                    checkBox.setButtonDrawable(new StateListDrawable());
+//
+//
+//                    checkBox.setText(d.getAnswers().get(i));
+//
+//                    linearLayout.addView(checkBox, CheckBoxParams);
+//
+//                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                        @Override
+//                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//
+//                            StringBuilder builder = new StringBuilder();
+//
+//                            if (isChecked) {
+//
+//                                answerArray.add(checkBox.getText().toString());
+//                            } else {
+//                                answerArray.remove(checkBox.getText().toString());
+//                            }
+//
+//
+//                            for (int i = 0; i < answerArray.size(); i++) {
+//
+//
+//                                if (i > 0)
+//                                    builder.append(", ");
+//                                builder.append(answerArray.get(i));
+//
+//
+//                            }
+//
+//                            // etAnswer.setText(builder.toString());
+//                            sendMessage(builder.toString());
+//
+//                        }
+//                    });
+//
+//                }
+//
+//
+//                linearLayout.setVisibility(View.VISIBLE);
+//                break;
 
 
         }
@@ -212,15 +223,15 @@ public class ChatBotActivity extends AppCompatActivity {
 
     public void sendClick(View view) {
 
-        sendMessage(etAnswer.getText().toString());
+        // sendMessage(etAnswer.getText().toString());
 
     }
 
-    private void sendMessage(String msg) {
+    private void sendMessage(Survey survey) {
 
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
-        tempDialog.setQuestion(msg);
+        tempDialog.setQuestion(survey.getUser_answer().get(0).getTitle());
         tempDialog.setAnswerType(Dialog.SENDER_USER);
         dialogs.add(tempDialog);
         adapter.notifyItemInserted(dialogs.size());
@@ -231,7 +242,23 @@ public class ChatBotActivity extends AppCompatActivity {
             JSONObject object = new JSONObject();
             try {
 
-                object.put("message", msg);
+                object.put("survey_uuid", survey.getSurvey_uuid());
+                object.put("id", survey.getId());
+                object.put("question_no", survey.getQuestion_no());
+                object.put("question", survey.getQuestion());
+                object.put("weight", survey.getWeight());
+                object.put("answer_type", survey.getAnswer_type());
+
+                JSONArray array = new JSONArray();
+
+                JSONObject answerObject = new JSONObject();
+                answerObject.put("title", survey.getUser_answer().get(0).getTitle());
+                answerObject.put("score", survey.getUser_answer().get(0).getScore());
+                answerObject.put("next", survey.getUser_answer().get(0).getNext());
+
+                array.put(answerObject);
+                object.put("user_answer", array);
+
 
 
             } catch (JSONException e) {
@@ -239,10 +266,14 @@ public class ChatBotActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            socket.emit(SEND_SMS, object);
 
+
+
+
+            socket.emit(NEXT_ANSWER, object);
 
         }
+
 
         etAnswer.setText("");
     }
@@ -287,47 +318,39 @@ public class ChatBotActivity extends AppCompatActivity {
 
                     try {
                         S.L("socket receive", args[0].toString());
-//                        JSONObject obj = (JSONObject) args[0];
-//
-//                        JSONObject dialogObject = obj.getJSONObject("dialog");
-//                        Dialog tempDialog = new Dialog();
-//                        tempDialog.setSender(Dialog.SENDER_BOT);
-//                        tempDialog.setQuestion(dialogObject.getString("question"));
-//                        tempDialog.setAnswerType(dialogObject.getString("answer_type"));
-//                        if (dialogObject.has("answers")) {
-//                            JSONArray answers = dialogObject.getJSONArray("answers");
-//                            ArrayList<String> answersArray = new ArrayList<>();
-//                            for (int i = 0; i < answers.length(); i++) {
-//                                answersArray.add(answers.getString(i));
-//                            }
-//                            tempDialog.setAnswers(answersArray);
-//                        }
-//
-//                        loadChatMessage(tempDialog);
+
 
                         JSONObject obj = (JSONObject) args[0];
                         Survey tempSurvey = new Survey();
-                        tempSurvey.setqId(obj.getString("id"));
-                        tempSurvey.setUuId(obj.getString("survey_uuid"));
-                        tempSurvey.setqNo(obj.getString("question_no"));
+                        tempSurvey.setId(obj.getString("id"));
+                        tempSurvey.setSurvey_uuid(obj.getString("survey_uuid"));
+                        tempSurvey.setQuestion_no(obj.getString("question_no"));
                         tempSurvey.setQuestion(obj.getString("question"));
                         tempSurvey.setWeight(obj.getString("weight"));
-                        tempSurvey.setAnswerType(obj.getString("answer_type"));
-                        if(obj.has("answers")){
+                        tempSurvey.setAnswer_type(obj.getString("answer_type"));
+                        ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
+                        if (obj.has("answers")) {
 
-                            JSONArray answerArray= obj.getJSONArray("answers");
-                            ArrayList<Survey.Answer> tempAnswers= new ArrayList<>();
+                            JSONArray answerArray = obj.getJSONArray("answers");
+                            tempAnswers.clear();
+                            for (int i = 0; i < answerArray.length(); i++) {
+                                JSONObject answerObj = answerArray.getJSONObject(i);
+                                tempAnswers.add(new Survey.Answer(answerObj.getString("title"), answerObj.getString("score"), answerObj.getString("next")));
+                            }
 
 
                         }
 
-
+                        tempSurvey.setAnswers(tempAnswers);
+                        loadChatMessage(tempSurvey);
                     } catch (Exception e) {
 
                         e.printStackTrace();
 
                         Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
                     }
+
+
                 }
             });
 

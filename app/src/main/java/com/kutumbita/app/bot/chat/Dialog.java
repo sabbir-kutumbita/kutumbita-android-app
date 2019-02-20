@@ -1,5 +1,7 @@
 package com.kutumbita.app.bot.chat;
 
+import com.kutumbita.app.bot.survey.Survey;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -7,16 +9,16 @@ public class Dialog implements Serializable {
 
 
     private String question, answerType, sender;
-    private ArrayList<String> answers;
+    private ArrayList<Survey.Answer> answers;
 
-    public static final String SENDER_USER="user";
-    public static final String SENDER_BOT="bot";
+    public static final String SENDER_USER = "user";
+    public static final String SENDER_BOT = "bot";
 
     public Dialog() {
 
     }
 
-    public Dialog(String sender, String question, String answerType, ArrayList<String> answers) {
+    public Dialog(String sender, String question, String answerType, ArrayList<Survey.Answer> answers) {
         this.sender = sender;
         this.question = question;
         this.answerType = answerType;
@@ -49,11 +51,11 @@ public class Dialog implements Serializable {
         this.answerType = answerType;
     }
 
-    public ArrayList<String> getAnswers() {
+    public ArrayList<Survey.Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ArrayList<String> answers) {
+    public void setAnswers(ArrayList<Survey.Answer> answers) {
         this.answers = answers;
     }
 }
