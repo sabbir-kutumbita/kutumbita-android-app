@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.bot.chat.Dialog;
+import com.kutumbita.app.bot.survey.Survey;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 
@@ -303,6 +304,22 @@ public class ChatBotActivity extends AppCompatActivity {
 //                        }
 //
 //                        loadChatMessage(tempDialog);
+
+                        JSONObject obj = (JSONObject) args[0];
+                        Survey tempSurvey = new Survey();
+                        tempSurvey.setqId(obj.getString("id"));
+                        tempSurvey.setUuId(obj.getString("survey_uuid"));
+                        tempSurvey.setqNo(obj.getString("question_no"));
+                        tempSurvey.setQuestion(obj.getString("question"));
+                        tempSurvey.setWeight(obj.getString("weight"));
+                        tempSurvey.setAnswerType(obj.getString("answer_type"));
+                        if(obj.has("answers")){
+
+                            JSONArray answerArray= obj.getJSONArray("answers");
+                            ArrayList<Survey.Answer> tempAnswers= new ArrayList<>();
+
+
+                        }
 
 
                     } catch (Exception e) {
