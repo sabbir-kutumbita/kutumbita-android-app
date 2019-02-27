@@ -56,8 +56,10 @@ public class ChatBotActivity extends AppCompatActivity {
     ChatAdapter adapter;
     ArrayList<String> answerArray = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
         preferenceUtility = new PreferenceUtility(this);
@@ -73,6 +75,9 @@ public class ChatBotActivity extends AppCompatActivity {
         rcv.setAdapter(adapter);
         socket = GlobalData.getInstance().getmSocket();
         socketSetup(true);
+
+
+
     }
 
 
@@ -116,6 +121,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
+
                     radioButton.setTag(s.getAnswers().get(i));
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
                     radioButton.setText(s.getAnswers().get(i).getTitle());
@@ -126,6 +132,7 @@ public class ChatBotActivity extends AppCompatActivity {
                     radioButton.setBackground(dr);
 
                     radioButton.setGravity(Gravity.CENTER);
+
                     radioButton.setButtonDrawable(new StateListDrawable());
                     rg.addView(radioButton);
                 }
@@ -260,20 +267,17 @@ public class ChatBotActivity extends AppCompatActivity {
                 object.put("user_answer", array);
 
 
-
             } catch (JSONException e) {
 
                 e.printStackTrace();
             }
 
-
-
-
-
-            socket.emit(NEXT_ANSWER, object);
+            if (survey.isEnd())
+                socket.emit(END_ANSWER, object);
+            else
+                socket.emit(NEXT_ANSWER, object);
 
         }
-
 
         etAnswer.setText("");
     }
@@ -340,7 +344,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
 
                         }
-
+                        tempSurvey.setEnd(obj.getBoolean("end"));
                         tempSurvey.setAnswers(tempAnswers);
                         loadChatMessage(tempSurvey);
                     } catch (Exception e) {

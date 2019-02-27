@@ -9,13 +9,14 @@ public class Survey {
     private String id, survey_uuid, question_no, question, weight, answer_type;
     private ArrayList<Answer> answers;
     private ArrayList<Answer> user_answer;
+    private boolean isEnd;
 
 
     public Survey() {
 
     }
 
-    public Survey(String id, String survey_uuid, String question_no, String question, String weight, String answer_type, ArrayList<Answer> answers) {
+    public Survey(String id, String survey_uuid, String question_no, String question, String weight, String answer_type, ArrayList<Answer> answers, boolean isEnd) {
 
         this.id = id;
         this.survey_uuid = survey_uuid;
@@ -24,6 +25,7 @@ public class Survey {
         this.weight = weight;
         this.answer_type = answer_type;
         this.answers = answers;
+        this.isEnd = isEnd;
 
     }
 
@@ -128,5 +130,13 @@ public class Survey {
 
     public void setAnswers(ArrayList<Answer> answers) {
         this.answers = answers;
+    }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
+
+    public void setEnd(boolean end) {
+        isEnd = end;
     }
 }
