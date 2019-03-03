@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Survey {
 
 
-    private String id, survey_uuid, question_no, question, weight, answer_type;
+    private String id, type, survey_uuid, question_no, question, weight, answer_type;
     private ArrayList<Answer> answers;
     private ArrayList<Answer> user_answer;
     private boolean isEnd;
@@ -16,9 +16,10 @@ public class Survey {
 
     }
 
-    public Survey(String id, String survey_uuid, String question_no, String question, String weight, String answer_type, ArrayList<Answer> answers, boolean isEnd) {
+    public Survey(String id, String type, String survey_uuid, String question_no, String question, String weight, String answer_type, ArrayList<Answer> answers, boolean isEnd) {
 
         this.id = id;
+        this.type = type;
         this.survey_uuid = survey_uuid;
         this.question_no = question_no;
         this.question = question;
@@ -134,6 +135,14 @@ public class Survey {
 
     public boolean isEnd() {
         return isEnd;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setEnd(boolean end) {

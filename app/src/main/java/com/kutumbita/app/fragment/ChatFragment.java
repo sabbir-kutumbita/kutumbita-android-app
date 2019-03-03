@@ -42,16 +42,18 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent goSurvey = new Intent(getActivity(), SurveyBotActivity.class);
-                startActivity(goSurvey);
+//                Intent goSurvey = new Intent(getActivity(), SurveyBotActivity.class);
+//                startActivity(goSurvey);
+
+                Intent goChat = new Intent(getActivity(), ChatBotActivity.class);
+                startActivity(goChat);
             }
         });
         issueView = v.findViewById(R.id.relIssue);
         issueView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goChat = new Intent(getActivity(), ChatBotActivity.class);
-                startActivity(goChat);
+
             }
         });
 

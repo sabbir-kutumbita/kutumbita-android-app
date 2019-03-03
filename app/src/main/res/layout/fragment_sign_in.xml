@@ -37,7 +37,7 @@
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="@string/password"
-                android:text="2216"
+                android:text=""
                 android:inputType="textPassword"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
