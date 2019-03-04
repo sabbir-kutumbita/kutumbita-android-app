@@ -28,4 +28,6 @@
     <dimen name="twenty_five_dp">50dp</dimen>
     <dimen name="twelve_sp">24sp</dimen>
     <dimen name="one_sixty_dp">320dp</dimen>
+    <dimen name="two_hundred_dp">200dp</dimen>
+    <dimen name="three_hundred_dp">600dp</dimen>
 </resources>

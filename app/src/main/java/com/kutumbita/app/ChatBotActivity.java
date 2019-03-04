@@ -54,7 +54,7 @@ public class ChatBotActivity extends AppCompatActivity {
     ArrayList<Dialog> dialogs = new ArrayList<>();
     LinearLayout linearLayout;
     RecyclerView rcv;
-   // EditText etAnswer;
+    // EditText etAnswer;
     ChatAdapter adapter;
     ArrayList<String> answerArray = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class ChatBotActivity extends AppCompatActivity {
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Survey");
         linearLayout = findViewById(R.id.ll);
         rcv = findViewById(R.id.rcv);
-       // etAnswer = findViewById(R.id.etMessage);
+        // etAnswer = findViewById(R.id.etMessage);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rcv.setLayoutManager(manager);
 
@@ -86,43 +86,138 @@ public class ChatBotActivity extends AppCompatActivity {
         if (s.getType().toLowerCase().contentEquals("bot")) {
             if (s.getAnswer_type().toLowerCase().contentEquals("none")) {
 
-                Dialog tempDialog = new Dialog();
-                tempDialog.setSender(Dialog.SENDER_BOT);
-                tempDialog.setQuestion(s.getQuestion());
-                tempDialog.setAnswerType(Dialog.SENDER_BOT);
-                dialogs.add(tempDialog);
-                adapter.notifyItemInserted(dialogs.size());
+                loadNoneAnswerTypeMessage(s);
+
+            } else {
+
+                loadNormalMessage(s);
+
+            }
+        } else {
+
+            loadNormalMessage(s);
+
+        }
+
+        findViewById(R.id.rlMain).invalidate();
+    }
+
+    private void loadNoneAnswerTypeMessage(Survey s) {
+
+
+        Dialog tempDialog = new Dialog();
+        tempDialog.setSender(Dialog.SENDER_BOT);
+        tempDialog.setQuestion(s.getQuestion());
+        tempDialog.setAnswerType(Dialog.SENDER_BOT);
+        dialogs.add(tempDialog);
+
+
+        linearLayout.removeAllViews();
+
+
+        RadioGroup rg = new RadioGroup(this);
+        rg.setOrientation(RadioGroup.VERTICAL);
+
+
+        RadioButton radioButton = new RadioButton(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                110);
+
+
+        radioButton.setLayoutParams(params);
+        radioButton.setId(0);
+
+
+        radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
+        radioButton.setText("Finish");
+
+
+        radioButton.setTextSize(16);
+        Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+        radioButton.setBackground(dr);
+
+        radioButton.setGravity(Gravity.CENTER);
+
+        radioButton.setButtonDrawable(new StateListDrawable());
+        rg.addView(radioButton);
+
+
+        linearLayout.addView(rg);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                finish();
+            }
+        });
+
+        adapter.notifyItemInserted(dialogs.size());
+        rcv.scrollToPosition(dialogs.size());
+
+        // linearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void loadNormalMessage(final Survey s) {
+
+
+        final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
+        // makeEditable(false);
+        // etAnswer.setText("");
+        Dialog d = new Dialog(Dialog.SENDER_BOT, s.getQuestion(), s.getAnswer_type(), s.getAnswers());
+        dialogs.add(d);
+
+
+        switch (s.getAnswer_type().toLowerCase()) {
+
+
+            case "none":
+//                linearLayout.removeAllViews();
+//                linearLayout.setVisibility(View.INVISIBLE);
+//                socketSetup(false);
+
+
+            case "free_text":
+
+                linearLayout.removeAllViews();
+                //linearLayout.setVisibility(View.INVISIBLE);
+                // makeEditable(true);
+                break;
+
+            case "radio":
 
 
                 linearLayout.removeAllViews();
-                linearLayout.setVisibility(View.VISIBLE);
-
+                userAnswers.clear();
                 RadioGroup rg = new RadioGroup(this);
                 rg.setOrientation(RadioGroup.VERTICAL);
 
+                for (int i = 0; i < s.getAnswers().size(); i++) {
 
-                RadioButton radioButton = new RadioButton(this);
+                    RadioButton radioButton = new RadioButton(this);
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        110);
-
-
-                radioButton.setLayoutParams(params);
-                radioButton.setId(0);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            110);
 
 
-                radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                radioButton.setText("Finish");
+                    radioButton.setLayoutParams(params);
+                    radioButton.setId(i);
+
+                    radioButton.setTag(s.getAnswers().get(i));
+                    radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
+                    radioButton.setText(s.getAnswers().get(i).getTitle());
 
 
-                radioButton.setTextSize(16);
-                Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-                radioButton.setBackground(dr);
+                    radioButton.setTextSize(16);
+                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+                    radioButton.setBackground(dr);
 
-                radioButton.setGravity(Gravity.CENTER);
+                    radioButton.setGravity(Gravity.CENTER);
 
-                radioButton.setButtonDrawable(new StateListDrawable());
-                rg.addView(radioButton);
+                    radioButton.setButtonDrawable(new StateListDrawable());
+                    rg.addView(radioButton);
+                }
 
 
                 linearLayout.addView(rg);
@@ -132,87 +227,17 @@ public class ChatBotActivity extends AppCompatActivity {
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
 
-                        finish();
+                        // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
+                        userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
+
+                        s.setUser_answer(userAnswers);
+
+                        sendMessage(s);
                     }
                 });
 
-                rcv.scrollToPosition(dialogs.size());
-            } else {
 
-                final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
-               // makeEditable(false);
-               // etAnswer.setText("");
-                Dialog d = new Dialog(Dialog.SENDER_BOT, s.getQuestion(), s.getAnswer_type(), s.getAnswers());
-                dialogs.add(d);
-                adapter.notifyItemInserted(dialogs.size());
-
-                switch (s.getAnswer_type().toLowerCase()) {
-
-
-                    case "none":
-                        linearLayout.removeAllViews();
-                        linearLayout.setVisibility(View.INVISIBLE);
-                        socketSetup(false);
-                        break;
-
-                    case "free_text":
-                        linearLayout.removeAllViews();
-                        linearLayout.setVisibility(View.INVISIBLE);
-                       // makeEditable(true);
-                        break;
-
-                    case "radio":
-                        linearLayout.removeAllViews();
-                        linearLayout.setVisibility(View.VISIBLE);
-                        userAnswers.clear();
-                        RadioGroup rg = new RadioGroup(this);
-                        rg.setOrientation(RadioGroup.VERTICAL);
-
-                        for (int i = 0; i < s.getAnswers().size(); i++) {
-
-                            RadioButton radioButton = new RadioButton(this);
-
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                    110);
-
-
-                            radioButton.setLayoutParams(params);
-                            radioButton.setId(i);
-
-                            radioButton.setTag(s.getAnswers().get(i));
-                            radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                            radioButton.setText(s.getAnswers().get(i).getTitle());
-
-
-                            radioButton.setTextSize(16);
-                            Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-                            radioButton.setBackground(dr);
-
-                            radioButton.setGravity(Gravity.CENTER);
-
-                            radioButton.setButtonDrawable(new StateListDrawable());
-                            rg.addView(radioButton);
-                        }
-
-
-                        linearLayout.addView(rg);
-
-                        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                                // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
-                                userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
-
-                                s.setUser_answer(userAnswers);
-
-                                sendMessage(s);
-                            }
-                        });
-
-                        linearLayout.setVisibility(View.VISIBLE);
-                        break;
+                break;
 
 //            case "checkbox":
 //
@@ -281,164 +306,19 @@ public class ChatBotActivity extends AppCompatActivity {
 //                break;
 
 
-                }
-
-                rcv.scrollToPosition(dialogs.size());
-            }
-        } else {
-
-            final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
-          //  makeEditable(false);
-          //  etAnswer.setText("");
-            Dialog d = new Dialog(Dialog.SENDER_BOT, s.getQuestion(), s.getAnswer_type(), s.getAnswers());
-            dialogs.add(d);
-            adapter.notifyItemInserted(dialogs.size());
-
-            switch (s.getAnswer_type().toLowerCase()) {
-
-
-                case "none":
-                    linearLayout.removeAllViews();
-                    linearLayout.setVisibility(View.INVISIBLE);
-                    socketSetup(false);
-                    break;
-
-                case "free_text":
-                    linearLayout.removeAllViews();
-                    linearLayout.setVisibility(View.INVISIBLE);
-                  //  makeEditable(true);
-                    break;
-
-                case "radio":
-                    linearLayout.removeAllViews();
-                    linearLayout.setVisibility(View.VISIBLE);
-                    userAnswers.clear();
-                    RadioGroup rg = new RadioGroup(this);
-                    rg.setOrientation(RadioGroup.VERTICAL);
-
-                    for (int i = 0; i < s.getAnswers().size(); i++) {
-
-                        RadioButton radioButton = new RadioButton(this);
-
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                110);
-
-
-                        radioButton.setLayoutParams(params);
-                        radioButton.setId(i);
-
-                        radioButton.setTag(s.getAnswers().get(i));
-                        radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                        radioButton.setText(s.getAnswers().get(i).getTitle());
-
-
-                        radioButton.setTextSize(16);
-                        Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-                        radioButton.setBackground(dr);
-
-                        radioButton.setGravity(Gravity.CENTER);
-
-                        radioButton.setButtonDrawable(new StateListDrawable());
-                        rg.addView(radioButton);
-                    }
-
-
-                    linearLayout.addView(rg);
-
-                    rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                            // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
-                            userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
-
-                            s.setUser_answer(userAnswers);
-
-                            sendMessage(s);
-                        }
-                    });
-
-                    linearLayout.setVisibility(View.VISIBLE);
-                    break;
-
-//            case "checkbox":
-//
-//                for (int i = 0; i < d.getAnswers().size(); i++) {
-//                    final int pos = i;
-//                    final CheckBox checkBox = new CheckBox(this);
-//
-//
-//                    LinearLayout.LayoutParams CheckBoxParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                            110);
-//
-//                    checkBox.setLayoutParams(CheckBoxParams);
-//                    checkBox.setId(i);
-//
-//                    checkBox.setTextColor(getResources().getColor(R.color.primaryColor));
-//                    checkBox.setText(d.getAnswers().get(i));
-//
-//
-//                    checkBox.setTextSize(16);
-//                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-//                    checkBox.setBackground(dr);
-//
-//                    checkBox.setGravity(Gravity.CENTER);
-//                    checkBox.setButtonDrawable(new StateListDrawable());
-//
-//
-//                    checkBox.setText(d.getAnswers().get(i));
-//
-//                    linearLayout.addView(checkBox, CheckBoxParams);
-//
-//                    checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                        @Override
-//                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//
-//                            StringBuilder builder = new StringBuilder();
-//
-//                            if (isChecked) {
-//
-//                                answerArray.add(checkBox.getText().toString());
-//                            } else {
-//                                answerArray.remove(checkBox.getText().toString());
-//                            }
-//
-//
-//                            for (int i = 0; i < answerArray.size(); i++) {
-//
-//
-//                                if (i > 0)
-//                                    builder.append(", ");
-//                                builder.append(answerArray.get(i));
-//
-//
-//                            }
-//
-//                            // etAnswer.setText(builder.toString());
-//                            sendMessage(builder.toString());
-//
-//                        }
-//                    });
-//
-//                }
-//
-//
-//                linearLayout.setVisibility(View.VISIBLE);
-//                break;
-
-
-            }
-
-            rcv.scrollToPosition(dialogs.size());
         }
+
+        adapter.notifyItemInserted(dialogs.size());
+        rcv.scrollToPosition(dialogs.size());
+        // linearLayout.setVisibility(View.VISIBLE);
+
     }
 
     public void sendClick(View view) {
 
 
         // sendMessage(etAnswer.getText().toString());
+
 
     }
 
@@ -449,8 +329,7 @@ public class ChatBotActivity extends AppCompatActivity {
         tempDialog.setQuestion(survey.getUser_answer().get(0).getTitle());
         tempDialog.setAnswerType(Dialog.SENDER_USER);
         dialogs.add(tempDialog);
-        adapter.notifyItemInserted(dialogs.size());
-        rcv.scrollToPosition(dialogs.size());
+
 
         if (socket.connected()) {
 
@@ -506,7 +385,12 @@ public class ChatBotActivity extends AppCompatActivity {
 
             }
         }
-       // etAnswer.setText("");
+        // etAnswer.setText("");
+        adapter.notifyItemInserted(dialogs.size());
+        rcv.scrollToPosition(dialogs.size());
+        findViewById(R.id.rlMain).invalidate();
+
+
     }
 
 
@@ -524,6 +408,7 @@ public class ChatBotActivity extends AppCompatActivity {
     };
 
     Emitter.Listener OnSurveyInitiated = new Emitter.Listener() {
+
         @Override
         public void call(final Object... args) {
 
@@ -617,7 +502,7 @@ public class ChatBotActivity extends AppCompatActivity {
                             rcv.scrollToPosition(dialogs.size());
 
                             linearLayout.removeAllViews();
-                            linearLayout.setVisibility(View.VISIBLE);
+                            // linearLayout.setVisibility(View.VISIBLE);
 
                             RadioGroup rg = new RadioGroup(ChatBotActivity.this);
                             rg.setOrientation(RadioGroup.VERTICAL);
@@ -719,7 +604,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
         } else {
 
-            linearLayout.setVisibility(View.VISIBLE);
+            // linearLayout.setVisibility(View.VISIBLE);
 
 //            etAnswer.setEnabled(false);
 //            etAnswer.setClickable(false);

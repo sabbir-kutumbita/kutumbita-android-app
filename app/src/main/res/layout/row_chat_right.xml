@@ -10,10 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/ten_dp"
         android:background="@drawable/rounded_rectangle_white"
         android:fontFamily="@font/sourcesanspro_regular"
-        android:padding="@dimen/eight_dp"
-        android:text="This is the test message"
+        android:maxWidth="@dimen/three_hundred_dp"
+        android:padding="@dimen/fifteen_dp"
+        android:text="This is the test message, you have to understand that"
         android:textColor="@color/primaryTextColor"
         android:textSize="@dimen/sixteen_sp" />
 
