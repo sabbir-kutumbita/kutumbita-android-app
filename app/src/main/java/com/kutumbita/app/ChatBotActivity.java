@@ -324,6 +324,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
     private void sendMessage(Survey survey) {
 
+
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
         tempDialog.setQuestion(survey.getUser_answer().get(0).getTitle());
@@ -431,6 +432,7 @@ public class ChatBotActivity extends AppCompatActivity {
                         tempSurvey.setType(obj.getString("type"));
                         tempSurvey.setWeight("0");
                         tempSurvey.setAnswer_type(obj.getString("answer_type"));
+
                         ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
 
