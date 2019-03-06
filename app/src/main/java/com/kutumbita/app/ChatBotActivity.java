@@ -340,15 +340,15 @@ public class ChatBotActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject();
                 try {
 
-                    object.put("surveyUUID", survey.getUser_answer().get(0).getNext());
+                    object.put("surveyUUID", survey.getUser_answer().get(0).getNextOrSurveyId());
                 } catch (JSONException e) {
 
                     e.printStackTrace();
                 }
                 if (survey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
-                    socket.emit(survey.getUser_answer().get(0).getScore(), object);
+                    socket.emit(survey.getUser_answer().get(0).getScoreOrEvent(), object);
                 else if (survey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
-                    socket.emit(survey.getUser_answer().get(0).getScore());
+                    socket.emit(survey.getUser_answer().get(0).getScoreOrEvent());
 
 
             } else {
@@ -367,8 +367,8 @@ public class ChatBotActivity extends AppCompatActivity {
 
                     JSONObject answerObject = new JSONObject();
                     answerObject.put("title", survey.getUser_answer().get(0).getTitle());
-                    answerObject.put("score", survey.getUser_answer().get(0).getScore());
-                    answerObject.put("next", survey.getUser_answer().get(0).getNext());
+                    answerObject.put("score", survey.getUser_answer().get(0).getScoreOrEvent());
+                    answerObject.put("next", survey.getUser_answer().get(0).getScoreOrEvent());
 
                     array.put(answerObject);
                     object.put("user_answer", array);
@@ -419,20 +419,11 @@ public class ChatBotActivity extends AppCompatActivity {
                 public void run() {
                     try {
                         S.L("socket init", args[0].toString());
-
-
                         JSONObject obj = (JSONObject) args[0];
                         Survey tempSurvey = new Survey();
-                        tempSurvey.setId("0");
-                        tempSurvey.setSurvey_uuid("0");
-                        tempSurvey.setQuestion_no("0");
                         tempSurvey.setQuestion(obj.getString("question"));
-
-
                         tempSurvey.setType(obj.getString("type"));
-                        tempSurvey.setWeight("0");
                         tempSurvey.setAnswer_type(obj.getString("answer_type"));
-
                         ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
 
@@ -451,9 +442,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
 
                         }
-                        tempSurvey.setEnd(false);
                         tempSurvey.setAnswers(tempAnswers);
-
                         loadChatMessage(tempSurvey);
                     } catch (Exception e) {
 

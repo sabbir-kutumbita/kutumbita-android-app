@@ -30,17 +30,27 @@ public class Survey {
 
     }
 
+    public Survey(String question, String type, String answer_type, ArrayList<Answer> answers) {
+
+        this.question = question;
+        this.type = type;
+        this.answer_type = answer_type;
+        this.answers = answers;
+
+
+    }
+
     public static class Answer {
 
-        private String title, score, next;
+        private String title, scoreOrEvent, nextOrSurveyId;
         //private int weight;
 
 
-        public Answer(String title, String score, String next) {
+        public Answer(String title, String scoreOrEvent, String nextOrSurveyId) {
 
             this.title = title;
-            this.score = score;
-            this.next = next;
+            this.scoreOrEvent = scoreOrEvent;
+            this.nextOrSurveyId = nextOrSurveyId;
 
         }
 
@@ -52,20 +62,20 @@ public class Survey {
             this.title = title;
         }
 
-        public String getScore() {
-            return score;
+        public String getScoreOrEvent() {
+            return scoreOrEvent;
         }
 
-        public void setScore(String score) {
-            this.score = score;
+        public void setScoreOrEvent(String scoreOrEvent) {
+            this.scoreOrEvent = scoreOrEvent;
         }
 
-        public String getNext() {
-            return next;
+        public String getNextOrSurveyId() {
+            return nextOrSurveyId;
         }
 
-        public void setNext(String next) {
-            this.next = next;
+        public void setNextOrSurveyId(String nextOrSurveyId) {
+            this.nextOrSurveyId = nextOrSurveyId;
         }
     }
 
