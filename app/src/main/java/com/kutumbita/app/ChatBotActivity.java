@@ -21,6 +21,7 @@ import com.kutumbita.app.bot.chat.Dialog;
 import com.kutumbita.app.bot.survey.Survey;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
+import com.kutumbita.app.utility.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,23 +53,26 @@ public class ChatBotActivity extends AppCompatActivity {
     View layout;
     PreferenceUtility preferenceUtility;
     ArrayList<Dialog> dialogs = new ArrayList<>();
-    LinearLayout linearLayout;
+    LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
-    // EditText etAnswer;
-    ChatAdapter adapter;
 
+    EditText etAnswer;
+    ChatAdapter adapter;
+    Survey tempSurvey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
         preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Survey");
-        linearLayout = findViewById(R.id.ll);
+        linearLayoutRg = findViewById(R.id.ll);
+        linearLayoutEt = findViewById(R.id.ll2);
         rcv = findViewById(R.id.rcv);
-        // etAnswer = findViewById(R.id.etMessage);
+        etAnswer = findViewById(R.id.etMessage);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rcv.setLayoutManager(manager);
 
@@ -106,7 +110,7 @@ public class ChatBotActivity extends AppCompatActivity {
                     try {
                         S.L("socket init", args[0].toString());
                         JSONObject obj = (JSONObject) args[0];
-                        Survey tempSurvey = new Survey();
+                        tempSurvey = new Survey();
                         tempSurvey.setQuestion(obj.getString("question"));
                         tempSurvey.setType(obj.getString("type"));
                         tempSurvey.setAnswer_type(obj.getString("answer_type"));
@@ -129,7 +133,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
                         }
                         tempSurvey.setAnswers(tempAnswers);
-                        loadChatMessage(tempSurvey);
+                        loadChatMessage();
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -159,7 +163,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
 
                         JSONObject obj = (JSONObject) args[0];
-                        Survey tempSurvey = new Survey();
+                        tempSurvey = new Survey();
                         tempSurvey.setId(obj.getString("id"));
                         tempSurvey.setEnd(obj.getBoolean("end"));
 
@@ -175,50 +179,7 @@ public class ChatBotActivity extends AppCompatActivity {
                             tempDialog.setQuestion(tempSurvey.getQuestion());
                             tempDialog.setAnswerType(Dialog.SENDER_BOT);
                             dialogs.add(tempDialog);
-                            adapter.notifyItemInserted(dialogs.size());
-                            rcv.scrollToPosition(dialogs.size());
-
-                            linearLayout.removeAllViews();
-                            // linearLayout.setVisibility(View.VISIBLE);
-
-                            RadioGroup rg = new RadioGroup(ChatBotActivity.this);
-                            rg.setOrientation(RadioGroup.VERTICAL);
-
-
-                            RadioButton radioButton = new RadioButton(ChatBotActivity.this);
-
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                    110);
-
-
-                            radioButton.setLayoutParams(params);
-                            radioButton.setId(0);
-
-
-                            radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                            radioButton.setText("Finish");
-
-
-                            radioButton.setTextSize(16);
-                            Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-                            radioButton.setBackground(dr);
-
-                            radioButton.setGravity(Gravity.CENTER);
-
-                            radioButton.setButtonDrawable(new StateListDrawable());
-                            rg.addView(radioButton);
-
-
-                            linearLayout.addView(rg);
-
-                            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                                    finish();
-                                }
-                            });
+                            loadFinishRadioButton();
                             return;
                         }
                         ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
@@ -234,7 +195,8 @@ public class ChatBotActivity extends AppCompatActivity {
                         }
 
                         tempSurvey.setAnswers(tempAnswers);
-                        loadChatMessage(tempSurvey);
+
+                        loadChatMessage();
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -250,87 +212,46 @@ public class ChatBotActivity extends AppCompatActivity {
     };
 
 
-    private void loadChatMessage(final Survey s) {
+    private void loadChatMessage() {
 
-        if (s.getType().toLowerCase().contentEquals("bot")) {
-            if (s.getAnswer_type().toLowerCase().contentEquals("none")) {
+        if (tempSurvey.getType().toLowerCase().contentEquals("bot")) {
+            if (tempSurvey.getAnswer_type().toLowerCase().contentEquals("none")) {
 
-                loadNoneAnswerTypeMessage(s);
+                loadNoneAnswerTypeMessage();
                 return;
             }
         }
 
-        loadNormalMessage(s);
+        loadNormalMessage();
 
     }
 
-    private void loadNoneAnswerTypeMessage(Survey s) {
+    private void loadNoneAnswerTypeMessage() {
 
-
-        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, s.getQuestion(), Dialog.SENDER_BOT, null);
+        // makeEditable(false);
+        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), Dialog.SENDER_BOT, null);
         dialogs.add(tempDialog);
-        linearLayout.removeAllViews();
-
-        RadioGroup rg = new RadioGroup(this);
 
 
-        rg.setOrientation(RadioGroup.VERTICAL);
+        loadFinishRadioButton();
 
 
-        RadioButton radioButton = new RadioButton(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                110);
-
-
-
-        radioButton.setLayoutParams(params);
-        radioButton.setId(0);
-
-
-        radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-        radioButton.setText("Finish");
-
-
-        radioButton.setTextSize(16);
-        Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-        radioButton.setBackground(dr);
-
-        radioButton.setGravity(Gravity.CENTER);
-
-        radioButton.setButtonDrawable(new StateListDrawable());
-        rg.addView(radioButton);
-
-
-        linearLayout.addView(rg);
-
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                finish();
-            }
-        });
-
-        adapter.notifyItemInserted(dialogs.size());
-        rcv.scrollToPosition(dialogs.size());
-
-
-        // linearLayout.setVisibility(View.VISIBLE);
     }
 
-    private void loadNormalMessage(final Survey s) {
+
+    private void loadNormalMessage() {
+
+
 
 
         final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
-        // makeEditable(false);
-        // etAnswer.setText("");
-        Dialog d = new Dialog(Dialog.SENDER_BOT, s.getQuestion(), s.getAnswer_type(), s.getAnswers());
+
+
+        Dialog d = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), tempSurvey.getAnswer_type(), tempSurvey.getAnswers());
         dialogs.add(d);
-        linearLayout.removeAllViews();
+        linearLayoutRg.removeAllViews();
 
-        switch (s.getAnswer_type().toLowerCase()) {
-
+        switch (tempSurvey.getAnswer_type().toLowerCase()) {
 
 
 //            case "none":
@@ -341,18 +262,17 @@ public class ChatBotActivity extends AppCompatActivity {
             case "free_text":
 
 
-                //linearLayout.setVisibility(View.INVISIBLE);
-                // makeEditable(true);
+                makeEditable(true);
                 break;
 
             case "radio":
 
-
+                makeEditable(false);
                 userAnswers.clear();
                 RadioGroup rg = new RadioGroup(this);
                 rg.setOrientation(RadioGroup.VERTICAL);
 
-                for (int i = 0; i < s.getAnswers().size(); i++) {
+                for (int i = 0; i < tempSurvey.getAnswers().size(); i++) {
 
                     RadioButton radioButton = new RadioButton(this);
 
@@ -363,9 +283,9 @@ public class ChatBotActivity extends AppCompatActivity {
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
-                    radioButton.setTag(s.getAnswers().get(i));
+                    radioButton.setTag(tempSurvey.getAnswers().get(i));
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                    radioButton.setText(s.getAnswers().get(i).getTitle());
+                    radioButton.setText(tempSurvey.getAnswers().get(i).getTitle());
 
 
                     radioButton.setTextSize(16);
@@ -379,19 +299,18 @@ public class ChatBotActivity extends AppCompatActivity {
                 }
 
 
-                linearLayout.addView(rg);
+                linearLayoutRg.addView(rg);
 
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
 
-                        // etAnswer.setText(((RadioButton) group.findViewById(checkedId)).getText().toString());
                         userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
 
-                        s.setUser_answer(userAnswers);
+                        tempSurvey.setUser_answer(userAnswers);
 
-                        sendMessage(s);
+                        sendMessage();
                     }
                 });
 
@@ -469,37 +388,37 @@ public class ChatBotActivity extends AppCompatActivity {
 
         adapter.notifyItemInserted(dialogs.size());
         rcv.scrollToPosition(dialogs.size());
-        // linearLayout.setVisibility(View.VISIBLE);
+
 
     }
 
-    private void sendMessage(Survey survey) {
+    private void sendMessage() {
 
 
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
-        tempDialog.setQuestion(survey.getUser_answer().get(0).getTitle());
+        tempDialog.setQuestion(tempSurvey.getUser_answer().get(0).getTitle());
         tempDialog.setAnswerType(Dialog.SENDER_USER);
         dialogs.add(tempDialog);
 
 
         if (socket.connected()) {
 
-            if (survey.getType().toLowerCase().contentEquals("bot")) {
+            if (tempSurvey.getType().toLowerCase().contentEquals("bot")) {
 
 
                 JSONObject object = new JSONObject();
                 try {
 
-                    object.put("surveyUUID", survey.getUser_answer().get(0).getNextOrSurveyId());
+                    object.put("surveyUUID", tempSurvey.getUser_answer().get(0).getNextOrSurveyId());
                 } catch (JSONException e) {
 
                     e.printStackTrace();
                 }
-                if (survey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
-                    socket.emit(survey.getUser_answer().get(0).getScoreOrEvent(), object);
-                else if (survey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
-                    socket.emit(survey.getUser_answer().get(0).getScoreOrEvent());
+                if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
+                    socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent(), object);
+                else if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
+                    socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent());
 
 
             } else {
@@ -507,19 +426,19 @@ public class ChatBotActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject();
                 try {
 
-                    object.put("survey_uuid", survey.getSurvey_uuid());
-                    object.put("id", survey.getId());
-                    object.put("question_no", survey.getQuestion_no());
-                    object.put("question", survey.getQuestion());
-                    object.put("weight", survey.getWeight());
-                    object.put("answer_type", survey.getAnswer_type());
+                    object.put("survey_uuid", tempSurvey.getSurvey_uuid());
+                    object.put("id", tempSurvey.getId());
+                    object.put("question_no", tempSurvey.getQuestion_no());
+                    object.put("question", tempSurvey.getQuestion());
+                    object.put("weight", tempSurvey.getWeight());
+                    object.put("answer_type", tempSurvey.getAnswer_type());
 
                     JSONArray array = new JSONArray();
 
                     JSONObject answerObject = new JSONObject();
-                    answerObject.put("title", survey.getUser_answer().get(0).getTitle());
-                    answerObject.put("score", survey.getUser_answer().get(0).getScoreOrEvent());
-                    answerObject.put("next", survey.getUser_answer().get(0).getNextOrSurveyId());
+                    answerObject.put("title", tempSurvey.getUser_answer().get(0).getTitle());
+                    answerObject.put("score", tempSurvey.getUser_answer().get(0).getScoreOrEvent());
+                    answerObject.put("next", tempSurvey.getUser_answer().get(0).getNextOrSurveyId());
 
                     array.put(answerObject);
                     object.put("user_answer", array);
@@ -530,17 +449,16 @@ public class ChatBotActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (survey.isEnd())
+                if (tempSurvey.isEnd())
                     socket.emit(EMMIT_END_ANSWER, object);
                 else
                     socket.emit(EMMIT_NEXT_ANSWER, object);
 
             }
         }
-        // etAnswer.setText("");
+        etAnswer.setText("");
         adapter.notifyItemInserted(dialogs.size());
         rcv.scrollToPosition(dialogs.size());
-        //  findViewById(R.id.rlMain).invalidate();
 
 
     }
@@ -548,11 +466,14 @@ public class ChatBotActivity extends AppCompatActivity {
     public void sendClick(View view) {
 
 
-        // sendMessage(etAnswer.getText().toString());
-
+        if (etAnswer.getText().toString().isEmpty())
+            return;
+        tempSurvey.getAnswers().get(0).setTitle(etAnswer.getText().toString());
+        tempSurvey.setUser_answer(tempSurvey.getAnswers());
+        sendMessage();
+        Utility.hideKeyboard(ChatBotActivity.this);
 
     }
-
 
 
     private void socketSetup(boolean connect) {
@@ -578,21 +499,65 @@ public class ChatBotActivity extends AppCompatActivity {
 
     private void makeEditable(boolean b) {
         if (b) {
+            linearLayoutEt.setVisibility(View.VISIBLE);
+            linearLayoutRg.setVisibility(View.GONE);
 
-//            etAnswer.setEnabled(true);
-//            etAnswer.setClickable(true);
-//            etAnswer.setFocusable(true);
-//            etAnswer.setFocusableInTouchMode(true);
 
         } else {
 
-            // linearLayout.setVisibility(View.VISIBLE);
+            linearLayoutRg.setVisibility(View.VISIBLE);
+            linearLayoutEt.setVisibility(View.GONE);
 
-//            etAnswer.setEnabled(false);
-//            etAnswer.setClickable(false);
-//            etAnswer.setFocusable(false);
-//            etAnswer.setFocusableInTouchMode(false);
         }
+    }
+
+    private void loadFinishRadioButton() {
+
+        linearLayoutRg.removeAllViews();
+        RadioGroup rg = new RadioGroup(this);
+
+
+        rg.setOrientation(RadioGroup.VERTICAL);
+
+
+        RadioButton radioButton = new RadioButton(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                110);
+
+
+        radioButton.setLayoutParams(params);
+        radioButton.setId(0);
+
+
+        radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
+        radioButton.setText("Finish");
+
+
+        radioButton.setTextSize(16);
+        Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+        radioButton.setBackground(dr);
+
+        radioButton.setGravity(Gravity.CENTER);
+
+        radioButton.setButtonDrawable(new StateListDrawable());
+        rg.addView(radioButton);
+
+
+        linearLayoutRg.addView(rg);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                finish();
+            }
+        });
+
+        adapter.notifyItemInserted(dialogs.size());
+        rcv.scrollToPosition(dialogs.size());
+        //linearLayoutRg.setVisibility(View.VISIBLE);
+        makeEditable(false);
     }
 
 

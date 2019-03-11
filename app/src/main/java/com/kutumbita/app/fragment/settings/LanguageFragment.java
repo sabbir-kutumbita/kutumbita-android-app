@@ -59,7 +59,9 @@ public class LanguageFragment extends Fragment {
 
                     preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
                     Utility.detectLanguage("en", getContext());
+
                 }
+
                 Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
                 getActivity().sendBroadcast(intent);
 
