@@ -178,7 +178,8 @@ public class ChatBotActivity extends AppCompatActivity {
                             tempDialog.setSender(Dialog.SENDER_BOT);
                             tempDialog.setQuestion(tempSurvey.getQuestion());
                             tempDialog.setAnswerType(Dialog.SENDER_BOT);
-                            dialogs.add(tempDialog);
+                            refreshRecycleView(tempDialog);
+
                             loadFinishRadioButton();
                             return;
                         }
@@ -211,6 +212,13 @@ public class ChatBotActivity extends AppCompatActivity {
         }
     };
 
+    private void refreshRecycleView(Dialog d) {
+
+        dialogs.add(d);
+        adapter.notifyItemInserted(dialogs.size()-1);
+        rcv.scrollToPosition(dialogs.size()-1);
+    }
+
 
     private void loadChatMessage() {
 
@@ -230,7 +238,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
         // makeEditable(false);
         Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), Dialog.SENDER_BOT, null);
-        dialogs.add(tempDialog);
+        refreshRecycleView(tempDialog);
 
 
         loadFinishRadioButton();
@@ -242,13 +250,12 @@ public class ChatBotActivity extends AppCompatActivity {
     private void loadNormalMessage() {
 
 
-
-
         final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
 
 
         Dialog d = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), tempSurvey.getAnswer_type(), tempSurvey.getAnswers());
-        dialogs.add(d);
+
+        refreshRecycleView(d);
         linearLayoutRg.removeAllViews();
 
         switch (tempSurvey.getAnswer_type().toLowerCase()) {
@@ -386,9 +393,8 @@ public class ChatBotActivity extends AppCompatActivity {
 
         }
 
-        adapter.notifyItemInserted(dialogs.size());
-        rcv.scrollToPosition(dialogs.size());
 
+        //findViewById(R.id.rlMain).invalidate();
 
     }
 
@@ -399,7 +405,7 @@ public class ChatBotActivity extends AppCompatActivity {
         tempDialog.setSender(Dialog.SENDER_USER);
         tempDialog.setQuestion(tempSurvey.getUser_answer().get(0).getTitle());
         tempDialog.setAnswerType(Dialog.SENDER_USER);
-        dialogs.add(tempDialog);
+        refreshRecycleView(tempDialog);
 
 
         if (socket.connected()) {
@@ -457,9 +463,8 @@ public class ChatBotActivity extends AppCompatActivity {
             }
         }
         etAnswer.setText("");
-        adapter.notifyItemInserted(dialogs.size());
-        rcv.scrollToPosition(dialogs.size());
 
+        //findViewById(R.id.rlMain).invalidate();
 
     }
 
@@ -554,10 +559,11 @@ public class ChatBotActivity extends AppCompatActivity {
             }
         });
 
-        adapter.notifyItemInserted(dialogs.size());
-        rcv.scrollToPosition(dialogs.size());
+
         //linearLayoutRg.setVisibility(View.VISIBLE);
+
         makeEditable(false);
+       // findViewById(R.id.rlMain).invalidate();
     }
 
 
