@@ -1,6 +1,6 @@
-package com.kutumbita.app.bot.chat;
+package com.kutumbita.app.chat;
 
-import com.kutumbita.app.bot.survey.Survey;
+import com.kutumbita.app.chat.Survey;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kutumbita.app.R;
-import com.kutumbita.app.bot.chat.Dialog;
-import com.kutumbita.app.bot.survey.Message;
+import com.kutumbita.app.chat.Dialog;
+
 
 import java.util.Collections;
 import java.util.List;

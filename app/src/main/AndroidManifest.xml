@@ -52,7 +52,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SurveyBotActivity" />
         <activity android:name=".ChatBotActivity" />
         <activity android:name=".SettingsActivity"></activity>
 

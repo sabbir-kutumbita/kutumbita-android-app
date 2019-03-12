@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kutumbita.app.adapter.ChatAdapter;
-import com.kutumbita.app.bot.chat.Dialog;
-import com.kutumbita.app.bot.survey.Survey;
+import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.chat.Survey;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
@@ -78,6 +78,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
 
         adapter = new ChatAdapter(this, dialogs);
+
         rcv.setAdapter(adapter);
         socket = GlobalData.getInstance().getmSocket();
         socketSetup(true);
