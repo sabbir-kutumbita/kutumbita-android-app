@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.model.Inbox;
 
 
 import java.util.Collections;
@@ -59,7 +61,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         switch (viewHolder.getItemViewType()) {
             case MESSAGE_TYPE_USER:
-                ((RightViewHolder) viewHolder).bind(d);
+
+                ((RightViewHolder) viewHolder).bind(d, position == dialogs.size() - 2);
                 break;
             case MESSAGE_TYPE_BOT:
                 ((LeftViewHolder) viewHolder).bind(d);
@@ -103,7 +106,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
         void bind(Dialog dialog) {
 
 
-
             tv.setText(dialog.getQuestion());
 
         }
@@ -114,21 +116,47 @@ public class ChatAdapter extends RecyclerView.Adapter {
     class RightViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv;
+        ImageView ivMenu;
 
         public RightViewHolder(@NonNull View itemView) {
             super(itemView);
             tv = itemView.findViewById(R.id.tvMessage);
+            ivMenu = itemView.findViewById(R.id.ivMenu);
 
         }
 
-        void bind(Dialog dialog) {
+        void bind(Dialog dialog, boolean isVisible) {
 
-
-
+            if (isVisible) {
+                if (dialogs.size() > 3)
+                    ivMenu.setVisibility(View.VISIBLE);
+                else
+                    ivMenu.setVisibility(View.INVISIBLE);
+            } else
+                ivMenu.setVisibility(View.INVISIBLE);
 
             tv.setText(dialog.getQuestion());
+
+            ivMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onReloadClick();
+                }
+            });
         }
 
 
+    }
+
+    OnReloadItemClickListener listener;
+
+    public void setOnReloadItemClickListener(OnReloadItemClickListener listener) {
+
+        this.listener = listener;
+    }
+
+    public interface OnReloadItemClickListener {
+
+        void onReloadClick();
     }
 }

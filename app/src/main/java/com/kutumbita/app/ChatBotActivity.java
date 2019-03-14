@@ -55,14 +55,13 @@ public class ChatBotActivity extends AppCompatActivity {
     ArrayList<Dialog> dialogs = new ArrayList<>();
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
-
+    ArrayList<Survey> surveys;
     EditText etAnswer;
     ChatAdapter adapter;
     Survey tempSurvey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_bot);
@@ -76,9 +75,24 @@ public class ChatBotActivity extends AppCompatActivity {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rcv.setLayoutManager(manager);
 
-
+        surveys = new ArrayList<>();
         adapter = new ChatAdapter(this, dialogs);
+        adapter.setOnReloadItemClickListener(new ChatAdapter.OnReloadItemClickListener() {
+            @Override
+            public void onReloadClick() {
 
+                int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+                for (int i = 0; i < termination; i++) {
+                    dialogs.remove(dialogs.size() - 1);
+                }
+
+                surveys.remove(surveys.size() - 1);
+
+               // adapter.notifyDataSetChanged();
+                tempSurvey = surveys.get(surveys.size() - 1);
+                sendMessage();
+            }
+        });
         rcv.setAdapter(adapter);
         socket = GlobalData.getInstance().getmSocket();
         socketSetup(true);
@@ -134,6 +148,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
                         }
                         tempSurvey.setAnswers(tempAnswers);
+                        //  surveys.add(tempSurvey);
                         loadChatMessage();
                     } catch (Exception e) {
 
@@ -180,6 +195,8 @@ public class ChatBotActivity extends AppCompatActivity {
                             tempDialog.setQuestion(tempSurvey.getQuestion());
                             tempDialog.setAnswerType(Dialog.SENDER_BOT);
                             refreshRecycleView(tempDialog);
+                            // surveys.add(tempSurvey);
+
 
                             loadFinishRadioButton();
                             return;
@@ -197,7 +214,7 @@ public class ChatBotActivity extends AppCompatActivity {
                         }
 
                         tempSurvey.setAnswers(tempAnswers);
-
+                        // surveys.add(tempSurvey);
                         loadChatMessage();
                     } catch (Exception e) {
 
@@ -216,8 +233,9 @@ public class ChatBotActivity extends AppCompatActivity {
     private void refreshRecycleView(Dialog d) {
 
         dialogs.add(d);
-        adapter.notifyItemInserted(dialogs.size()-1);
-        rcv.scrollToPosition(dialogs.size()-1);
+        //adapter.notifyItemInserted(dialogs.size()-1);
+        adapter.notifyDataSetChanged();
+        rcv.scrollToPosition(dialogs.size() - 1);
     }
 
 
@@ -317,7 +335,7 @@ public class ChatBotActivity extends AppCompatActivity {
                         userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
 
                         tempSurvey.setUser_answer(userAnswers);
-
+                        surveys.add(tempSurvey);
                         sendMessage();
                     }
                 });
@@ -401,7 +419,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
     private void sendMessage() {
 
-
+        //surveys.add(tempSurvey);
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
         tempDialog.setQuestion(tempSurvey.getUser_answer().get(0).getTitle());
@@ -476,6 +494,7 @@ public class ChatBotActivity extends AppCompatActivity {
             return;
         tempSurvey.getAnswers().get(0).setTitle(etAnswer.getText().toString());
         tempSurvey.setUser_answer(tempSurvey.getAnswers());
+        surveys.add(tempSurvey);
         sendMessage();
         Utility.hideKeyboard(ChatBotActivity.this);
 
@@ -564,7 +583,7 @@ public class ChatBotActivity extends AppCompatActivity {
         //linearLayoutRg.setVisibility(View.VISIBLE);
 
         makeEditable(false);
-       // findViewById(R.id.rlMain).invalidate();
+        // findViewById(R.id.rlMain).invalidate();
     }
 
 

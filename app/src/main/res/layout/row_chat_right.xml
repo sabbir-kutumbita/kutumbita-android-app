@@ -19,4 +19,14 @@
         android:textColor="@color/primaryTextColor"
         android:textSize="@dimen/sixteen_sp" />
 
+    <ImageView
+
+        android:id="@+id/ivMenu"
+        android:layout_width="@dimen/thirty_five_dp"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tvMessage"
+        android:src="@drawable/ic_blur_circular_black_24dp"
+        android:visibility="visible" />
+
 </RelativeLayout>
