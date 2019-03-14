@@ -1,10 +1,8 @@
 package com.kutumbita.app.fragment.inbox;
 
 
-import android.databinding.DataBindingUtil;
+
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,10 @@ import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.DateUtility;
 import com.kutumbita.app.utility.Utility;
 import com.squareup.picasso.Picasso;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.

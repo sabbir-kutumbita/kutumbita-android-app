@@ -21,7 +21,7 @@
             android:layout_marginTop="@dimen/hundread_dp"
             android:src="@drawable/kutumbita_without_logo" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passWraper"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
@@ -31,23 +31,24 @@
             app:passwordToggleEnabled="true">
 
             9lfHcJ9P
-            <android.support.design.widget.TextInputEditText
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="@string/password"
-                android:text=""
                 android:inputType="textPassword"
+                android:text=""
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
                 android:textSize="@dimen/fifteen_sp" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--talha@kutumbita.com-->
         <!--Password : oGLYW5L1-->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailWrapper"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
@@ -58,8 +59,7 @@
             android:layout_marginBottom="@dimen/ten_dp">
 
 
-
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/grey"
@@ -71,11 +71,10 @@
                 android:textSize="@dimen/fifteen_sp" />
 
 
+        </com.google.android.material.textfield.TextInputLayout>
 
-        </android.support.design.widget.TextInputLayout>
 
-
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bSignIn"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
@@ -91,7 +90,7 @@
             android:textColor="@color/secondaryTextColor"
             android:textSize="@dimen/fifteen_sp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bForgotPassword"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
@@ -99,14 +98,14 @@
             android:layout_below="@+id/bSignIn"
             android:layout_marginLeft="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/sixty_dp"
-            android:background="@color/primaryColor"
+            android:background="@android:color/transparent"
             android:fontFamily="@font/circularstd_book"
             android:text="@string/forgot_your_password"
             android:textAllCaps="false"
             android:textColor="@color/primaryColor"
             android:textSize="@dimen/fifteen_sp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bReqForAccount"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
@@ -114,7 +113,7 @@
             android:layout_below="@+id/bForgotPassword"
             android:layout_marginLeft="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/sixty_dp"
-            android:background="@color/primaryColor"
+            android:background="@android:color/transparent"
             android:fontFamily="@font/circularstd_book"
             android:text="@string/request_for_account"
             android:textAllCaps="false"

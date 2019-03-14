@@ -4,9 +4,7 @@ package com.kutumbita.app.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.annotation.Nullable;
-import android.support.design.button.MaterialButton;
-import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.button.MaterialButton;
 import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
 import com.kutumbita.app.MainActivity;
@@ -41,6 +40,9 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.

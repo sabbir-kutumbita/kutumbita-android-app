@@ -1,7 +1,6 @@
 package com.kutumbita.app;
 
-import android.support.transition.Slide;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.widget.TextView;
 
 import com.kutumbita.app.fragment.SettingsFragment;
 import com.kutumbita.app.fragment.settings.LanguageFragment;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 

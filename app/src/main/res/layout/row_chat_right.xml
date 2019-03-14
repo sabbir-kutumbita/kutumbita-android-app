@@ -26,7 +26,7 @@
         android:layout_height="@dimen/thirty_five_dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/tvMessage"
-        android:src="@drawable/ic_blur_circular_black_24dp"
+        android:src="@drawable/ic_autorenew_black_24dp"
         android:visibility="visible" />
 
 </RelativeLayout>

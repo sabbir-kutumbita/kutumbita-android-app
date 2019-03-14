@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="9">
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">
@@ -77,7 +77,7 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/eighteen_sp"
                     tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
 

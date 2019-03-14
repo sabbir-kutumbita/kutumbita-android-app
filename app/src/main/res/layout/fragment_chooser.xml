@@ -27,12 +27,12 @@
             android:layout_below="@+id/ivKutumBita"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:textColor="@color/primaryTextColor"
             android:fontFamily="@font/circularstd_medium"
             android:text="@string/all_your_work_in_one_place"
+            android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/eighteen_sp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bReqForAccount"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
             android:textSize="@dimen/fifteen_sp" />
 
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bSignIn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
