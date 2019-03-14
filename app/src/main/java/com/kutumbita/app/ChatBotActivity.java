@@ -135,6 +135,8 @@ public class ChatBotActivity extends AppCompatActivity {
                             JSONArray answerArray = obj.getJSONArray("answers");
                             tempAnswers.clear();
                             for (int i = 0; i < answerArray.length(); i++) {
+
+
                                 JSONObject answerObj = answerArray.getJSONObject(i);
 
                                 tempAnswers.add(new Survey.Answer(answerObj.getString("title"),
@@ -501,7 +503,16 @@ public class ChatBotActivity extends AppCompatActivity {
     }
 
 
-    private void socketSetup(boolean connect) {
+    private void
+
+
+
+
+
+
+
+
+    socketSetup(boolean connect) {
         if (connect) {
             socket.connect();
             socket.on(Socket.EVENT_CONNECT, OnSocketConnected);
