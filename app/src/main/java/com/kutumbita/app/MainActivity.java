@@ -57,121 +57,120 @@ public class MainActivity extends AppCompatActivity {
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                String tag = null;
-                Fragment fragment = null;
-                if (currentFragment == null) {
-                    currentFragment = getSupportFragmentManager().findFragmentById(R.id.frMain);
-                }
+//                String tag = null;
+//                Fragment fragment = null;
+//                if (currentFragment == null) {
+//                    currentFragment = getSupportFragmentManager().findFragmentById(R.id.frMain);
+//                }
+//
+//
+//                switch (menuItem.getItemId()) {
+//
+//                    case R.id.item_home:
+//
+//                        if (!(currentFragment instanceof HomeFragment)) {
+//                            fragment = getSupportFragmentManager().findFragmentByTag("home");
+//                            if (fragment == null) {
+//                                fragment = new HomeFragment();
+//                                tag = "home";
+//                                shouldShow = false;
+//                            } else {
+//
+//                                shouldShow = true;
+//                            }
+//                        }
+//                        break;
+//                    case R.id.item_chat:
+//
+//                        if (!(currentFragment instanceof ChatFragment)) {
+//                            fragment = getSupportFragmentManager().findFragmentByTag("chat");
+//                            if (fragment == null) {
+//                                fragment = new ChatFragment();
+//                                tag = "chat";
+//                                shouldShow = false;
+//                            } else {
+//
+//                                shouldShow = true;
+//                            }
+//                        }
+//                        break;
+//
+//                    case R.id.item_inbox:
+//
+//                        if (!(currentFragment instanceof InboxFragment)) {
+//                            fragment = getSupportFragmentManager().findFragmentByTag("inbox");
+//                            if (fragment == null) {
+//                                fragment = new InboxFragment();
+//                                tag = "inbox";
+//                                shouldShow = false;
+//                            } else {
+//
+//                                shouldShow = true;
+//                            }
+//                        }
+//                        break;
+//
+//                    case R.id.item_me:
+//                        if (!(currentFragment instanceof MeFragment)) {
+//                            fragment = getSupportFragmentManager().findFragmentByTag("me");
+//                            if (fragment == null) {
+//                                fragment = new MeFragment();
+//                                tag = "me";
+//                                shouldShow = false;
+//                            } else {
+//
+//                                shouldShow = true;
+//                            }
+//                        }
+//                        break;
+//
+//                }
+//                if (fragment != null) {
+//                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//
+//                    if (shouldShow) {
+//
+//                        fragmentTransaction.hide(currentFragment);
+//                        fragmentTransaction.show(fragment);
+//                    } else {
+//                        fragmentTransaction.hide(currentFragment);
+//                        fragmentTransaction.add(R.id.frMain, fragment, tag);
+//                    }
+//                    fragmentTransaction.commit();
+//                    currentFragment = fragment;
+//                }
 
 
                 switch (menuItem.getItemId()) {
 
                     case R.id.item_home:
 
-                        if (!(currentFragment instanceof HomeFragment)) {
-                            fragment = getSupportFragmentManager().findFragmentByTag("home");
-                            if (fragment == null) {
-                                fragment = new HomeFragment();
-                                tag = "home";
-                                shouldShow = false;
-                            } else {
 
-                                shouldShow = true;
-                            }
-                        }
+                        loadHomeFragment();
+
+
                         break;
+
+
                     case R.id.item_chat:
 
-                        if (!(currentFragment instanceof ChatFragment)) {
-                            fragment = getSupportFragmentManager().findFragmentByTag("chat");
-                            if (fragment == null) {
-                                fragment = new ChatFragment();
-                                tag = "chat";
-                                shouldShow = false;
-                            } else {
+                        loadChatFragment();
 
-                                shouldShow = true;
-                            }
-                        }
                         break;
 
                     case R.id.item_inbox:
 
-                        if (!(currentFragment instanceof InboxFragment)) {
-                            fragment = getSupportFragmentManager().findFragmentByTag("inbox");
-                            if (fragment == null) {
-                                fragment = new InboxFragment();
-                                tag = "inbox";
-                                shouldShow = false;
-                            } else {
+                        loadInboxFragment();
 
-                                shouldShow = true;
-                            }
-                        }
                         break;
 
                     case R.id.item_me:
-                        if (!(currentFragment instanceof MeFragment)) {
-                            fragment = getSupportFragmentManager().findFragmentByTag("me");
-                            if (fragment == null) {
-                                fragment = new MeFragment();
-                                tag = "me";
-                                shouldShow = false;
-                            } else {
 
-                                shouldShow = true;
-                            }
-                        }
+                        loadMeFragment();
+
                         break;
 
                 }
-                if (fragment != null) {
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-                    if (shouldShow) {
-
-                        fragmentTransaction.hide(currentFragment);
-                        fragmentTransaction.show(fragment);
-                    } else {
-                        fragmentTransaction.hide(currentFragment);
-                        fragmentTransaction.add(R.id.frMain, fragment, tag);
-                    }
-                    fragmentTransaction.commit();
-                    currentFragment = fragment;
-                }
-
-
-//                switch (menuItem.getItemId()) {
-//
-//
-//                    case R.id.item_home:
-//
-//
-//                        loadHomeFragment();
-//
-//
-//                        break;
-//
-//
-//                    case R.id.item_chat:
-//
-//                        loadChatFragment();
-//
-//                        break;
-//
-//                    case R.id.item_inbox:
-//
-//                        loadInboxFragment();
-//
-//                        break;
-//
-//                    case R.id.item_me:
-//
-//                        loadMeFragment();
-//
-//                        break;
-//
-//                }
                 return true;
             }
         });

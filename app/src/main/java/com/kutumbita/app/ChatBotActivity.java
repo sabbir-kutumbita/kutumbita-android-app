@@ -36,7 +36,6 @@ public class ChatBotActivity extends AppCompatActivity {
 
     Socket socket;
 
-
     private static final String EMMIT_SURVEY_INIT = "survey:bot_activate";
 
     private static final String EMMIT_SURVEY_START = "survey:start";
@@ -47,11 +46,13 @@ public class ChatBotActivity extends AppCompatActivity {
     private static final String RECEIVE_FIRST_QUESTION = "survey:first_question";
     private static final String RECEIVE_NEXT_QUESTION = "survey:next_question";
     private static final String RECEIVE_END_QUESTION = "survey:end_question";
+
     private static final String RECEIVE_SURVEY_DEACTIVE = "survey:bot_deactivate_response";
 
 
     View layout;
     PreferenceUtility preferenceUtility;
+
     ArrayList<Dialog> dialogs = new ArrayList<>();
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
@@ -198,8 +199,6 @@ public class ChatBotActivity extends AppCompatActivity {
                             tempDialog.setAnswerType(Dialog.SENDER_BOT);
                             refreshRecycleView(tempDialog);
                             // surveys.add(tempSurvey);
-
-
                             loadFinishRadioButton();
                             return;
                         }

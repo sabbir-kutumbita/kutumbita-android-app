@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kutumbita.app">
 
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:name=".GlobalData"
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -15,22 +15,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
 
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity
             android:name=".AuthenticationActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
@@ -52,8 +52,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ChatBotActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity
+            android:name=".ChatBotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"></activity>
 
 
         <meta-data

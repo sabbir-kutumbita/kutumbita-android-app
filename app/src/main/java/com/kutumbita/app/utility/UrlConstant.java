@@ -6,10 +6,10 @@ public class UrlConstant {
    // public static final String URL_BASE = "http://10.100.1.205:5100/android/api/v1/";
 
     //global
-    //public static final String URL_BASE = "http://52.221.241.27/android/api/v1/";
+    public static final String URL_BASE = "http://52.221.241.27/android/api/v1/";
 
     //KHALED_VAI
-    public static final String URL_BASE = "http://10.100.1.77:5100/android/api/v1/";
+    //public static final String URL_BASE = "http://10.100.1.77:5100/android/api/v1/";
 
     //ALAMIN_VAI
    // public static final String URL_BASE = "http://10.100.1.158:5100/android/api/v1/";
@@ -37,8 +37,11 @@ public class UrlConstant {
     //public static final String URL_SOCKET = "https://6e94f855.ngrok.io?token=";
 
     //socket_khaled_vai
-    public static final String URL_SOCKET = "http://10.100.1.77:5222?token=";
+    //public static final String URL_SOCKET = "http://10.100.1.77:5222?token=";
 
     //socket_al_amin
     //public static final String URL_SOCKET = "http://10.100.1.158:5100?token=";
+
+    //socket_global
+    public static final String URL_SOCKET = "http://52.221.241.27:5222?token=";
 }
