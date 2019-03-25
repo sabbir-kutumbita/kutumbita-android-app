@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".fragment.HomeFragment">
+
+
+    <ImageView
+        android:id="@+id/ivK"
+        android:layout_width="@dimen/forty_dp"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/hundread_dp"
+        android:src="@drawable/k" />
+
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivK"
+        android:padding="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:fontFamily="@font/circularstd_medium"
+        android:gravity="center"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/eighteen_sp"
+        tools:text="Welcome Rameez, how can I help you?" />
+
+    <EditText
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/four_hundred_dp"
+        android:layout_height="@dimen/fifty_dp"
+        android:layout_below="@+id/tvWelcome"
+        android:layout_marginLeft="@dimen/thirty_five_dp"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginRight="@dimen/thirty_five_dp"
+        android:textColorHint="@color/dark_grey"
+        android:background="@drawable/round"
+        android:fontFamily="@font/circularstd_medium"
+        android:hint="@string/e_g_i_need_a_leave"
+        android:padding="@dimen/ten_dp"
+        android:textSize="@dimen/eighteen_sp" />
+
+</RelativeLayout>

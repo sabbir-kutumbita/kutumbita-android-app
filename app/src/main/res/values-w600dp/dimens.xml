@@ -30,4 +30,6 @@
     <dimen name="one_sixty_dp">240dp</dimen>
     <dimen name="two_hundred_dp">200dp</dimen>
     <dimen name="three_hundred_dp">450dp</dimen>
+    <dimen name="five_hundred_dp">750dp</dimen>
+    <dimen name="four_hundred_dp">600dp</dimen>
 </resources>

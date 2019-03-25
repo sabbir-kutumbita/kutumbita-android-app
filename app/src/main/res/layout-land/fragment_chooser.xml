@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".fragment.authentication.ChooserFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.authentication.ChooserFragment">
+
+
+        <ImageView
+            android:id="@+id/ivKutumBita"
+            android:layout_width="@dimen/one_eighty_dp"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/eighty_dp"
+            android:src="@drawable/kutumbita_without_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivKutumBita"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/circularstd_medium"
+            android:text="@string/all_your_work_in_one_place"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/eighteen_sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bReqForAccount"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_above="@+id/bSignIn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/sixty_dp"
+            android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/ten_dp"
+            android:background="@color/primaryColor"
+            android:fontFamily="@font/circularstd_book"
+            android:text="@string/request_for_account"
+            android:textAllCaps="false"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/fifteen_sp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bSignIn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/three_hundred_dp"
+            android:layout_height="@dimen/sixty_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/sixty_dp"
+            android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/thirty_dp"
+            android:fontFamily="@font/circularstd_book"
+            android:text="@string/sign_in"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/fifteen_sp" />
+
+    </RelativeLayout>
+</ScrollView>

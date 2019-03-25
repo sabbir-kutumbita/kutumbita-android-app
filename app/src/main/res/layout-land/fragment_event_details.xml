@@ -25,15 +25,18 @@
             android:layout_weight="0.95"
             tools:src="@drawable/name"></ImageView>
 
-        <LinearLayout
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.05"
+            android:layout_weight="1.0"
+            android:columnCount="2"
             android:orientation="vertical"
-            android:padding="@dimen/twenty_dp">
+            android:padding="@dimen/twenty_dp"
+            android:rowCount="2">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -57,8 +60,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlStar">
 
                 <ImageView
                     android:id="@+id/event"
@@ -78,12 +83,13 @@
                     android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
 
-
             </RelativeLayout>
 
             <RelativeLayout
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/rlStar">
 
                 <ImageView
                     android:id="@+id/time"
@@ -98,6 +104,7 @@
                     android:layout_marginLeft="@dimen/five_dp"
                     android:layout_toRightOf="@+id/time"
                     android:fontFamily="@font/circularstd_book"
+
                     android:textColor="@color/primaryTextColor"
                     android:textSize="@dimen/fifteen_sp"
                     tools:text="Fire extinguisher using method" />
@@ -105,8 +112,11 @@
             </RelativeLayout>
 
             <RelativeLayout
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlStar"
+                android:layout_toRightOf="@+id/rlEvent">
 
                 <ImageView
                     android:id="@+id/venue"
@@ -128,7 +138,7 @@
 
             </RelativeLayout>
 
-        </LinearLayout>
+        </GridLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -191,7 +201,7 @@
             android:padding="@dimen/twenty_dp">
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/three_hundred_dp"
                 android:layout_height="@dimen/sixty_dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/thirty_five_dp"

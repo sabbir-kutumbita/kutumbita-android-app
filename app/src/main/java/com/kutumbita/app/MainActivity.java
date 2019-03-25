@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         setContentView(R.layout.activity_main);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
@@ -254,6 +258,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }, new Response.ErrorListener() {
+
+
 
             @Override
             public void onErrorResponse(VolleyError error) {

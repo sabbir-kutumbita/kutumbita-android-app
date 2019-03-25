@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/eighty_dp">
+
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/eighty_dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/ten_dp">
+
+        <ImageView
+            android:id="@+id/ivType"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:src="@drawable/ic_me_selected" />
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/eighty_dp"
+            android:background="@color/primaryTextColor"
+            android:padding="@dimen/five_dp"
+            android:fontFamily="@font/sourcesanspro_semibold"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/ten_sp"
+            tools:text="Admin" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="@dimen/four_hundred_dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvType"
+            android:layout_marginLeft="@dimen/eighty_dp"
+            android:fontFamily="@font/sourcesanspro_regular"
+            android:maxLines="2"
+            android:padding="@dimen/two_dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/fifteen_sp"
+            tools:text="Acknowledge a recent change to you insurance rates" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sourcesanspro_regular"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/primaryTextColor"
+            android:layout_marginTop="@dimen/two_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:padding="@dimen/two_dp"
+            android:textSize="@dimen/ten_sp"
+            tools:text="25 jun" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

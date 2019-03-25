@@ -1,5 +1,6 @@
 package com.kutumbita.app;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.chat.Observer.ChatBotActivityObserver;
 import com.kutumbita.app.chat.Survey;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
@@ -25,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -64,12 +67,19 @@ public class ChatBotActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         setContentView(R.layout.activity_chat_bot);
+        getLifecycle().addObserver(new ChatBotActivityObserver());
         preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Survey");
         linearLayoutRg = findViewById(R.id.ll);
+
+
         linearLayoutEt = findViewById(R.id.ll2);
         rcv = findViewById(R.id.rcv);
         etAnswer = findViewById(R.id.etMessage);
@@ -89,7 +99,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
                 surveys.remove(surveys.size() - 1);
 
-               // adapter.notifyDataSetChanged();
+                // adapter.notifyDataSetChanged();
                 tempSurvey = surveys.get(surveys.size() - 1);
                 sendMessage();
             }
@@ -101,7 +111,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
     }
 
-    Emitter.Listener OnSocketConnected = new Emitter.Listener() {
+   public Emitter.Listener OnSocketConnected = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
 
@@ -204,6 +214,7 @@ public class ChatBotActivity extends AppCompatActivity {
                         }
                         ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
+
 
                             JSONArray answerArray = obj.getJSONArray("answers");
                             tempAnswers.clear();
@@ -502,16 +513,7 @@ public class ChatBotActivity extends AppCompatActivity {
     }
 
 
-    private void
-
-
-
-
-
-
-
-
-    socketSetup(boolean connect) {
+    private void socketSetup(boolean connect) {
         if (connect) {
             socket.connect();
             socket.on(Socket.EVENT_CONNECT, OnSocketConnected);

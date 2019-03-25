@@ -14,6 +14,7 @@ public class Dialog implements Serializable {
 
     public Dialog() {
 
+
     }
 
     public Dialog(String sender, String question, String answerType, ArrayList<Survey.Answer> answers) {

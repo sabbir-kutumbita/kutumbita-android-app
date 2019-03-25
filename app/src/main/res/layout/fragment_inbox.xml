@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.InboxFragment">
 
+
     <!-- TODO: Update blank fragment layout -->
     <include
         android:id="@+id/header"
@@ -20,7 +21,6 @@
             android:id="@+id/rcvInbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             tools:itemCount="10"
             tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/row_inbox"

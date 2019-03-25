@@ -1,5 +1,6 @@
 package com.kutumbita.app;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -54,6 +55,9 @@ public class InboxDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         setContentView(R.layout.activity_inbox_details);
         Utility.setFullScreen(this);
         uuID = getIntent().getStringExtra(Constant.EXTRA_UUID);

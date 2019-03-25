@@ -29,4 +29,6 @@
     <dimen name="one_sixty_dp">160dp</dimen>
     <dimen name="two_hundred_dp">200dp</dimen>
     <dimen name="three_hundred_dp">300dp</dimen>
+    <dimen name="five_hundred_dp">500dp</dimen>
+    <dimen name="four_hundred_dp">400dp</dimen>
 </resources>

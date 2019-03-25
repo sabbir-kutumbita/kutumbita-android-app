@@ -2,6 +2,7 @@ package com.kutumbita.app;
 
 import android.content.Intent;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 
@@ -19,6 +20,9 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         setContentView(R.layout.activity_splash);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);

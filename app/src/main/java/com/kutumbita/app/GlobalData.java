@@ -40,6 +40,7 @@ public class GlobalData extends Application {
 
         }
         mInstance = this;
+
     }
 
     public void initializeSocket() {
