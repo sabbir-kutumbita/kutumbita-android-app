@@ -3,8 +3,6 @@ package com.kutumbita.app.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +11,14 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.button.MaterialButton;
-import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
-import com.kutumbita.app.MainActivity;
 import com.kutumbita.app.R;
 import com.kutumbita.app.SettingsActivity;
-import com.kutumbita.app.SplashActivity;
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.DateUtility;
@@ -186,44 +179,44 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         textViewAccountName.setText(preferenceUtility.getMe().getName());
         Picasso.get().load(preferenceUtility.getMe().getAvatar()).into(avatar);
 
-        ((TextView) titleLayout.findViewById(R.id.key)).setText("Position");
+        ((TextView) titleLayout.findViewById(R.id.key)).setText(getString(R.string.position));
         ((TextView) titleLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPosition());
         ((ImageView) titleLayout.findViewById(R.id.icon)).setImageResource(R.drawable.designation);
 
-        ((TextView) positionLayout.findViewById(R.id.key)).setText("Department");
+        ((TextView) positionLayout.findViewById(R.id.key)).setText(getString(R.string.department));
         ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getDepartment());
         ((ImageView) positionLayout.findViewById(R.id.icon)).setImageResource(R.drawable.position);
 
-        ((TextView) companyNameLayout.findViewById(R.id.key)).setText("Company");
+        ((TextView) companyNameLayout.findViewById(R.id.key)).setText(getString(R.string.company));
         ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getFactory());
         ((ImageView) companyNameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.company_name);
 
-        ((TextView) mblNumberLayout.findViewById(R.id.key)).setText("Phone");
+        ((TextView) mblNumberLayout.findViewById(R.id.key)).setText(getString(R.string.phone));
         ((TextView) mblNumberLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getPhone());
         ((ImageView) mblNumberLayout.findViewById(R.id.icon)).setImageResource(R.drawable.mobile_number);
 
-        ((TextView) addressLayout.findViewById(R.id.key)).setText("Address");
+        ((TextView) addressLayout.findViewById(R.id.key)).setText(getString(R.string.address));
         ((TextView) addressLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getAddress());
         ((ImageView) addressLayout.findViewById(R.id.icon)).setImageResource(R.drawable.present_address);
 
-        ((TextView) nIdLayout.findViewById(R.id.key)).setText("National ID");
+        ((TextView) nIdLayout.findViewById(R.id.key)).setText(getString(R.string.nid));
         ((TextView) nIdLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getnId());
         ((ImageView) nIdLayout.findViewById(R.id.icon)).setImageResource(R.drawable.nid);
 
-        ((TextView) joiningDateLayout.findViewById(R.id.key)).setText("Joining Date");
+        ((TextView) joiningDateLayout.findViewById(R.id.key)).setText(getString(R.string.joining_date));
         ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy",
                 preferenceUtility.getMe().getJoinedDate()));
         ((ImageView) joiningDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
 
-        ((TextView) jobTypeLayout.findViewById(R.id.key)).setText("Job Type");
+        ((TextView) jobTypeLayout.findViewById(R.id.key)).setText(getString(R.string.job_type));
         ((TextView) jobTypeLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getJobType());
         ((ImageView) jobTypeLayout.findViewById(R.id.icon)).setImageResource(R.drawable.job_type);
 
-        ((TextView) emergencyLayout.findViewById(R.id.key)).setText("Emergency Phone");
+        ((TextView) emergencyLayout.findViewById(R.id.key)).setText(getString(R.string.emergency_phone));
         ((TextView) emergencyLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getEmergencyPhone());
         ((ImageView) emergencyLayout.findViewById(R.id.icon)).setImageResource(R.drawable.emergency_contact);
 
-        ((TextView) bloodGroupLayout.findViewById(R.id.key)).setText("Blood Group");
+        ((TextView) bloodGroupLayout.findViewById(R.id.key)).setText(getString(R.string.blood_group));
         ((TextView) bloodGroupLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getBloodGroup());
         ((ImageView) bloodGroupLayout.findViewById(R.id.icon)).setImageResource(R.drawable.blood_group);
 
@@ -305,6 +298,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 //                break;
 //
 //        }
+
+
+
+
+
     }
 
     @Override

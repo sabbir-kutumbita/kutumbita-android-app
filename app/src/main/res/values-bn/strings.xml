@@ -44,5 +44,17 @@
     <string name="request_for_account">অ্যাকাউন্ট এর জন্য আবেদন করুন</string>
     <string name="home">হোম</string>
     <string name="welcome">স্বাগতম&#160;</string>
+    <string name="position">পদবী</string>
+    <string name="phone">ফোন</string>
+    <string name="address">ঠিকানা</string>
+    <string name="nid">জাতীয় আইডি</string>
+    <string name="joining_date">যোগদানের তারিখ</string>
+    <string name="job_type">চাকরির ধরন</string>
+    <string name="emergency_phone">জরুরী ফোন</string>
+    <string name="blood_group">রক্তের গ্রুপ</string>
+    <string name="department">বিভাগ</string>
+    <string name="company">কোম্পানি</string>
+
+
 
 </resources>

@@ -11,4 +11,9 @@ public class Constant {
     public static final String LANGUAGE_SETTINGS = "langSetting";
     public static final String ACTION_BROADCAST_LOGOUT = "com.kutumbita.app.LOGOUT";
     public static final String ACTION_BROADCAST_LANGUAGE_CHANGE = "com.kutumbita.app.LANG";
+
+    public static final String EVENT_SURVEY = "survey";
+    public static final String EVENT_ISSUE = "issue";
+
+    public static final String EXTRA_EVENT = "exEvent";
 }

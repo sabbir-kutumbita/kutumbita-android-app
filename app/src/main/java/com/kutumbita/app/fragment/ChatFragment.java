@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.kutumbita.app.ChatBotActivity;
 import com.kutumbita.app.R;
+import com.kutumbita.app.utility.Constant;
 
 import androidx.fragment.app.Fragment;
 
@@ -44,19 +45,25 @@ public class ChatFragment extends Fragment {
 //                Intent goSurvey = new Intent(getActivity(), SurveyBotActivity.class);
 //                startActivity(goSurvey);
 
-                Intent goChat = new Intent(getActivity(), ChatBotActivity.class);
-                startActivity(goChat);
+               goChat(Constant.EVENT_SURVEY);
             }
         });
         issueView = v.findViewById(R.id.relIssue);
         issueView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                goChat(Constant.EVENT_ISSUE);
             }
         });
 
         return v;
+    }
+
+    private void goChat(String event) {
+
+        Intent goChat = new Intent(getActivity(), ChatBotActivity.class);
+        goChat.putExtra(Constant.EXTRA_EVENT, event);
+        startActivity(goChat);
     }
 
 }

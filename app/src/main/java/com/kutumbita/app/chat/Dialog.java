@@ -10,6 +10,7 @@ public class Dialog implements Serializable {
 
     private String question, answerType, sender;
     private ArrayList<Survey.Answer> answers;
+    private boolean isEnd = false;
 
     public static final String SENDER_USER = "user";
     public static final String SENDER_BOT = "bot";
@@ -24,6 +25,14 @@ public class Dialog implements Serializable {
         this.answerType = answerType;
         this.answers = answers;
 
+    }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
+
+    public void setEnd(boolean end) {
+        isEnd = end;
     }
 
     public String getSender() {

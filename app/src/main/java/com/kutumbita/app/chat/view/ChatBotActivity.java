@@ -1,4 +1,4 @@
-package com.kutumbita.app;
+package com.kutumbita.app.chat.view;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
@@ -14,6 +14,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kutumbita.app.GlobalData;
+import com.kutumbita.app.R;
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.chat.Dialog;
 import com.kutumbita.app.chat.observer.ChatBotActivityObserver;
@@ -58,7 +60,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
 
     View layout;
-    PreferenceUtility preferenceUtility;
+
 
     ArrayList<Dialog> dialogs = new ArrayList<>();
     LinearLayout linearLayoutRg, linearLayoutEt;
@@ -71,20 +73,13 @@ public class ChatBotActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
-        if (getResources().getBoolean(R.bool.portrait_only)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-        setContentView(R.layout.activity_chat_bot);
-        // getLifecycle().addObserver(new ChatBotActivityObserver());
+        setContentView(R.layout.activity_chat_bot_mv);
         TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
-        preferenceUtility = new PreferenceUtility(this);
+        getLifecycle().addObserver(new ChatBotActivityObserver());
         layout = findViewById(R.id.header);
-        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(TYPE.substring(0, 1).toUpperCase() + TYPE.substring(1));
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText("Survey");
         linearLayoutRg = findViewById(R.id.ll);
-
-
         linearLayoutEt = findViewById(R.id.ll2);
         rcv = findViewById(R.id.rcv);
         etAnswer = findViewById(R.id.etMessage);
@@ -184,7 +179,6 @@ public class ChatBotActivity extends AppCompatActivity {
 
     Emitter.Listener getQuestion = new Emitter.Listener() {
 
-
         @Override
         public void call(final Object... args) {
 
@@ -213,7 +207,6 @@ public class ChatBotActivity extends AppCompatActivity {
                             tempDialog.setSender(Dialog.SENDER_BOT);
                             tempDialog.setQuestion(tempSurvey.getQuestion());
                             tempDialog.setAnswerType(Dialog.SENDER_BOT);
-                            tempDialog.setEnd(tempSurvey.isEnd());
                             refreshRecycleView(tempDialog);
                             // surveys.add(tempSurvey);
                             loadFinishRadioButton();
@@ -254,7 +247,7 @@ public class ChatBotActivity extends AppCompatActivity {
         dialogs.add(d);
         //adapter.notifyItemInserted(dialogs.size()-1);
         adapter.notifyDataSetChanged();
-        rcv.smoothScrollToPosition(dialogs.size() - 1);
+        rcv.scrollToPosition(dialogs.size() - 1);
     }
 
 

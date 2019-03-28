@@ -36,9 +36,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
 
+
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+
 
         if (viewType == MESSAGE_TYPE_USER) {
 
@@ -51,6 +54,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
             View v = inflater.inflate(R.layout.row_chat_left, viewGroup, false);
             LeftViewHolder viewHolder = new LeftViewHolder(v);
             return viewHolder;
+
         }
 
         return null;
@@ -64,7 +68,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         switch (viewHolder.getItemViewType()) {
             case MESSAGE_TYPE_USER:
 
-                ((RightViewHolder) viewHolder).bind(d, position == dialogs.size() - 2);
+                ((RightViewHolder) viewHolder).bind(d, position == dialogs.size() - 2, d.isEnd());
                 break;
             case MESSAGE_TYPE_BOT:
                 ((LeftViewHolder) viewHolder).bind(d);
@@ -127,10 +131,10 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bind(Dialog dialog, boolean isVisible) {
+        void bind(Dialog dialog, boolean isVisible, boolean isEnd) {
 
             if (isVisible) {
-                if (dialogs.size() > 3)
+                if (dialogs.size() > 3 && !isEnd)
                     ivMenu.setVisibility(View.VISIBLE);
                 else
                     ivMenu.setVisibility(View.INVISIBLE);

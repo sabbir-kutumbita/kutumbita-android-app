@@ -1,6 +1,5 @@
-package com.kutumbita.app.chat.Observer;
+package com.kutumbita.app.chat.observer;
 
-import com.kutumbita.app.ChatBotActivity;
 import com.kutumbita.app.GlobalData;
 
 import androidx.lifecycle.Lifecycle;

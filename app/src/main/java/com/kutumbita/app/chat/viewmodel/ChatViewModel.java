@@ -15,28 +15,9 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
 
-    public class MyObserver implements LifecycleObserver {
+    public void connectSocket(String data){
 
 
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        public void startMusic() {
-//            if (lifecycle.getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-//
-//
-//
-//
-//            }
-
-        }
-
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        public void stopMusic() {
-
-
-
-        }
 
     }
 }
