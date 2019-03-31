@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.kutumbita.app.fragment.SettingsFragment;
 import com.kutumbita.app.fragment.settings.LanguageFragment;
+import com.kutumbita.app.utility.Utility;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,9 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getResources().getBoolean(R.bool.portrait_only)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_settings);
         setFragment();
 

@@ -42,9 +42,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getResources().getBoolean(R.bool.portrait_only)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_authentication);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);

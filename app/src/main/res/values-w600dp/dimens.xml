@@ -32,4 +32,5 @@
     <dimen name="three_hundred_dp">450dp</dimen>
     <dimen name="five_hundred_dp">750dp</dimen>
     <dimen name="four_hundred_dp">600dp</dimen>
+    <dimen name="two_hundred_dp_fifty_dp">375dp</dimen>
 </resources>

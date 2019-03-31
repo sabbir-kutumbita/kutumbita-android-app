@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,9 +74,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        if (getResources().getBoolean(R.bool.portrait_only)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_chat_bot);
         // getLifecycle().addObserver(new ChatBotActivityObserver());
         TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
@@ -254,7 +253,7 @@ public class ChatBotActivity extends AppCompatActivity {
         dialogs.add(d);
         //adapter.notifyItemInserted(dialogs.size()-1);
         adapter.notifyDataSetChanged();
-        rcv.smoothScrollToPosition(dialogs.size() - 1);
+        rcv.scrollToPosition(dialogs.size() - 1);
     }
 
 
@@ -542,17 +541,37 @@ public class ChatBotActivity extends AppCompatActivity {
     }
 
     private void makeEditable(boolean b) {
+
+
         if (b) {
+
+
             linearLayoutEt.setVisibility(View.VISIBLE);
             linearLayoutRg.setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rcv.getLayoutParams();
+
+            layoutParams.addRule(RelativeLayout.ABOVE, R.id.ll2);
+
+            rcv.setLayoutParams(layoutParams);
 
 
         } else {
 
+
             linearLayoutRg.setVisibility(View.VISIBLE);
             linearLayoutEt.setVisibility(View.GONE);
 
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rcv.getLayoutParams();
+
+            layoutParams.addRule(RelativeLayout.ABOVE, R.id.ll);
+
+            rcv.setLayoutParams(layoutParams);
+
         }
+
+
     }
 
     private void loadFinishRadioButton() {

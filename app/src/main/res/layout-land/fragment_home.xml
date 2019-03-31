@@ -12,7 +12,7 @@
         android:layout_width="@dimen/forty_dp"
         android:layout_height="@dimen/forty_dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/hundread_dp"
+        android:layout_marginTop="@dimen/sixty_dp"
         android:src="@drawable/k" />
 
 
@@ -31,7 +31,7 @@
 
     <EditText
         android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/four_hundred_dp"
+        android:layout_width="@dimen/three_hundred_dp"
         android:layout_height="@dimen/fifty_dp"
         android:layout_below="@+id/tvWelcome"
         android:layout_marginLeft="@dimen/thirty_five_dp"

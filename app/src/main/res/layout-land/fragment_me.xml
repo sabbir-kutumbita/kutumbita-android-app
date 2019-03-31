@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".fragment.MeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/appBackground">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header"></include>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/seventy_dp"
+            android:layout_height="@dimen/seventy_dp"
+            android:layout_below="@+id/header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:src="@drawable/ic_person_black_24dp"
+            app:civ_border_color="@color/secondaryTextColor"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/five_dp"
+            android:fontFamily="@font/circularstd_medium"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/eighteen_sp"
+            tools:text="Sabbir Ahmed" />
+
+        <include
+            android:id="@+id/tvTitleField"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginTop="@dimen/twenty_dp"></include>
+
+        <include
+            android:id="@+id/tvPositionField"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitleField"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+        <include
+            android:id="@+id/tvCompanyNameField"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPositionField"
+            android:layout_marginTop="@dimen/one_dp"></include>
+
+        <include
+
+            android:id="@+id/tvMobileNum"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCompanyNameField"
+            android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+
+        <include
+
+            android:id="@+id/tvNationalId"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMobileNum"></include>
+
+        <include
+            android:id="@+id/tvAddress"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvNationalId"></include>
+
+
+        <include
+            android:id="@+id/tvJoiningDate"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddress"
+            android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+        <include
+            android:id="@+id/tvJobType"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvJoiningDate"></include>
+
+        <include
+            android:id="@+id/tvEmergencyContact"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvJobType"></include>
+
+
+        <include
+            android:id="@+id/tvBloodGroup"
+            layout="@layout/me_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEmergencyContact"
+            android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+
+    </RelativeLayout>
+
+</ScrollView>

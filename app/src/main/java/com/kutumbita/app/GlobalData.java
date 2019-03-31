@@ -1,6 +1,7 @@
 package com.kutumbita.app;
 
 import android.app.Application;
+import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -27,12 +28,13 @@ public class GlobalData extends Application {
     PreferenceUtility preferenceUtility;
     private static GlobalData mInstance;
     private Socket mSocket;
+    private int orientation;
 
     @Override
     public void onCreate() {
         super.onCreate();
         preferenceUtility = new PreferenceUtility(this);
-        String lan=preferenceUtility.getString(Constant.LANGUAGE_SETTINGS);
+        String lan = preferenceUtility.getString(Constant.LANGUAGE_SETTINGS);
         Utility.detectLanguage(lan, this);
         if (preferenceUtility.getMe() != null) {
 
@@ -40,7 +42,15 @@ public class GlobalData extends Application {
 
         }
         mInstance = this;
+        orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+    }
 
+    public int getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(int orientation) {
+        this.orientation = orientation;
     }
 
     public void initializeSocket() {

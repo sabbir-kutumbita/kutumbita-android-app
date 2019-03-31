@@ -2,12 +2,15 @@ package com.kutumbita.app.utility;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import com.kutumbita.app.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,9 +34,22 @@ public class Utility {
 //                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
 //        c.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         c.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+    }
+
+    public static void setOrientation(Activity a, int orientation){
+
+
+//        if (getResources().getBoolean(R.bool.portrait_only)) {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        }
+
+        a.setRequestedOrientation(orientation);
     }
 
     public static void hideKeyboard(Context c) {
+
         View view = ((Activity) c).getCurrentFocus();
         if (view != null) {
             ((InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE)).

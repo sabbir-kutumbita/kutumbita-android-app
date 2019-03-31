@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
+
+    <!--<style name="TheEditText">-->
+        <!--&lt;!&ndash; Used for the bottom line when not selected / focused &ndash;&gt;-->
+        <!--<item name="colorControlNormal">@color/grey</item>-->
+        <!--&lt;!&ndash; colorControlActivated & colorControlHighlight use the colorAccent color by default &ndash;&gt;-->
+    <!--</style>-->
+
 </resources>

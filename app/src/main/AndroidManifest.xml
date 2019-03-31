@@ -17,21 +17,15 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity android:name=".chat.view.ChatBotActivity"></activity>
-        <activity
-            android:name=".SplashActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AuthenticationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".AuthenticationActivity" />
+        <activity android:name=".MainActivity" />
 
         <service android:name=".fcm.TheFireBaseMessagingService">
             <intent-filter>
@@ -39,21 +33,15 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".InboxDetailsActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".InboxDetailsActivity">
             <intent-filter>
                 <action android:name="INBOX_DETAILS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ChatBotActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ChatBotActivity" />
+        <activity android:name=".SettingsActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

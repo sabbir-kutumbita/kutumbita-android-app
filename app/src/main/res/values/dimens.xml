@@ -31,4 +31,5 @@
     <dimen name="three_hundred_dp">300dp</dimen>
     <dimen name="five_hundred_dp">500dp</dimen>
     <dimen name="four_hundred_dp">400dp</dimen>
+    <dimen name="two_hundred_dp_fifty_dp">250dp</dimen>
 </resources>

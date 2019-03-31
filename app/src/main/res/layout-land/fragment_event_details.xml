@@ -201,8 +201,8 @@
             android:padding="@dimen/twenty_dp">
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="@dimen/three_hundred_dp"
-                android:layout_height="@dimen/sixty_dp"
+                android:layout_width="@dimen/two_hundred_dp"
+                android:layout_height="@dimen/forty_dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/thirty_five_dp"
                 android:layout_marginRight="@dimen/thirty_five_dp"
@@ -210,7 +210,7 @@
                 android:fontFamily="@font/circularstd_book"
                 android:text="@string/yes_i_can_join"
                 android:textAllCaps="false"
-                android:textSize="@dimen/fifteen_sp" />
+                android:textSize="@dimen/twelve_sp" />
 
         </RelativeLayout>
 

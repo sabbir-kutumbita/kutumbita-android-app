@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/actionBarSize">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/tvTbTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/circularstd_book"
+            android:text="Inbox"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/primaryTextColor" />
+
+        <ImageView
+            android:id="@+id/ivSettings"
+            android:layout_width="@dimen/twelve_dp"
+            android:layout_height="@dimen/twelve_dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/ten_dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/settings"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

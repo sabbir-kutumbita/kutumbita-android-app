@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ChatFragment">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header"></include>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:gravity="center"
+        android:text="@string/how_can_i_help_you"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/sixteen_sp" />
+
+    <include
+        android:id="@+id/tapSurvey"
+        layout="@layout/row_bot"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv"
+        android:layout_margin="@dimen/fifteen_dp"></include>
+
+    <RelativeLayout
+        android:id="@+id/relIssue"
+        android:layout_width="@dimen/eighty_dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/fifteen_dp"
+        android:layout_toRightOf="@+id/tapSurvey">
+
+
+        <ImageView
+            android:id="@+id/ivrGrid"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fifty_dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/name" />
+
+
+        <TextView
+            android:id="@+id/tvrName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivrGrid"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:fontFamily="@font/circularstd_book"
+            android:maxLength="22"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Issue"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="@dimen/fifteen_sp" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

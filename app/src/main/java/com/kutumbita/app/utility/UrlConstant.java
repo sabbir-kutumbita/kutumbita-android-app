@@ -27,6 +27,7 @@ public class UrlConstant {
     public static final String URL_INBOX_DETAILS = URL_BASE + "inbox/";
     public static final String URL_TOKEN = URL_BASE + "token";
 
+
     public static final String URL_SURVEY_SINGLE = URL_BASE + "surveys/5c372cae60b272198f3c0548";
     public static final String URL_SURVEY_ANSWER = URL_BASE + "surveys/";
 

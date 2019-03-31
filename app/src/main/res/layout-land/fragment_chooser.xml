@@ -18,7 +18,7 @@
             android:layout_width="@dimen/one_eighty_dp"
             android:layout_height="@dimen/thirty_five_dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/eighty_dp"
+            android:layout_marginTop="@dimen/thirty_dp"
             android:src="@drawable/kutumbita_without_logo" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivKutumBita"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/twenty_dp"
             android:fontFamily="@font/circularstd_medium"
             android:text="@string/all_your_work_in_one_place"
             android:textColor="@color/primaryTextColor"
