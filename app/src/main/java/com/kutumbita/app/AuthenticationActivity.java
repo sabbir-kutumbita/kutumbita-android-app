@@ -144,6 +144,10 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+
+
+
+
                     S.T(AuthenticationActivity.this, "Something went wrong!");
                 }
             }
@@ -163,6 +167,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     S.T(AuthenticationActivity.this, "Something went wrong!");
                     e.printStackTrace();
                 }
+
 
             }
         }) {

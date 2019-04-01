@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatAdapter extends RecyclerView.Adapter {
@@ -26,16 +27,16 @@ public class ChatAdapter extends RecyclerView.Adapter {
     LayoutInflater inflater;
     Context c;
     List<Dialog> dialogs = Collections.emptyList();
+   public MutableLiveData<Boolean> liveData;
 
     public ChatAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
         this.c = c;
         this.dialogs = dialogs;
-
+        liveData = new MutableLiveData();
+        liveData.setValue(false);
     }
-
-
 
 
     @NonNull
@@ -146,7 +147,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onReloadClick();
+                    //listener.onReloadClick();
+                    liveData.setValue(true);
                 }
             });
         }
@@ -154,15 +156,15 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     }
 
-    OnReloadItemClickListener listener;
-
-    public void setOnReloadItemClickListener(OnReloadItemClickListener listener) {
-
-        this.listener = listener;
-    }
-
-    public interface OnReloadItemClickListener {
-
-        void onReloadClick();
-    }
+//    OnReloadItemClickListener listener;
+//
+//    public void setOnReloadItemClickListener(OnReloadItemClickListener listener) {
+//
+//        this.listener = listener;
+//    }
+//
+//    public interface OnReloadItemClickListener {
+//
+//        void onReloadClick();
+//    }
 }

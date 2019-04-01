@@ -88,22 +88,22 @@ public class ChatBotActivity extends AppCompatActivity {
 
         surveys = new ArrayList<>();
         adapter = new ChatAdapter(this, dialogs);
-        adapter.setOnReloadItemClickListener(new ChatAdapter.OnReloadItemClickListener() {
-            @Override
-            public void onReloadClick() {
-
-                int termination = dialogs.size() < 4 ? dialogs.size() : 4;
-                for (int i = 0; i < termination; i++) {
-                    dialogs.remove(dialogs.size() - 1);
-                }
-
-                surveys.remove(surveys.size() - 1);
-
-                // adapter.notifyDataSetChanged();
-                tempSurvey = surveys.get(surveys.size() - 1);
-                sendMessage();
-            }
-        });
+//        adapter.setOnReloadItemClickListener(new ChatAdapter.OnReloadItemClickListener() {
+//            @Override
+//            public void onReloadClick() {
+//
+//                int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+//                for (int i = 0; i < termination; i++) {
+//                    dialogs.remove(dialogs.size() - 1);
+//                }
+//
+//                surveys.remove(surveys.size() - 1);
+//
+//                // adapter.notifyDataSetChanged();
+//                tempSurvey = surveys.get(surveys.size() - 1);
+//                sendMessage();
+//            }
+//        });
         rcv.setAdapter(adapter);
         socket = GlobalData.getInstance().getmSocket();
         socketSetup(true);

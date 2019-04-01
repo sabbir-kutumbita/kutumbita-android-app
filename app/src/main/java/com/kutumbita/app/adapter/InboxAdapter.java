@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -25,12 +26,13 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.TheViewHolde
     List<Inbox> listModel = Collections.EMPTY_LIST;
     Context c;
     View v = null;
-
+    public MutableLiveData<Inbox> inBoxLiveData;
 
     public InboxAdapter(Context c, List<Inbox> listModel) {
         inflater = LayoutInflater.from(c);
         this.c = c;
         this.listModel = listModel;
+        inBoxLiveData = new MutableLiveData<>();
     }
 
     @Override
@@ -86,23 +88,15 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.TheViewHolde
             rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onRecycleViewItemClick(itemView, listModel, getAdapterPosition());
+
+                    inBoxLiveData.setValue(listModel.get(getAdapterPosition()));
                 }
             });
 
         }
     }
 
-    OnRecycleViewItemClickListener listener;
 
-    public void setOnRecycleViewItemClickListener(OnRecycleViewItemClickListener listener) {
 
-        this.listener = listener;
-    }
-
-    public interface OnRecycleViewItemClickListener {
-
-        void onRecycleViewItemClick(View v, List<Inbox> model, int position);
-    }
 
 }

@@ -39,6 +39,8 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -205,17 +207,26 @@ public class InboxFragment extends Fragment {
 
     private void loadRecycleView() {
 
+
         adapter = new InboxAdapter(getActivity(), inboxes);
-        adapter.setOnRecycleViewItemClickListener(new InboxAdapter.OnRecycleViewItemClickListener() {
+        adapter.inBoxLiveData.observe(this, new Observer<Inbox>() {
             @Override
-            public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
-
+            public void onChanged(Inbox inbox) {
                 Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-                goDetails.putExtra(Constant.EXTRA_UUID, model.get(position).getUuId());
+                goDetails.putExtra(Constant.EXTRA_UUID, inbox.getUuId());
                 startActivity(goDetails);
-
             }
         });
+//        adapter.setOnRecycleViewItemClickListener(new InboxAdapter.OnRecycleViewItemClickListener() {
+//            @Override
+//            public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
+//
+//                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
+//                goDetails.putExtra(Constant.EXTRA_UUID, model.get(position).getUuId());
+//                startActivity(goDetails);
+//
+//            }
+//        });
 
         rcv.setAdapter(adapter);
 

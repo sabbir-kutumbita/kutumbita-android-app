@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.socket.client.Socket;
@@ -92,22 +93,41 @@ public class ChatBotActivity extends AppCompatActivity {
 
         surveys = new ArrayList<>();
         adapter = new ChatAdapter(this, dialogs);
-        adapter.setOnReloadItemClickListener(new ChatAdapter.OnReloadItemClickListener() {
+        adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
-            public void onReloadClick() {
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
 
-                int termination = dialogs.size() < 4 ? dialogs.size() : 4;
-                for (int i = 0; i < termination; i++) {
-                    dialogs.remove(dialogs.size() - 1);
+                    int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+                    for (int i = 0; i < termination; i++) {
+                        dialogs.remove(dialogs.size() - 1);
+                    }
+
+                    surveys.remove(surveys.size() - 1);
+
+                    // adapter.notifyDataSetChanged();
+                    tempSurvey = surveys.get(surveys.size() - 1);
+                    sendMessage();
+
                 }
-
-                surveys.remove(surveys.size() - 1);
-
-                // adapter.notifyDataSetChanged();
-                tempSurvey = surveys.get(surveys.size() - 1);
-                sendMessage();
             }
         });
+//        adapter.setOnReloadItemClickListener(new ChatAdapter.OnReloadItemClickListener() {
+//            @Override
+//            public void onReloadClick() {
+//
+//                int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+//                for (int i = 0; i < termination; i++) {
+//                    dialogs.remove(dialogs.size() - 1);
+//                }
+//
+//                surveys.remove(surveys.size() - 1);
+//
+//                // adapter.notifyDataSetChanged();
+//                tempSurvey = surveys.get(surveys.size() - 1);
+//                sendMessage();
+//            }
+//        });
         rcv.setAdapter(adapter);
         socket = GlobalData.getInstance().getmSocket();
         socketSetup(true);
@@ -323,7 +343,10 @@ public class ChatBotActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             110);
 
-
+                    if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+                        params.height=110;
+                    else
+                        params.height=80;
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
@@ -331,8 +354,10 @@ public class ChatBotActivity extends AppCompatActivity {
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
                     radioButton.setText(tempSurvey.getAnswers().get(i).getTitle());
 
-
+                    if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
                     radioButton.setTextSize(16);
+                    else
+                        radioButton.setTextSize(20);
                     Drawable dr = getResources().getDrawable(R.drawable.rectangle);
                     radioButton.setBackground(dr);
 
@@ -578,36 +603,32 @@ public class ChatBotActivity extends AppCompatActivity {
 
         linearLayoutRg.removeAllViews();
         RadioGroup rg = new RadioGroup(this);
-
-
         rg.setOrientation(RadioGroup.VERTICAL);
-
-
         RadioButton radioButton = new RadioButton(this);
+
+
+
+
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 110);
-
-
+        if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+            params.height=110;
+        else
+            params.height=80;
         radioButton.setLayoutParams(params);
         radioButton.setId(0);
-
-
         radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
         radioButton.setText("Finish");
-
-
-        radioButton.setTextSize(16);
+        if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+            radioButton.setTextSize(16);
+        else
+            radioButton.setTextSize(20);
         Drawable dr = getResources().getDrawable(R.drawable.rectangle);
         radioButton.setBackground(dr);
-
         radioButton.setGravity(Gravity.CENTER);
-
         radioButton.setButtonDrawable(new StateListDrawable());
         rg.addView(radioButton);
-
-
         linearLayoutRg.addView(rg);
-
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -618,10 +639,8 @@ public class ChatBotActivity extends AppCompatActivity {
         });
 
 
-        //linearLayoutRg.setVisibility(View.VISIBLE);
-
         makeEditable(false);
-        // findViewById(R.id.rlMain).invalidate();
+
     }
 
 
