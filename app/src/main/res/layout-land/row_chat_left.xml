@@ -14,7 +14,7 @@
         android:background="@drawable/rounded_rectangle_red"
         android:fontFamily="@font/sourcesanspro_regular"
         android:maxWidth="@dimen/three_hundred_dp"
-        android:padding="@dimen/fifteen_dp"
+        android:padding="@dimen/twelve_dp"
         android:text="This is the test message, you have to understand that."
         android:textColor="@android:color/white"
         android:textSize="@dimen/ten_sp" />

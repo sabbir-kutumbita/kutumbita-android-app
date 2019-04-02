@@ -14,7 +14,7 @@
         android:background="@drawable/rounded_rectangle_white"
         android:fontFamily="@font/sourcesanspro_regular"
         android:maxWidth="@dimen/three_hundred_dp"
-        android:padding="@dimen/fifteen_dp"
+        android:padding="@dimen/twelve_dp"
         android:text="This is the test message, you have to understand that"
         android:textColor="@color/primaryTextColor"
         android:textSize="@dimen/ten_sp" />
@@ -22,8 +22,8 @@
     <ImageView
 
         android:id="@+id/ivMenu"
-        android:layout_width="@dimen/thirty_five_dp"
-        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_width="@dimen/thirty_dp"
+        android:layout_height="@dimen/thirty_dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/tvMessage"
         android:src="@drawable/ic_autorenew_black_24dp"

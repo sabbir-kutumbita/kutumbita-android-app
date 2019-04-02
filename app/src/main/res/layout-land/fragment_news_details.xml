@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.inbox.NewsDetailsFragment">
+
+    <data>
+
+        <variable
+            name="inbox"
+            type="com.kutumbita.app.model.Inbox" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="40">
+
+        <!-- TODO: Update blank fragment layout -->
+        <ImageView
+            android:id="@+id/ivNewsImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            tools:src="@drawable/image_star" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:layout_marginRight="@dimen/twenty_dp"
+                android:fontFamily="@font/circularstd_bold"
+                android:text="@{inbox.title}"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/seventeen_sp"
+                tools:text="Title will be here, Title will be here, title will be here?" />
+
+            <TextView
+                android:id="@+id/tvDaysAgo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/twenty_dp"
+                android:text=""
+
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/ten_sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/tvBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/twenty_dp"
+                    android:layout_marginRight="@dimen/ten_dp"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:text="@{inbox.body}"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="@dimen/sixteen_sp"
+                    tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11">
+
+            <TextView
+                android:id="@+id/tvRead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvWeb"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/circularstd_bold"
+                android:text="@string/read_full_story"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="@dimen/ten_sp" />
+
+            <TextView
+                android:id="@+id/tvWeb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:fontFamily="@font/circularstd_book"
+                android:text="@{inbox.link}"
+                android:textColor="@color/primaryColor"
+                android:textSize="@dimen/ten_sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

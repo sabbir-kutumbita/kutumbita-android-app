@@ -65,10 +65,10 @@
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="@string/email_or_phone"
-                android:text="sabbir@kutumbita.com"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
-                android:textSize="@dimen/fifteen_sp" />
+                android:textSize="@dimen/fifteen_sp"
+                tools:text="sabbir@kutumbita.com" />
 
 
         </com.google.android.material.textfield.TextInputLayout>

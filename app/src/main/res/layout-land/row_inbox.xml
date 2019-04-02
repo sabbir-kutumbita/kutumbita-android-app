@@ -2,15 +2,16 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/seventy_dp">
+    android:layout_height="@dimen/eighty_dp">
 
 
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seventy_dp"
+        android:layout_height="@dimen/eighty_dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
+
         android:focusable="true"
         android:padding="@dimen/ten_dp">
 
@@ -27,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/eighty_dp"
             android:background="@color/primaryTextColor"
-            android:padding="@dimen/five_dp"
             android:fontFamily="@font/sourcesanspro_semibold"
+            android:padding="@dimen/five_dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:textColor="@color/secondaryTextColor"
             android:textSize="@dimen/ten_sp"
@@ -36,7 +37,7 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="@dimen/four_hundred_dp"
+            android:layout_width="@dimen/three_hundred_fifty_dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvType"
             android:layout_marginLeft="@dimen/eighty_dp"
@@ -46,18 +47,18 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/fifteen_sp"
-            tools:text="Acknowledge a recent change to you insurance rates" />
+            tools:text="Acknowledge a recent change to you insurance rates, Acknowledge a recent change to you insurance rates" />
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/sourcesanspro_regular"
             android:layout_alignParentRight="true"
-            android:textColor="@color/primaryTextColor"
             android:layout_marginTop="@dimen/two_dp"
             android:layout_marginRight="@dimen/ten_dp"
+            android:fontFamily="@font/sourcesanspro_regular"
             android:padding="@dimen/two_dp"
+            android:textColor="@color/primaryTextColor"
             android:textSize="@dimen/ten_sp"
             tools:text="25 jun" />
 
