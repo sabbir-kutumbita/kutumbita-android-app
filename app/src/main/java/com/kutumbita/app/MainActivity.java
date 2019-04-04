@@ -25,6 +25,7 @@ import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
+import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +38,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     PreferenceUtility preferenceUtility;
     boolean shouldShow;
     BroadcastReceiver receiver, langReceiver;
-
+    SettingsViewModel settingsViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
+        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+
         bnv = findViewById(R.id.bottom_navigation);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -154,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
 
-                    case R.id.item_chat:
-
-                        loadChatFragment();
-
-                        break;
+//                    case R.id.item_chat:
+//
+//                        loadChatFragment();
+//
+//                        break;
 
                     case R.id.item_inbox:
 
@@ -192,14 +197,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         loadHomeFragment();
-        putToken();
+        if (GlobalData.getInstance().getOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+            putToken();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.ACTION_BROADCAST_LOGOUT);
         filter.addAction(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
         registerReceiver(receiver, filter);
     }
-
 
 
     @Override
@@ -238,7 +243,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         S.L("accessToken", preferenceUtility.getMe().getAccessToken());
-
+        S.L("fcm_token", preferenceUtility.getFcmToken());
+        S.L("user_id", preferenceUtility.getMe().getUuId());
         JSONObject object = new JSONObject();
         try {
             object.put("user_uuid", preferenceUtility.getMe().getUuId());
@@ -256,7 +262,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }, new Response.ErrorListener() {
-
 
 
             @Override
@@ -302,6 +307,39 @@ public class MainActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         GlobalData.getInstance().addToRequestQueue(loginRequest);
 
+    }
+
+
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+
+        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+            if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
+                settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
+                settingsViewModel.isLoggedOut().observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if (aBoolean) {
+                            preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
+                            Utility.detectLanguage("en", MainActivity.this);
+                            preferenceUtility.deleteUser(preferenceUtility.getMe());
+//                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
+//                            sendBroadcast(intent);
+                            Intent goSplash = new Intent(MainActivity.this, SplashActivity.class);
+                            startActivity(goSplash);
+                            finish();
+                        }
+                    }
+                });
+
+            } else {
+
+                GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+            }
+
+        }
     }
 
 

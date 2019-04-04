@@ -1,5 +1,6 @@
 package com.kutumbita.app;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
+import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,8 @@ import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class InboxDetailsActivity extends AppCompatActivity {
@@ -52,6 +56,39 @@ public class InboxDetailsActivity extends AppCompatActivity {
     PreferenceUtility preferenceUtility;
     View layout;
 
+//    SettingsViewModel settingsViewModel;
+//
+//    @Override
+//    public void onUserInteraction() {
+//        super.onUserInteraction();
+//
+//        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+//            if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
+//                settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
+//                settingsViewModel.isLoggedOut().observe(this, new Observer<Boolean>() {
+//                    @Override
+//                    public void onChanged(Boolean aBoolean) {
+//                        if (aBoolean) {
+//                            preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
+//                            Utility.detectLanguage("en", InboxDetailsActivity.this);
+//                            preferenceUtility.deleteUser(preferenceUtility.getMe());
+//                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
+//                            sendBroadcast(intent);
+//                            Intent goSplash = new Intent(InboxDetailsActivity.this, SplashActivity.class);
+//                            startActivity(goSplash);
+//                            finish();
+//                        }
+//                    }
+//                });
+//
+//            } else {
+//
+//                GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+//            }
+//
+//        }
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +98,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
         uuID = getIntent().getStringExtra(Constant.EXTRA_UUID);
         S.L("exUUid", uuID);
         preferenceUtility = new PreferenceUtility(this);
+        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         layout = findViewById(R.id.header);
 
         swipeRefreshLayout = findViewById(R.id.srl);

@@ -25,9 +25,9 @@
             android:layout_marginTop="@dimen/twenty_dp"
             android:fontFamily="@font/circularstd_bold"
             android:text="@{inbox.title}"
-            tools:text="Title will be here, title will be here, Title will be here?"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/twenty_sp" />
+            android:textSize="@dimen/twenty_sp"
+            tools:text="Title will be here, title will be here, Title will be here?" />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -35,11 +35,11 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/tvTitle"
             android:layout_marginTop="@dimen/twenty_dp"
-            tools:text="Title will be here, title will be here, Title will be here? Title will be here, title will be here, Title will be here? Title will be here, title will be here, Title will be here?"
             android:fontFamily="@font/sourcesanspro_regular"
             android:text="@{inbox.body}"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/sixteen_sp" />
+            android:textSize="@dimen/sixteen_sp"
+            tools:text="Title will be here, title will be here, Title will be here? Title will be here, title will be here, Title will be here? Title will be here, title will be here, Title will be here?" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -53,7 +53,8 @@
             android:fontFamily="@font/circularstd_book"
             android:text="@string/acknowledged"
             android:textAllCaps="false"
-            android:textSize="@dimen/fifteen_sp" />
+            android:textSize="@dimen/fifteen_sp"
+            android:visibility="invisible" />
 
 
     </RelativeLayout>

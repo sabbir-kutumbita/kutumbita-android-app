@@ -1,7 +1,6 @@
 package com.kutumbita.app.fragment.inbox;
 
 
-
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -45,6 +44,8 @@ public class EventDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
@@ -54,13 +55,16 @@ public class EventDetailsFragment extends Fragment {
         if (inbox.getImage().isEmpty()) {
             binding.ivImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             binding.ivImage.setImageResource(R.drawable.kutumbita_with_logo);
-        }
-        else {
+        } else {
             Picasso.get().load(inbox.getImage()).into(binding.ivImage);
         }
-       // 2018-12-11 06:28:17.082325
-        binding.tvEvent.setText(DateUtility.changeDateFormat("yyyy-MM-dd HH:mm:ss.SSS", "dd-MMM-yyyy", inbox.getStartDate()));
-        binding.tvTime.setText(DateUtility.changeDateFormat("yyyy-MM-dd HH:mm:ss.SSS", "HH:mm", inbox.getStartDate()));
+        // 2018-12-11 06:28:17.082325
+//        binding.tvEvent.setText(DateUtility.changeDateFormat("yyyy-MM-dd HH:mm:ss.SSS", "dd-MMM-yyyy", inbox.getStartDate()));
+//        binding.tvTime.setText(DateUtility.changeDateFormat("yyyy-MM-dd HH:mm:ss.SSS", "HH:mm", inbox.getEndDate()
+//        ));
+
+        binding.tvEvent.setText(inbox.getStartDate());
+        binding.tvTime.setText(inbox.getEndDate());
 
 
         //Picasso.get().load(inbox.getImage()).placeholder(R.drawable.k).into(binding.ivImage);

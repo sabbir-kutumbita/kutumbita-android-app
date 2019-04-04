@@ -9,8 +9,8 @@
     <ImageView
 
         android:id="@+id/icon"
-        android:layout_width="@dimen/twenty_five_dp"
-        android:layout_height="@dimen/twenty_five_dp"
+        android:layout_width="@dimen/twenty_dp"
+        android:layout_height="@dimen/twenty_dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/twenty_dp"
         android:src="@drawable/name" />
@@ -23,7 +23,7 @@
         android:layout_marginLeft="@dimen/fifty_dp"
         android:fontFamily="@font/circularstd_book"
         android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/ten_sp"
+        android:textSize="@dimen/eight_sp"
         tools:text="Name" />
 
 
@@ -36,7 +36,7 @@
         android:fontFamily="@font/circularstd_book"
         android:textColor="@color/primaryTextColor"
 
-        android:textSize="@dimen/ten_sp"
+        android:textSize="@dimen/eight_sp"
         tools:text="Name " />
 
 

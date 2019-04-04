@@ -92,7 +92,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void parseMe() {
-
+        S.L("accessToken", preferenceUtility.getMe().getAccessToken());
         loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

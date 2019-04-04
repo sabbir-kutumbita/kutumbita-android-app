@@ -29,6 +29,7 @@ public class GlobalData extends Application {
     private static GlobalData mInstance;
     private Socket mSocket;
     private int orientation;
+    private long touchTime;
 
     @Override
     public void onCreate() {
@@ -43,6 +44,15 @@ public class GlobalData extends Application {
         }
         mInstance = this;
         orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+        touchTime = System.currentTimeMillis();
+    }
+
+    public long getTouchTime() {
+        return touchTime;
+    }
+
+    public void setTouchTime(long touchTime) {
+        this.touchTime = touchTime;
     }
 
     public int getOrientation() {

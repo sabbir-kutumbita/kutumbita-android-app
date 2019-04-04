@@ -1,5 +1,6 @@
 package com.kutumbita.app;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -17,12 +18,12 @@ import android.widget.Toast;
 
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.chat.Dialog;
-import com.kutumbita.app.chat.observer.ChatBotActivityObserver;
 import com.kutumbita.app.chat.Survey;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
+import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,9 +31,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.socket.client.Socket;
@@ -70,6 +71,39 @@ public class ChatBotActivity extends AppCompatActivity {
     ChatAdapter adapter;
     Survey tempSurvey;
 
+    //SettingsViewModel settingsViewModel;
+
+//    @Override
+//    public void onUserInteraction() {
+//        super.onUserInteraction();
+//
+//        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+//            if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
+//                settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
+//                settingsViewModel.isLoggedOut().observe(this, new Observer<Boolean>() {
+//                    @Override
+//                    public void onChanged(Boolean aBoolean) {
+//                        if (aBoolean) {
+//                            preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
+//                            Utility.detectLanguage("en", ChatBotActivity.this);
+//                            preferenceUtility.deleteUser(preferenceUtility.getMe());
+//                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
+//                            sendBroadcast(intent);
+//                            Intent goSplash = new Intent(ChatBotActivity.this, SplashActivity.class);
+//                            startActivity(goSplash);
+//                            finish();
+//                        }
+//                    }
+//                });
+//
+//            } else {
+//
+//                GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+//            }
+//
+//        }
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,6 +114,8 @@ public class ChatBotActivity extends AppCompatActivity {
         // getLifecycle().addObserver(new ChatBotActivityObserver());
         TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
         preferenceUtility = new PreferenceUtility(this);
+        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+       //
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(TYPE.substring(0, 1).toUpperCase() + TYPE.substring(1));
         linearLayoutRg = findViewById(R.id.ll);

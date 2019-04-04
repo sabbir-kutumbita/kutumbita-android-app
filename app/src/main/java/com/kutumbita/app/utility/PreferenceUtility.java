@@ -71,4 +71,12 @@ public class PreferenceUtility {
 
     }
 
+    public void deleteString(String key) {
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove(key);
+        editor.commit();
+
+    }
+
 }

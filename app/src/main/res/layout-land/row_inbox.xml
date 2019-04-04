@@ -2,13 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/eighty_dp">
+    android:layout_height="@dimen/seventy_dp">
 
 
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/eighty_dp"
+        android:layout_height="@dimen/seventy_dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
 
@@ -17,9 +17,9 @@
 
         <ImageView
             android:id="@+id/ivType"
-            android:layout_width="@dimen/thirty_dp"
-            android:layout_height="@dimen/thirty_dp"
-            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_width="@dimen/twenty_five_dp"
+            android:layout_height="@dimen/twenty_five_dp"
+            android:layout_marginLeft="@dimen/twenty_five_dp"
             android:src="@drawable/ic_me_selected" />
 
         <TextView
@@ -32,12 +32,12 @@
             android:padding="@dimen/five_dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:textColor="@color/secondaryTextColor"
-            android:textSize="@dimen/ten_sp"
+            android:textSize="@dimen/eight_sp"
             tools:text="Admin" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="@dimen/three_hundred_fifty_dp"
+            android:layout_width="@dimen/three_hundred_dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvType"
             android:layout_marginLeft="@dimen/eighty_dp"
@@ -46,7 +46,7 @@
             android:padding="@dimen/two_dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/fifteen_sp"
+            android:textSize="@dimen/ten_sp"
             tools:text="Acknowledge a recent change to you insurance rates, Acknowledge a recent change to you insurance rates" />
 
         <TextView

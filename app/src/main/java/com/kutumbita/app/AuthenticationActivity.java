@@ -3,6 +3,7 @@ package com.kutumbita.app;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +23,7 @@ import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
+import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,12 +34,17 @@ import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
 
     Fragment fr;
     PreferenceUtility preferenceUtility;
+    SettingsViewModel settingsViewModel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +53,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
-        loadChooserFragment();
+
+        //loadChooserFragment();
+        loadSignInFragment();
     }
 
     private void loadChooserFragment() {
@@ -113,7 +122,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
     }
 
     private void signIn(String emailOrPhone, String password) {
@@ -144,8 +153,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-
-
 
 
                     S.T(AuthenticationActivity.this, "Something went wrong!");
@@ -200,6 +207,12 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void getMe(final String accessToken, final String refreshToken) {
+
+
+        S.L("accessToken", accessToken);
+        //S.L("fcm_token", preferenceUtility.getFcmToken());
+        //S.L("user_id", preferenceUtility.getMe().getUuId());
+
         StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_home, container, false);
         tvWelcome = v.findViewById(R.id.tvWelcome);
-        tvWelcome.setText(getString(R.string.welcome) + preferenceUtility.getMe().getName().split(" ")[0] + ", " + getString(R.string.how_can_i_help_you));
+        tvWelcome.setText(getString(R.string.welcome) + preferenceUtility.getMe().getName() + ", " + getString(R.string.how_can_i_help_you));
         return v;
     }
 

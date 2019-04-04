@@ -32,6 +32,8 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
@@ -39,6 +41,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     public SettingsFragment() {
         // Required empty public constructor
+        faqClicked = new MutableLiveData<>();
+        termsConditionClicked = new MutableLiveData<>();
+        languageClicked = new MutableLiveData<>();
+        logoutClicked = new MutableLiveData<>();
     }
 
     View v;
@@ -52,6 +58,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferenceUtility = new PreferenceUtility(getActivity());
+
     }
 
     @Override
@@ -62,8 +69,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
         langLayout = v.findViewById(R.id.tvLanguage);
-        termsLayout = v.findViewById(R.id.tvTermsAndCondition);
-        faqLayout = v.findViewById(R.id.tvFaq);
+       // termsLayout = v.findViewById(R.id.tvTermsAndCondition);
+       // faqLayout = v.findViewById(R.id.tvFaq);
         logOutLayout = v.findViewById(R.id.tvLogout);
 
         ((TextView) langLayout.findViewById(R.id.value)).setText(getString(R.string.title_language));
@@ -71,16 +78,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         langLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
         langLayout.setOnClickListener(this);
 
-        ((TextView) termsLayout.findViewById(R.id.value)).setText(getString(R.string.terms_condition));
-        ((ImageView) termsLayout.findViewById(R.id.icon)).setImageResource(R.drawable.terms_conditions);
-        termsLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
-        termsLayout.setOnClickListener(this);
+//        ((TextView) termsLayout.findViewById(R.id.value)).setText(getString(R.string.terms_condition));
+//        ((ImageView) termsLayout.findViewById(R.id.icon)).setImageResource(R.drawable.terms_conditions);
+//        termsLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
+//        termsLayout.setOnClickListener(this);
 
 
-        ((TextView) faqLayout.findViewById(R.id.value)).setText(getString(R.string.faq));
-        ((ImageView) faqLayout.findViewById(R.id.icon)).setImageResource(R.drawable.faq);
-        faqLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
-        faqLayout.setOnClickListener(this);
+//        ((TextView) faqLayout.findViewById(R.id.value)).setText(getString(R.string.faq));
+//        ((ImageView) faqLayout.findViewById(R.id.icon)).setImageResource(R.drawable.faq);
+//        faqLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
+//        faqLayout.setOnClickListener(this);
 
 
         ((TextView) logOutLayout.findViewById(R.id.value)).setText(getString(R.string.logout));
@@ -108,73 +115,79 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             case R.id.tvLanguage:
 
 
-                listener.OnLanguageClicked();
+                //listener.OnLanguageClicked();
+
+                languageClicked.setValue(true);
 
 
                 break;
-            case R.id.tvTermsAndCondition:
-
-
-                break;
-            case R.id.tvFaq:
-
-
-                break;
+//            case R.id.tvTermsAndCondition:
+//
+//                termsConditionClicked.setValue(true);
+//
+//                break;
+//            case R.id.tvFaq:
+//
+//                faqClicked.setValue(true);
+//
+//                break;
             case R.id.tvLogout:
 
-                loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+                logoutClicked.setValue(true);
 
-                    @Override
-                    public void onResponse(String response) {
-
-                        S.L(response);
-
-
-                        try {
-
-                            JSONObject object = new JSONObject(response);
-                            if (object.getBoolean("success")) {
-                                preferenceUtility.deleteUser(preferenceUtility.getMe());
-                                Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
-                                getActivity().sendBroadcast(intent);
-                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-                                startActivity(goSplash);
-                                getActivity().finish();
-
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                        S.L("error: " + error.getMessage());
-
-                    }
-                }) {
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
-                        return params;
-                    }
-
-                };
-
-                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        Constant.TIME_OUT,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                GlobalData.getInstance().addToRequestQueue(loginRequest);
-
+//                loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+//
+//                    @Override
+//                    public void onResponse(String response) {
+//
+//                        S.L(response);
+//
+//
+//                        try {
+//
+//                            JSONObject object = new JSONObject(response);
+//                            if (object.getBoolean("success")) {
+//                                preferenceUtility.deleteUser(preferenceUtility.getMe());
+//                                Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
+//                                getActivity().sendBroadcast(intent);
+//                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
+//                                startActivity(goSplash);
+//                                getActivity().finish();
+//
+//
+//                            }
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//
+//                        S.L("error: " + error.getMessage());
+//
+//                    }
+//                }) {
+//
+//                    @Override
+//                    public Map<String, String> getHeaders() throws AuthFailureError {
+//                        Map<String, String> params = new HashMap<String, String>();
+//                        params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
+//                        return params;
+//                    }
+//
+//                };
+//
+//                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                        Constant.TIME_OUT,
+//                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//                GlobalData.getInstance().addToRequestQueue(loginRequest);
+//
                 break;
 
 
@@ -182,19 +195,24 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    OnSettingEventListener listener;
+    public MutableLiveData<Boolean> faqClicked;
+    public MutableLiveData<Boolean> languageClicked;
+    public MutableLiveData<Boolean> termsConditionClicked;
+    public MutableLiveData<Boolean> logoutClicked;
 
-    public void setOnSettingEventListener(OnSettingEventListener listener) {
-
-        this.listener = listener;
-    }
-
-    public interface OnSettingEventListener {
-
-        void OnLanguageClicked();
-
-        void OnFaqClicked();
-
-        void OnTermsConditionClicked();
-    }
+//    OnSettingEventListener listener;
+//
+//    public void setOnSettingEventListener(OnSettingEventListener listener) {
+//
+//        this.listener = listener;
+//    }
+//
+//    public interface OnSettingEventListener {
+//
+//        void OnLanguageClicked();
+//
+//        void OnFaqClicked();
+//
+//        void OnTermsConditionClicked();
+//    }
 }

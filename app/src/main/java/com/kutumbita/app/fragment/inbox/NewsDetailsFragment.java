@@ -1,7 +1,8 @@
 package com.kutumbita.app.fragment.inbox;
 
 
-
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,19 +59,37 @@ public class NewsDetailsFragment extends Fragment {
             binding.ivNewsImage.setImageResource(R.drawable.kutumbita_with_logo);
 
 
-        }
-
-        else{
+        } else {
 
 
             Picasso.get().load(inbox.getImage()).into(binding.ivNewsImage);
-            
+
         }
 
         //binding.tvDaysAgo.setText(TimeAgo.using(Utility.getMilliFromDate(inbox.getSentTime(), "yyyy-MM-dd'T'HH:mm:ss'Z'")));
 
         binding.tvDaysAgo.setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM",
                 inbox.getSentTime()));
+
+
+//        if (binding.tvWeb.getText().toString().isEmpty()) {
+//
+//            binding.tvRead.setVisibility(View.INVISIBLE);
+//        }
+        binding.tvWeb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "";
+                if (binding.tvWeb.getText().toString().startsWith("http://")| binding.tvWeb.getText().toString().startsWith("https://"))
+                    url = binding.tvWeb.getText().toString();
+                else
+                    url = "http://" + binding.tvWeb.getText().toString();
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+
+            }
+        });
 
         return v;
     }

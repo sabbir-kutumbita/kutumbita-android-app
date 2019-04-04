@@ -16,4 +16,6 @@ public class Constant {
     public static final String EVENT_ISSUE = "issue";
 
     public static final String EXTRA_EVENT = "exEvent";
+
+    public static final long MAXIMUM_UN_TOUCHED_TIME = 60 * 1000;
 }

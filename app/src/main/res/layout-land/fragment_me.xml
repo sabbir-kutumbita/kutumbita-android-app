@@ -19,8 +19,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="@dimen/seventy_dp"
-            android:layout_height="@dimen/seventy_dp"
+            android:layout_width="@dimen/sixty_dp"
+            android:layout_height="@dimen/sixty_dp"
             android:layout_below="@+id/header"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/fifteen_dp"
@@ -37,7 +37,7 @@
             android:layout_marginTop="@dimen/five_dp"
             android:fontFamily="@font/circularstd_medium"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/eighteen_sp"
+            android:textSize="@dimen/fifteen_sp"
             tools:text="Sabbir Ahmed" />
 
         <include
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
-            android:layout_marginTop="@dimen/twenty_dp"></include>
+            android:layout_marginTop="@dimen/sixteen_dp"></include>
 
         <include
             android:id="@+id/tvPositionField"
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCompanyNameField"
-            android:layout_marginTop="@dimen/fifteen_dp"></include>
+            android:layout_marginTop="@dimen/twelve_dp"></include>
 
 
         <include
@@ -96,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvAddress"
-            android:layout_marginTop="@dimen/fifteen_dp"></include>
+            android:layout_marginTop="@dimen/twelve_dp"></include>
 
         <include
             android:id="@+id/tvJobType"
@@ -119,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvEmergencyContact"
-            android:layout_marginTop="@dimen/fifteen_dp"></include>
+            android:layout_marginTop="@dimen/twelve_dp"></include>
 
 
     </RelativeLayout>
