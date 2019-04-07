@@ -21,27 +21,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivK"
-        android:padding="@dimen/ten_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:fontFamily="@font/circularstd_medium"
         android:gravity="center"
+        android:padding="@dimen/ten_dp"
         android:textColor="@color/primaryTextColor"
         android:textSize="@dimen/eighteen_sp"
         tools:text="Welcome Rameez, how can I help you?" />
 
     <EditText
-        android:layout_centerHorizontal="true"
         android:layout_width="@dimen/three_hundred_dp"
         android:layout_height="@dimen/fifty_dp"
         android:layout_below="@+id/tvWelcome"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/thirty_five_dp"
         android:layout_marginTop="@dimen/ten_dp"
         android:layout_marginRight="@dimen/thirty_five_dp"
-        android:textColorHint="@color/dark_grey"
         android:background="@drawable/round"
         android:fontFamily="@font/circularstd_medium"
-        android:hint="@string/e_g_i_need_a_leave"
         android:padding="@dimen/ten_dp"
+        android:textColorHint="@color/dark_grey"
         android:textSize="@dimen/eighteen_sp" />
 
 </RelativeLayout>

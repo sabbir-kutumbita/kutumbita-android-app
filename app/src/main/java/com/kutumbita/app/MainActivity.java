@@ -159,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
 
-//                    case R.id.item_chat:
-//
-//                        loadChatFragment();
-//
-//                        break;
+                    case R.id.item_chat:
+
+                        loadChatFragment();
+
+                        break;
 
                     case R.id.item_inbox:
 

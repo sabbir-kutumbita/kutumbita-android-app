@@ -64,6 +64,7 @@ public class ChatBotActivity extends AppCompatActivity {
     PreferenceUtility preferenceUtility;
 
     ArrayList<Dialog> dialogs = new ArrayList<>();
+
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
     ArrayList<Survey> surveys;

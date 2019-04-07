@@ -117,6 +117,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
 
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
             }
@@ -134,9 +135,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
-
                     e.printStackTrace();
-
                 }
 
             }
