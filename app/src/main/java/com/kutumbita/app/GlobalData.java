@@ -43,7 +43,7 @@ public class GlobalData extends Application {
 
         }
         mInstance = this;
-        orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+        orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         touchTime = System.currentTimeMillis();
     }
 

@@ -1,6 +1,5 @@
 package com.kutumbita.app;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -23,7 +22,6 @@ import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
-import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +31,6 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.socket.client.Socket;

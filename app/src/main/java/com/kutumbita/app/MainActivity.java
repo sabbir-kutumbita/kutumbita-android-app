@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     boolean shouldShow;
     BroadcastReceiver receiver, langReceiver;
     SettingsViewModel settingsViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-
+        settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
         bnv = findViewById(R.id.bottom_navigation);
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -186,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
 
+
             }
         });
 
@@ -310,14 +312,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
 
         if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
             if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
-                settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
                 settingsViewModel.isLoggedOut().observe(this, new Observer<Boolean>() {
                     @Override
                     public void onChanged(Boolean aBoolean) {
@@ -327,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
                             preferenceUtility.deleteUser(preferenceUtility.getMe());
 //                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
 //                            sendBroadcast(intent);
+
                             Intent goSplash = new Intent(MainActivity.this, SplashActivity.class);
                             startActivity(goSplash);
                             finish();
@@ -334,10 +335,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-            } else {
+            }
 
                 GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-            }
+
 
         }
     }

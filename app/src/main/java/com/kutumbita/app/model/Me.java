@@ -6,14 +6,15 @@ public class Me implements Serializable {
 
 
     private String accessToken, refreshToken, id, uuId, name, company, factory, department, position,
-            phone, gender, address, emergencyContact, emergencyPhone, avatar, bloodGroup, nId, joinedDate, jobType;
+            phone, gender, address, emergencyContact, emergencyPhone, avatar, bloodGroup, nId, joinedDate, jobType, language;
 
     public Me(String accessToken, String refreshToken, String id, String uuId, String name, String company, String factory, String department, String position,
-              String phone, String gender, String address, String emergencyContact, String emergencyPhone, String avatar, String bloodGroup, String nId, String joinedDate, String jobType) {
+              String phone, String gender, String address, String emergencyContact, String emergencyPhone, String avatar, String bloodGroup, String nId, String joinedDate, String jobType, String language) {
 
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.id = id;
+
         this.uuId = uuId;
         this.name = name;
         this.company = company;
@@ -30,8 +31,19 @@ public class Me implements Serializable {
         this.nId = nId;
         this.joinedDate = joinedDate;
         this.jobType=jobType;
+        this.language=language;
 
 
+    }
+
+    public String getLanguage() {
+
+
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getJobType() {

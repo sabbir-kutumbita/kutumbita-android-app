@@ -66,7 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         preferenceUtility = new PreferenceUtility(this);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-
+        settingsViewModel = ViewModelProviders.of(SettingsActivity.this).get(SettingsViewModel.class);
 
         setFragment();
 
@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onChanged(Boolean aBoolean) {
 
                 if (aBoolean) {
-                    settingsViewModel = ViewModelProviders.of(SettingsActivity.this).get(SettingsViewModel.class);
+
                     settingsViewModel.isLoggedOut().observe(SettingsActivity.this, new Observer<Boolean>() {
                         @Override
                         public void onChanged(Boolean aBoolean) {

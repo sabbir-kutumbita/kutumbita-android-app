@@ -44,16 +44,80 @@ public class SettingsRepository {
 
     }
 
-    public LiveData<Boolean> logout(final String accessToken) {
+    public LiveData<Boolean> logoutLiveData(final String accessToken) {
 
         final MutableLiveData<Boolean> isSucceed = new MutableLiveData<>();
+
+
 
         StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
-                S.L(response);
+                S.L("Logout",response);
+
+
+                try {
+
+                    JSONObject object = new JSONObject(response);
+                    if (object.getBoolean("success")) {
+                        isSucceed.setValue(true);
+
+
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    isSucceed.setValue(false);
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                S.L("error: " + error.getMessage());
+                isSucceed.setValue(false);
+
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + accessToken);
+                return params;
+            }
+
+        };
+
+        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        GlobalData.getInstance().addToRequestQueue(loginRequest);
+
+        return isSucceed;
+
+    }
+
+    public LiveData<Boolean> languageLiveData(final String accessToken) {
+
+        final MutableLiveData<Boolean> isSucceed = new MutableLiveData<>();
+
+
+
+        StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                S.L("Logout",response);
 
 
                 try {

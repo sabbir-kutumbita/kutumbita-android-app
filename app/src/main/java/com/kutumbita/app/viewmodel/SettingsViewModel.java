@@ -15,16 +15,26 @@ public class SettingsViewModel extends AndroidViewModel {
     LiveData<Boolean> loggedOut;
     PreferenceUtility preferenceUtility;
 
+    SettingsRepository settingsRepository;
+
     public SettingsViewModel(@NonNull Application application) {
         super(application);
         preferenceUtility = new PreferenceUtility(application.getApplicationContext());
-        loggedOut = SettingsRepository.getInstance().logout(preferenceUtility.getMe().getAccessToken());
+        settingsRepository = SettingsRepository.getInstance();
 
 
     }
 
-    public LiveData<Boolean> isLoggedOut() {
+//    public void performLogout() {
+//
+//        loggedOut = settingsRepository.logoutLiveData
+//                (preferenceUtility.getMe().getAccessToken());
+//
+//    }
 
+    public LiveData<Boolean> isLoggedOut() {
+        loggedOut = settingsRepository.logoutLiveData
+                (preferenceUtility.getMe().getAccessToken());
         return loggedOut;
     }
 }
