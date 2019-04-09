@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kutumbita.app.ChatBotActivity;
+import com.kutumbita.app.IssueBotActivity;
 import com.kutumbita.app.R;
 import com.kutumbita.app.utility.Constant;
 
@@ -45,14 +46,18 @@ public class ChatFragment extends Fragment {
 //                Intent goSurvey = new Intent(getActivity(), SurveyBotActivity.class);
 //                startActivity(goSurvey);
 
-               goChat(Constant.EVENT_SURVEY);
+                goChat(Constant.EVENT_SURVEY);
             }
         });
         issueView = v.findViewById(R.id.relIssue);
         issueView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goChat(Constant.EVENT_ISSUE);
+                //goChat(Constant.EVENT_ISSUE);
+
+                Intent goChat = new Intent(getActivity(), IssueBotActivity.class);
+                goChat.putExtra(Constant.EXTRA_EVENT, Constant.EVENT_ISSUE);
+                startActivity(goChat);
             }
         });
 

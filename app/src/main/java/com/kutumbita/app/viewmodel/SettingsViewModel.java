@@ -14,7 +14,7 @@ public class SettingsViewModel extends AndroidViewModel {
 
     LiveData<Boolean> loggedOut;
     PreferenceUtility preferenceUtility;
-
+    LiveData<Boolean> languageData;
     SettingsRepository settingsRepository;
 
     public SettingsViewModel(@NonNull Application application) {
@@ -36,5 +36,10 @@ public class SettingsViewModel extends AndroidViewModel {
         loggedOut = settingsRepository.logoutLiveData
                 (preferenceUtility.getMe().getAccessToken());
         return loggedOut;
+    }
+
+    public LiveData<Boolean> setLanguage(String language) {
+        languageData = settingsRepository.languageLiveData(language, (preferenceUtility.getMe().getAccessToken()));
+        return languageData;
     }
 }

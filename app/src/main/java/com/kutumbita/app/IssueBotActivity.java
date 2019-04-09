@@ -36,7 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class ChatBotActivity extends AppCompatActivity {
+public class IssueBotActivity extends AppCompatActivity {
 
     Socket socket;
 
@@ -54,6 +54,11 @@ public class ChatBotActivity extends AppCompatActivity {
     private static String RECEIVE_NEXT_QUESTION = ":next_question";
     private static String RECEIVE_END_QUESTION = ":end_question";
 
+
+    private static String RECEIVE_START_CONFIRMATION = ":start_confirmation";
+    private static String RECEIVE_FEEDBACK_QUESTION = ":feedback_question";
+    private static String RECEIVE_CATEGORY_ANSWER = ":category_answer";
+
     private static String RECEIVE_SURVEY_DEACTIVE = ":bot_deactivate_response";
 
 
@@ -70,7 +75,6 @@ public class ChatBotActivity extends AppCompatActivity {
     Survey tempSurvey;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -82,7 +86,7 @@ public class ChatBotActivity extends AppCompatActivity {
         TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
         preferenceUtility = new PreferenceUtility(this);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-       //
+        //
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(TYPE.substring(0, 1).toUpperCase() + TYPE.substring(1));
         linearLayoutRg = findViewById(R.id.ll);
@@ -99,7 +103,7 @@ public class ChatBotActivity extends AppCompatActivity {
         adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
+                if (aBoolean) {
 
                     int termination = dialogs.size() < 4 ? dialogs.size() : 4;
                     for (int i = 0; i < termination; i++) {
@@ -256,6 +260,60 @@ public class ChatBotActivity extends AppCompatActivity {
         }
     };
 
+
+    Emitter.Listener OnStartConfirmation = new Emitter.Listener() {
+
+        @Override
+        public void call(final Object... args) {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        S.L("socket init", args[0].toString());
+                        JSONObject obj = (JSONObject) args[0];
+                        tempSurvey = new Survey();
+                        tempSurvey.setQuestion(obj.getString("question"));
+                        tempSurvey.setType(obj.getString("type"));
+                        tempSurvey.setAnswer_type(obj.getString("answer_type"));
+                        ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
+                        if (obj.has("answers")) {
+
+                            JSONArray answerArray = obj.getJSONArray("answers");
+                            tempAnswers.clear();
+                            for (int i = 0; i < answerArray.length(); i++) {
+
+
+                                JSONObject answerObj = answerArray.getJSONObject(i);
+
+                                tempAnswers.add(new Survey.Answer(answerObj.getString("title"),
+                                        //we set event as score here
+                                        answerObj.getString("event"),
+
+                                        //we set surveyUUID as next here
+                                        answerObj.has("surveyUUID") ? answerObj.getString("surveyUUID") : "0"));
+                            }
+
+
+                        }
+                        tempSurvey.setAnswers(tempAnswers);
+                        //  surveys.add(tempSurvey);
+                        loadChatMessage();
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+
+                        Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
+                    }
+
+
+                }
+            });
+
+        }
+    };
+
     private void refreshRecycleView(Dialog d) {
 
         dialogs.add(d);
@@ -331,10 +389,10 @@ public class ChatBotActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             110);
 
-                    if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-                        params.height=110;
+                    if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+                        params.height = 110;
                     else
-                        params.height=80;
+                        params.height = 80;
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
@@ -342,8 +400,8 @@ public class ChatBotActivity extends AppCompatActivity {
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
                     radioButton.setText(tempSurvey.getAnswers().get(i).getTitle());
 
-                    if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-                    radioButton.setTextSize(16);
+                    if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+                        radioButton.setTextSize(16);
                     else
                         radioButton.setTextSize(20);
                     Drawable dr = getResources().getDrawable(R.drawable.rectangle);
@@ -366,7 +424,9 @@ public class ChatBotActivity extends AppCompatActivity {
                         userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
 
                         tempSurvey.setUser_answer(userAnswers);
+
                         surveys.add(tempSurvey);
+
                         sendMessage();
                     }
                 });
@@ -465,16 +525,23 @@ public class ChatBotActivity extends AppCompatActivity {
 
                 JSONObject object = new JSONObject();
                 try {
+                    JSONArray array = new JSONArray();
+                    JSONObject answerObject = new JSONObject();
+                    answerObject.put("title", "noComment");
+                    answerObject.put("slug", "no_comment");
+                    answerObject.put("event", "issue:worker_feedback");
+                    answerObject.put("uuid", "workerIssueUUID1");
 
-                    object.put("surveyUUID", tempSurvey.getUser_answer().get(0).getNextOrSurveyId());
+                    array.put(answerObject);
+                    object.put("user_answer", array);
                 } catch (JSONException e) {
 
                     e.printStackTrace();
                 }
-                if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
-                    socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent(), object);
-                else if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
-                    socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent());
+                // if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
+                socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent(), object);
+                // else if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
+                //  socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent());
 
 
             } else {
@@ -527,7 +594,7 @@ public class ChatBotActivity extends AppCompatActivity {
         tempSurvey.setUser_answer(tempSurvey.getAnswers());
         surveys.add(tempSurvey);
         sendMessage();
-        Utility.hideKeyboard(ChatBotActivity.this);
+        Utility.hideKeyboard(IssueBotActivity.this);
 
     }
 
@@ -542,6 +609,10 @@ public class ChatBotActivity extends AppCompatActivity {
             socket.on(TYPE + RECEIVE_NEXT_QUESTION, getQuestion);
             socket.on(TYPE + RECEIVE_END_QUESTION, getQuestion);
 
+            socket.on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+            socket.on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnSurveyInitiated);
+            socket.on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+
         } else {
             socket.off(Socket.EVENT_CONNECT, OnSocketConnected);
             socket.off(TYPE + RECEIVE_SURVEY_ACTIVE, OnSurveyInitiated);
@@ -549,6 +620,11 @@ public class ChatBotActivity extends AppCompatActivity {
             socket.off(TYPE + RECEIVE_FIRST_QUESTION, getQuestion);
             socket.off(TYPE + RECEIVE_NEXT_QUESTION, getQuestion);
             socket.off(TYPE + RECEIVE_END_QUESTION, getQuestion);
+
+            socket.off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+            socket.off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnSurveyInitiated);
+            socket.off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+
             socket.disconnect();
         }
     }
@@ -595,19 +671,17 @@ public class ChatBotActivity extends AppCompatActivity {
         RadioButton radioButton = new RadioButton(this);
 
 
-
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 110);
-        if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-            params.height=110;
+        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+            params.height = 110;
         else
-            params.height=80;
+            params.height = 80;
         radioButton.setLayoutParams(params);
         radioButton.setId(0);
         radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
         radioButton.setText("Finish");
-        if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
             radioButton.setTextSize(16);
         else
             radioButton.setTextSize(20);

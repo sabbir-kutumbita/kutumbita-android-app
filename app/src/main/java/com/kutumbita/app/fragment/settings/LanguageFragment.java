@@ -16,6 +16,7 @@ import com.kutumbita.app.utility.Utility;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,8 +24,12 @@ import androidx.fragment.app.Fragment;
 public class LanguageFragment extends Fragment {
 
 
+    public MutableLiveData<String> languageStringData;
+
     public LanguageFragment() {
         // Required empty public constructor
+
+        languageStringData = new MutableLiveData<>();
     }
 
     View v;
@@ -55,23 +60,27 @@ public class LanguageFragment extends Fragment {
 
                 if (checkedId == R.id.rbBang) {
 
-                    preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "bn");
-                    Utility.detectLanguage("bn", getContext());
+
+                    languageStringData.setValue("bn");
+
+//                    preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "bn");
+//                    Utility.detectLanguage("bn", getContext());
 
                 } else {
 
-                    preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
-                    Utility.detectLanguage("en", getContext());
+                    languageStringData.setValue("en");
+//                    preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
+//                    Utility.detectLanguage("en", getContext());
 
                 }
 
-                Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
-                getActivity().sendBroadcast(intent);
-
-                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-                startActivity(goSplash);
-
-                getActivity().finish();
+//                Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
+//                getActivity().sendBroadcast(intent);
+//
+//                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
+//                startActivity(goSplash);
+//
+//                getActivity().finish();
             }
         });
 

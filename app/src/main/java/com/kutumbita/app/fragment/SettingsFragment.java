@@ -39,6 +39,11 @@ import androidx.lifecycle.MutableLiveData;
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
+    public MutableLiveData<Boolean> faqClicked;
+    public MutableLiveData<Boolean> languageClicked;
+    public MutableLiveData<Boolean> termsConditionClicked;
+    public MutableLiveData<Boolean> logoutClicked;
+
     public SettingsFragment() {
         // Required empty public constructor
         faqClicked = new MutableLiveData<>();
@@ -195,10 +200,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public MutableLiveData<Boolean> faqClicked;
-    public MutableLiveData<Boolean> languageClicked;
-    public MutableLiveData<Boolean> termsConditionClicked;
-    public MutableLiveData<Boolean> logoutClicked;
+
 
 //    OnSettingEventListener listener;
 //

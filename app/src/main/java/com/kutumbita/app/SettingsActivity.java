@@ -17,6 +17,7 @@ import com.kutumbita.app.utility.Utility;
 import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -109,9 +110,37 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
+                    Fragment languageFragment = new LanguageFragment();
+
+                    ((LanguageFragment) languageFragment).languageStringData.observe(SettingsActivity.this, new Observer<String>() {
+                        @Override
+                        public void onChanged(final String s) {
+                            settingsViewModel.setLanguage(s).observe(SettingsActivity.this, new Observer<Boolean>() {
+                                @Override
+                                public void onChanged(Boolean aBoolean) {
+                                    if (aBoolean) {
+                                        preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);
+                                        Utility.detectLanguage(s, SettingsActivity.this);
+
+                                        Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
+                                        sendBroadcast(intent);
+
+                                        Intent goSplash = new Intent(SettingsActivity.this, SplashActivity.class);
+                                        startActivity(goSplash);
+
+                                        finish();
+                                    } else {
+
+                                        S.T(SettingsActivity.this, "Failed to update language");
+                                    }
+                                }
+                            });
+                        }
+                    });
+
                     ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.language));
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                            .addToBackStack(null).replace(R.id.frPref, new LanguageFragment()).commit();
+                            .addToBackStack(null).replace(R.id.frPref, languageFragment).commit();
                 }
             }
         });
