@@ -9,7 +9,8 @@ public class Dialog implements Serializable {
 
 
     private String question, answerType, sender;
-    private ArrayList<Survey.Answer> answers;
+    private ArrayList<?> answers;
+
     private boolean isEnd = false;
 
     public static final String SENDER_USER = "user";
@@ -19,7 +20,7 @@ public class Dialog implements Serializable {
 
     }
 
-    public Dialog(String sender, String question, String answerType, ArrayList<Survey.Answer> answers) {
+    public Dialog(String sender, String question, String answerType, ArrayList<?> answers) {
         this.sender = sender;
         this.question = question;
         this.answerType = answerType;
@@ -60,11 +61,11 @@ public class Dialog implements Serializable {
         this.answerType = answerType;
     }
 
-    public ArrayList<Survey.Answer> getAnswers() {
+    public ArrayList<?> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ArrayList<Survey.Answer> answers) {
+    public void setAnswers(ArrayList<?> answers) {
         this.answers = answers;
     }
 }

@@ -43,7 +43,7 @@ public class ChatBotActivity extends AppCompatActivity {
 
     private static String EMMIT_SURVEY_INIT = ":bot_activate";
 
-    private static String TYPE = ":bot_activate";
+    private static String TYPE = "";
 
     private static String EMMIT_SURVEY_START = ":start";
     private static String EMMIT_NEXT_ANSWER = ":next_answer";
@@ -55,6 +55,7 @@ public class ChatBotActivity extends AppCompatActivity {
     private static String RECEIVE_END_QUESTION = ":end_question";
 
     private static String RECEIVE_SURVEY_DEACTIVE = ":bot_deactivate_response";
+
 
 
     View layout;

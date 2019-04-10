@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.chat.Issue;
 import com.kutumbita.app.chat.Survey;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
@@ -40,26 +41,20 @@ public class IssueBotActivity extends AppCompatActivity {
 
     Socket socket;
 
-
-    private static String EMMIT_SURVEY_INIT = ":bot_activate";
-
-    private static String TYPE = ":bot_activate";
-
-    private static String EMMIT_SURVEY_START = ":start";
+    private static String EMMIT_BOT_ACTIVATE = ":bot_activate";
+    private static String TYPE = "";
     private static String EMMIT_NEXT_ANSWER = ":next_answer";
     private static String EMMIT_END_ANSWER = ":end_answer";
 
-    private static String RECEIVE_SURVEY_ACTIVE = ":bot_activate_response";
+
+    private static String RECEIVE_BOT_ACTIVE = ":bot_activate_response";
     private static String RECEIVE_FIRST_QUESTION = ":first_question";
     private static String RECEIVE_NEXT_QUESTION = ":next_question";
     private static String RECEIVE_END_QUESTION = ":end_question";
-
-
     private static String RECEIVE_START_CONFIRMATION = ":start_confirmation";
     private static String RECEIVE_FEEDBACK_QUESTION = ":feedback_question";
     private static String RECEIVE_CATEGORY_ANSWER = ":category_answer";
-
-    private static String RECEIVE_SURVEY_DEACTIVE = ":bot_deactivate_response";
+    private static String RECEIVE_BOT_DEACTIVE = ":bot_deactivate_response";
 
 
     View layout;
@@ -69,10 +64,10 @@ public class IssueBotActivity extends AppCompatActivity {
 
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
-    ArrayList<Survey> surveys;
+    ArrayList<Issue> issues;
     EditText etAnswer;
     ChatAdapter adapter;
-    Survey tempSurvey;
+    Issue tempIssue;
 
 
     @Override
@@ -98,7 +93,7 @@ public class IssueBotActivity extends AppCompatActivity {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rcv.setLayoutManager(manager);
 
-        surveys = new ArrayList<>();
+        issues = new ArrayList<>();
         adapter = new ChatAdapter(this, dialogs);
         adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
@@ -110,10 +105,10 @@ public class IssueBotActivity extends AppCompatActivity {
                         dialogs.remove(dialogs.size() - 1);
                     }
 
-                    surveys.remove(surveys.size() - 1);
+                    issues.remove(issues.size() - 1);
 
                     // adapter.notifyDataSetChanged();
-                    tempSurvey = surveys.get(surveys.size() - 1);
+                    tempIssue = issues.get(issues.size() - 1);
                     sendMessage();
 
                 }
@@ -134,13 +129,13 @@ public class IssueBotActivity extends AppCompatActivity {
 
             if (socket.connected()) {
 
-                socket.emit(TYPE + EMMIT_SURVEY_INIT);
+                socket.emit(TYPE + EMMIT_BOT_ACTIVATE);
             }
 
         }
     };
 
-    Emitter.Listener OnSurveyInitiated = new Emitter.Listener() {
+    Emitter.Listener OnBotActivated = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
@@ -152,11 +147,11 @@ public class IssueBotActivity extends AppCompatActivity {
                     try {
                         S.L("socket init", args[0].toString());
                         JSONObject obj = (JSONObject) args[0];
-                        tempSurvey = new Survey();
-                        tempSurvey.setQuestion(obj.getString("question"));
-                        tempSurvey.setType(obj.getString("type"));
-                        tempSurvey.setAnswer_type(obj.getString("answer_type"));
-                        ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
+                        tempIssue = new Issue();
+                        tempIssue.setQuestion(obj.getString("question"));
+                        tempIssue.setType(obj.getString("type"));
+                        tempIssue.setAnswer_type(obj.getString("answer_type"));
+                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
 
                             JSONArray answerArray = obj.getJSONArray("answers");
@@ -166,7 +161,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
                                 JSONObject answerObj = answerArray.getJSONObject(i);
 
-                                tempAnswers.add(new Survey.Answer(answerObj.getString("title"),
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"),answerObj.getString("slug"),
                                         //we set event as score here
                                         answerObj.getString("event"),
 
@@ -176,7 +171,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
 
                         }
-                        tempSurvey.setAnswers(tempAnswers);
+                        tempIssue.setAnswers(tempAnswers);
                         //  surveys.add(tempSurvey);
                         loadChatMessage();
                     } catch (Exception e) {
@@ -209,28 +204,28 @@ public class IssueBotActivity extends AppCompatActivity {
 
 
                         JSONObject obj = (JSONObject) args[0];
-                        tempSurvey = new Survey();
-                        tempSurvey.setId(obj.getString("id"));
-                        tempSurvey.setEnd(obj.getBoolean("end"));
+                        tempIssue = new Issue();
+                        tempIssue.setId(obj.getString("id"));
+                        tempIssue.setEnd(obj.getBoolean("end"));
 
-                        tempSurvey.setSurvey_uuid(obj.getString("survey_uuid"));
-                        tempSurvey.setQuestion_no(obj.getString("question_no"));
-                        tempSurvey.setQuestion(obj.getString("question"));
-                        tempSurvey.setType(obj.getString("type"));
-                        tempSurvey.setWeight(obj.has("weight") ? obj.getString("weight") : "0");
-                        tempSurvey.setAnswer_type(obj.getString("answer_type"));
-                        if (tempSurvey.isEnd()) {
+                        tempIssue.setSurvey_uuid(obj.getString("survey_uuid"));
+                        tempIssue.setQuestion_no(obj.getString("question_no"));
+                        tempIssue.setQuestion(obj.getString("question"));
+                        tempIssue.setType(obj.getString("type"));
+                        tempIssue.setWeight(obj.has("weight") ? obj.getString("weight") : "0");
+                        tempIssue.setAnswer_type(obj.getString("answer_type"));
+                        if (tempIssue.isEnd()) {
                             Dialog tempDialog = new Dialog();
                             tempDialog.setSender(Dialog.SENDER_BOT);
-                            tempDialog.setQuestion(tempSurvey.getQuestion());
+                            tempDialog.setQuestion(tempIssue.getQuestion());
                             tempDialog.setAnswerType(Dialog.SENDER_BOT);
-                            tempDialog.setEnd(tempSurvey.isEnd());
+                            tempDialog.setEnd(tempIssue.isEnd());
                             refreshRecycleView(tempDialog);
                             // surveys.add(tempSurvey);
                             loadFinishRadioButton();
                             return;
                         }
-                        ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
+                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
 
 
@@ -238,12 +233,12 @@ public class IssueBotActivity extends AppCompatActivity {
                             tempAnswers.clear();
                             for (int i = 0; i < answerArray.length(); i++) {
                                 JSONObject answerObj = answerArray.getJSONObject(i);
-                                tempAnswers.add(new Survey.Answer(answerObj.getString("title"), answerObj.getString("score"), answerObj.getString("next")));
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"),answerObj.getString("slug"), answerObj.getString("score"), answerObj.getString("next")));
                             }
 
                         }
 
-                        tempSurvey.setAnswers(tempAnswers);
+                        tempIssue.setAnswers(tempAnswers);
                         // surveys.add(tempSurvey);
                         loadChatMessage();
                     } catch (Exception e) {
@@ -273,11 +268,11 @@ public class IssueBotActivity extends AppCompatActivity {
                     try {
                         S.L("socket init", args[0].toString());
                         JSONObject obj = (JSONObject) args[0];
-                        tempSurvey = new Survey();
-                        tempSurvey.setQuestion(obj.getString("question"));
-                        tempSurvey.setType(obj.getString("type"));
-                        tempSurvey.setAnswer_type(obj.getString("answer_type"));
-                        ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
+                        tempIssue = new Issue();
+                        tempIssue.setQuestion(obj.getString("question"));
+                        tempIssue.setType(obj.getString("type"));
+                        tempIssue.setAnswer_type(obj.getString("answer_type"));
+                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
 
                             JSONArray answerArray = obj.getJSONArray("answers");
@@ -287,7 +282,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
                                 JSONObject answerObj = answerArray.getJSONObject(i);
 
-                                tempAnswers.add(new Survey.Answer(answerObj.getString("title"),
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"),answerObj.getString("slug"),
                                         //we set event as score here
                                         answerObj.getString("event"),
 
@@ -297,7 +292,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
 
                         }
-                        tempSurvey.setAnswers(tempAnswers);
+                        tempIssue.setAnswers(tempAnswers);
                         //  surveys.add(tempSurvey);
                         loadChatMessage();
                     } catch (Exception e) {
@@ -325,8 +320,8 @@ public class IssueBotActivity extends AppCompatActivity {
 
     private void loadChatMessage() {
 
-        if (tempSurvey.getType().toLowerCase().contentEquals("bot")) {
-            if (tempSurvey.getAnswer_type().toLowerCase().contentEquals("none")) {
+        if (tempIssue.getType().toLowerCase().contentEquals("bot")) {
+            if (tempIssue.getAnswer_type().toLowerCase().contentEquals("none")) {
 
                 loadNoneAnswerTypeMessage();
                 return;
@@ -340,7 +335,7 @@ public class IssueBotActivity extends AppCompatActivity {
     private void loadNoneAnswerTypeMessage() {
 
         // makeEditable(false);
-        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), Dialog.SENDER_BOT, null);
+        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), Dialog.SENDER_BOT, null);
         refreshRecycleView(tempDialog);
 
 
@@ -353,15 +348,15 @@ public class IssueBotActivity extends AppCompatActivity {
     private void loadNormalMessage() {
 
 
-        final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
+        final ArrayList<Issue.Answer> userAnswers = new ArrayList<>();
 
 
-        Dialog d = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), tempSurvey.getAnswer_type(), tempSurvey.getAnswers());
+        Dialog d = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getAnswer_type(), tempIssue.getAnswers());
 
         refreshRecycleView(d);
         linearLayoutRg.removeAllViews();
 
-        switch (tempSurvey.getAnswer_type().toLowerCase()) {
+        switch (tempIssue.getAnswer_type().toLowerCase()) {
 
 
 //            case "none":
@@ -382,7 +377,7 @@ public class IssueBotActivity extends AppCompatActivity {
                 RadioGroup rg = new RadioGroup(this);
                 rg.setOrientation(RadioGroup.VERTICAL);
 
-                for (int i = 0; i < tempSurvey.getAnswers().size(); i++) {
+                for (int i = 0; i < tempIssue.getAnswers().size(); i++) {
 
                     RadioButton radioButton = new RadioButton(this);
 
@@ -396,9 +391,9 @@ public class IssueBotActivity extends AppCompatActivity {
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
-                    radioButton.setTag(tempSurvey.getAnswers().get(i));
+                    radioButton.setTag(tempIssue.getAnswers().get(i));
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                    radioButton.setText(tempSurvey.getAnswers().get(i).getTitle());
+                    radioButton.setText(tempIssue.getAnswers().get(i).getTitle());
 
                     if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
                         radioButton.setTextSize(16);
@@ -421,11 +416,11 @@ public class IssueBotActivity extends AppCompatActivity {
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
 
-                        userAnswers.add((Survey.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
+                        userAnswers.add((Issue.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
 
-                        tempSurvey.setUser_answer(userAnswers);
+                        tempIssue.setUser_answer(userAnswers);
 
-                        surveys.add(tempSurvey);
+                        issues.add(tempIssue);
 
                         sendMessage();
                     }
@@ -513,14 +508,14 @@ public class IssueBotActivity extends AppCompatActivity {
         //surveys.add(tempSurvey);
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
-        tempDialog.setQuestion(tempSurvey.getUser_answer().get(0).getTitle());
+        tempDialog.setQuestion(tempIssue.getUser_answer().get(0).getTitle());
         tempDialog.setAnswerType(Dialog.SENDER_USER);
         refreshRecycleView(tempDialog);
 
 
         if (socket.connected()) {
 
-            if (tempSurvey.getType().toLowerCase().contentEquals("bot")) {
+            if (tempIssue.getType().toLowerCase().contentEquals("bot")) {
 
 
                 JSONObject object = new JSONObject();
@@ -539,7 +534,7 @@ public class IssueBotActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 // if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
-                socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent(), object);
+                socket.emit(tempIssue.getUser_answer().get(0).getScoreOrEvent(), object);
                 // else if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
                 //  socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent());
 
@@ -549,19 +544,19 @@ public class IssueBotActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject();
                 try {
 
-                    object.put("survey_uuid", tempSurvey.getSurvey_uuid());
-                    object.put("id", tempSurvey.getId());
-                    object.put("question_no", tempSurvey.getQuestion_no());
-                    object.put("question", tempSurvey.getQuestion());
-                    object.put("weight", tempSurvey.getWeight());
-                    object.put("answer_type", tempSurvey.getAnswer_type());
+                    object.put("survey_uuid", tempIssue.getSurvey_uuid());
+                    object.put("id", tempIssue.getId());
+                    object.put("question_no", tempIssue.getQuestion_no());
+                    object.put("question", tempIssue.getQuestion());
+                    object.put("weight", tempIssue.getWeight());
+                    object.put("answer_type", tempIssue.getAnswer_type());
 
                     JSONArray array = new JSONArray();
 
                     JSONObject answerObject = new JSONObject();
-                    answerObject.put("title", tempSurvey.getUser_answer().get(0).getTitle());
-                    answerObject.put("score", tempSurvey.getUser_answer().get(0).getScoreOrEvent());
-                    answerObject.put("next", tempSurvey.getUser_answer().get(0).getNextOrSurveyId());
+                    answerObject.put("title", tempIssue.getUser_answer().get(0).getTitle());
+                    answerObject.put("score", tempIssue.getUser_answer().get(0).getScoreOrEvent());
+                    answerObject.put("next", tempIssue.getUser_answer().get(0).getNextOrSurveyId());
 
                     array.put(answerObject);
                     object.put("user_answer", array);
@@ -572,7 +567,7 @@ public class IssueBotActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (tempSurvey.isEnd())
+                if (tempIssue.isEnd())
                     socket.emit(TYPE + EMMIT_END_ANSWER, object);
                 else
                     socket.emit(TYPE + EMMIT_NEXT_ANSWER, object);
@@ -590,9 +585,9 @@ public class IssueBotActivity extends AppCompatActivity {
 
         if (etAnswer.getText().toString().isEmpty())
             return;
-        tempSurvey.getAnswers().get(0).setTitle(etAnswer.getText().toString());
-        tempSurvey.setUser_answer(tempSurvey.getAnswers());
-        surveys.add(tempSurvey);
+        tempIssue.getAnswers().get(0).setTitle(etAnswer.getText().toString());
+        tempIssue.setUser_answer(tempIssue.getAnswers());
+        issues.add(tempIssue);
         sendMessage();
         Utility.hideKeyboard(IssueBotActivity.this);
 
@@ -603,26 +598,26 @@ public class IssueBotActivity extends AppCompatActivity {
         if (connect) {
             socket.connect();
             socket.on(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.on(TYPE + RECEIVE_SURVEY_ACTIVE, OnSurveyInitiated);
-            socket.on(TYPE + RECEIVE_SURVEY_DEACTIVE, OnSurveyInitiated);
+            socket.on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
+            socket.on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
             socket.on(TYPE + RECEIVE_FIRST_QUESTION, getQuestion);
             socket.on(TYPE + RECEIVE_NEXT_QUESTION, getQuestion);
             socket.on(TYPE + RECEIVE_END_QUESTION, getQuestion);
 
             socket.on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            socket.on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnSurveyInitiated);
+            socket.on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
             socket.on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
 
         } else {
             socket.off(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.off(TYPE + RECEIVE_SURVEY_ACTIVE, OnSurveyInitiated);
-            socket.off(TYPE + RECEIVE_SURVEY_DEACTIVE, OnSurveyInitiated);
+            socket.off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
+            socket.off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
             socket.off(TYPE + RECEIVE_FIRST_QUESTION, getQuestion);
             socket.off(TYPE + RECEIVE_NEXT_QUESTION, getQuestion);
             socket.off(TYPE + RECEIVE_END_QUESTION, getQuestion);
 
             socket.off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            socket.off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnSurveyInitiated);
+            socket.off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
             socket.off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
 
             socket.disconnect();
