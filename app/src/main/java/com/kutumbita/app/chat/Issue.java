@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Issue {
 
 
-    private String id, type, survey_uuid, question_no, question, weight, answer_type;
+    private String id, type, survey_uuid, question_no, question, weightOrWorkerId, answer_type;
     private ArrayList<Answer> answers;
     private ArrayList<Answer> user_answer;
     private boolean isEnd;
@@ -16,14 +16,14 @@ public class Issue {
 
     }
 
-    public Issue(String id, String type, String survey_uuid, String question_no, String question, String weight, String answer_type, ArrayList<Answer> answers, boolean isEnd) {
+    public Issue(String id, String type, String survey_uuid, String question_no, String question, String weightOrWorkerId, String answer_type, ArrayList<Answer> answers, boolean isEnd) {
 
         this.id = id;
         this.type = type;
         this.survey_uuid = survey_uuid;
         this.question_no = question_no;
         this.question = question;
-        this.weight = weight;
+        this.weightOrWorkerId = weightOrWorkerId;
         this.answer_type = answer_type;
         this.answers = answers;
         this.isEnd = isEnd;
@@ -128,12 +128,12 @@ public class Issue {
         this.question = question;
     }
 
-    public String getWeight() {
-        return weight;
+    public String getWeightOrWorkerId() {
+        return weightOrWorkerId;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public void setWeightOrWorkerId(String weightOrWorkerId) {
+        this.weightOrWorkerId = weightOrWorkerId;
     }
 
     public String getAnswer_type() {

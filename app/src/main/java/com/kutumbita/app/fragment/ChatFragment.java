@@ -10,10 +10,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kutumbita.app.ChatBotActivity;
+import com.kutumbita.app.GlobalData;
 import com.kutumbita.app.IssueBotActivity;
 import com.kutumbita.app.R;
 import com.kutumbita.app.utility.Constant;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -29,6 +31,19 @@ public class ChatFragment extends Fragment {
     View v;
     View layout, surveyView;
     RelativeLayout issueView;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        GlobalData.getInstance().getmSocket().connect();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        GlobalData.getInstance().getmSocket().disconnect();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

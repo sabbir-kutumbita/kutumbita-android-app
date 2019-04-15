@@ -39,6 +39,7 @@ public class GlobalData extends Application {
         Utility.detectLanguage(lan, this);
         if (preferenceUtility.getMe() != null) {
 
+
             initializeSocket();
 
         }

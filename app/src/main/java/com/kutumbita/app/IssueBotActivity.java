@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.kutumbita.app.adapter.ChatAdapter;
 import com.kutumbita.app.chat.Dialog;
 import com.kutumbita.app.chat.Issue;
-import com.kutumbita.app.chat.Survey;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
@@ -34,12 +33,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class IssueBotActivity extends AppCompatActivity {
 
-    Socket socket;
 
     private static String EMMIT_BOT_ACTIVATE = ":bot_activate";
     private static String TYPE = "";
@@ -98,6 +95,9 @@ public class IssueBotActivity extends AppCompatActivity {
         adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
+
+
+
                 if (aBoolean) {
 
                     int termination = dialogs.size() < 4 ? dialogs.size() : 4;
@@ -116,24 +116,13 @@ public class IssueBotActivity extends AppCompatActivity {
         });
 
         rcv.setAdapter(adapter);
-        socket = GlobalData.getInstance().getmSocket();
-        socketSetup(true);
+        if (GlobalData.getInstance().getmSocket().connected())
+            socketSetup(true);
 
 
     }
 
-    public Emitter.Listener OnSocketConnected = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
 
-
-            if (socket.connected()) {
-
-                socket.emit(TYPE + EMMIT_BOT_ACTIVATE);
-            }
-
-        }
-    };
 
     Emitter.Listener OnBotActivated = new Emitter.Listener() {
 
@@ -151,17 +140,19 @@ public class IssueBotActivity extends AppCompatActivity {
                         tempIssue.setQuestion(obj.getString("question"));
                         tempIssue.setType(obj.getString("type"));
                         tempIssue.setAnswer_type(obj.getString("answer_type"));
+                        tempIssue.setWeightOrWorkerId(obj.has("workerIssueUUID") ? obj.getString("workerIssueUUID") : "");
                         ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
                         if (obj.has("answers")) {
 
                             JSONArray answerArray = obj.getJSONArray("answers");
+
                             tempAnswers.clear();
                             for (int i = 0; i < answerArray.length(); i++) {
 
 
                                 JSONObject answerObj = answerArray.getJSONObject(i);
 
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"),answerObj.getString("slug"),
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "",
                                         //we set event as score here
                                         answerObj.getString("event"),
 
@@ -188,7 +179,7 @@ public class IssueBotActivity extends AppCompatActivity {
         }
     };
 
-    Emitter.Listener getQuestion = new Emitter.Listener() {
+    Emitter.Listener getIssueQuestion = new Emitter.Listener() {
 
 
         @Override
@@ -208,11 +199,11 @@ public class IssueBotActivity extends AppCompatActivity {
                         tempIssue.setId(obj.getString("id"));
                         tempIssue.setEnd(obj.getBoolean("end"));
 
-                        tempIssue.setSurvey_uuid(obj.getString("survey_uuid"));
+                        tempIssue.setSurvey_uuid(obj.getString("issue_uuid"));
                         tempIssue.setQuestion_no(obj.getString("question_no"));
                         tempIssue.setQuestion(obj.getString("question"));
                         tempIssue.setType(obj.getString("type"));
-                        tempIssue.setWeight(obj.has("weight") ? obj.getString("weight") : "0");
+                        tempIssue.setWeightOrWorkerId(obj.has("weight") ? obj.getString("weight") : "0");
                         tempIssue.setAnswer_type(obj.getString("answer_type"));
                         if (tempIssue.isEnd()) {
                             Dialog tempDialog = new Dialog();
@@ -233,7 +224,7 @@ public class IssueBotActivity extends AppCompatActivity {
                             tempAnswers.clear();
                             for (int i = 0; i < answerArray.length(); i++) {
                                 JSONObject answerObj = answerArray.getJSONObject(i);
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"),answerObj.getString("slug"), answerObj.getString("score"), answerObj.getString("next")));
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "", answerObj.has("score") ? answerObj.getString("score") : "", answerObj.getString("next")));
                             }
 
                         }
@@ -282,7 +273,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
                                 JSONObject answerObj = answerArray.getJSONObject(i);
 
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"),answerObj.getString("slug"),
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "",
                                         //we set event as score here
                                         answerObj.getString("event"),
 
@@ -333,6 +324,7 @@ public class IssueBotActivity extends AppCompatActivity {
     }
 
     private void loadNoneAnswerTypeMessage() {
+
 
         // makeEditable(false);
         Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), Dialog.SENDER_BOT, null);
@@ -513,7 +505,7 @@ public class IssueBotActivity extends AppCompatActivity {
         refreshRecycleView(tempDialog);
 
 
-        if (socket.connected()) {
+        if (GlobalData.getInstance().getmSocket().connected()) {
 
             if (tempIssue.getType().toLowerCase().contentEquals("bot")) {
 
@@ -522,19 +514,20 @@ public class IssueBotActivity extends AppCompatActivity {
                 try {
                     JSONArray array = new JSONArray();
                     JSONObject answerObject = new JSONObject();
-                    answerObject.put("title", "noComment");
-                    answerObject.put("slug", "no_comment");
-                    answerObject.put("event", "issue:worker_feedback");
-                    answerObject.put("uuid", "workerIssueUUID1");
+                    answerObject.put("title", tempIssue.getUser_answer().get(0).getTitle());
+                    answerObject.put("slug", tempIssue.getUser_answer().get(0).getSlug());
+                    answerObject.put("event", tempIssue.getUser_answer().get(0).getScoreOrEvent());
+                    answerObject.put("workerIssueUUID", tempIssue.getWeightOrWorkerId());
 
                     array.put(answerObject);
                     object.put("user_answer", array);
                 } catch (JSONException e) {
 
+
                     e.printStackTrace();
                 }
                 // if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("yes"))
-                socket.emit(tempIssue.getUser_answer().get(0).getScoreOrEvent(), object);
+                GlobalData.getInstance().getmSocket().emit(tempIssue.getUser_answer().get(0).getScoreOrEvent(), object);
                 // else if (tempSurvey.getUser_answer().get(0).getTitle().toLowerCase().contentEquals("no"))
                 //  socket.emit(tempSurvey.getUser_answer().get(0).getScoreOrEvent());
 
@@ -544,11 +537,11 @@ public class IssueBotActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject();
                 try {
 
-                    object.put("survey_uuid", tempIssue.getSurvey_uuid());
+                    object.put("issue_uuid", tempIssue.getSurvey_uuid());
                     object.put("id", tempIssue.getId());
                     object.put("question_no", tempIssue.getQuestion_no());
                     object.put("question", tempIssue.getQuestion());
-                    object.put("weight", tempIssue.getWeight());
+                    object.put("weight", tempIssue.getWeightOrWorkerId());
                     object.put("answer_type", tempIssue.getAnswer_type());
 
                     JSONArray array = new JSONArray();
@@ -568,9 +561,12 @@ public class IssueBotActivity extends AppCompatActivity {
                 }
 
                 if (tempIssue.isEnd())
-                    socket.emit(TYPE + EMMIT_END_ANSWER, object);
+
+                    GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_END_ANSWER, object);
+
                 else
-                    socket.emit(TYPE + EMMIT_NEXT_ANSWER, object);
+                    GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_NEXT_ANSWER, object);
+
 
             }
         }
@@ -596,31 +592,36 @@ public class IssueBotActivity extends AppCompatActivity {
 
     private void socketSetup(boolean connect) {
         if (connect) {
-            socket.connect();
-            socket.on(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
-            socket.on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
-            socket.on(TYPE + RECEIVE_FIRST_QUESTION, getQuestion);
-            socket.on(TYPE + RECEIVE_NEXT_QUESTION, getQuestion);
-            socket.on(TYPE + RECEIVE_END_QUESTION, getQuestion);
 
-            socket.on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            socket.on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
-            socket.on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
+
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+
+            if (GlobalData.getInstance().getmSocket().connected()) {
+
+                GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_BOT_ACTIVATE);
+            }
 
         } else {
-            socket.off(Socket.EVENT_CONNECT, OnSocketConnected);
-            socket.off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
-            socket.off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
-            socket.off(TYPE + RECEIVE_FIRST_QUESTION, getQuestion);
-            socket.off(TYPE + RECEIVE_NEXT_QUESTION, getQuestion);
-            socket.off(TYPE + RECEIVE_END_QUESTION, getQuestion);
 
-            socket.off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            socket.off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
-            socket.off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
 
-            socket.disconnect();
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+
+
         }
     }
 
