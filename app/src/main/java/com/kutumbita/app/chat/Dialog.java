@@ -28,6 +28,14 @@ public class Dialog implements Serializable {
 
     }
 
+    public Dialog(String sender, String question,  ArrayList<?> answers) {
+        this.sender = sender;
+        this.question = question;
+
+        this.answers = answers;
+
+    }
+
     public boolean isEnd() {
         return isEnd;
     }
