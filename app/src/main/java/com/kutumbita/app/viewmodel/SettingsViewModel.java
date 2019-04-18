@@ -2,6 +2,7 @@ package com.kutumbita.app.viewmodel;
 
 import android.app.Application;
 
+import com.kutumbita.app.model.Me;
 import com.kutumbita.app.repository.SettingsRepository;
 import com.kutumbita.app.utility.PreferenceUtility;
 
@@ -14,7 +15,7 @@ public class SettingsViewModel extends AndroidViewModel {
 
     LiveData<Boolean> loggedOut;
     PreferenceUtility preferenceUtility;
-    LiveData<Boolean> languageData;
+    LiveData<Me> languageData;
     SettingsRepository settingsRepository;
 
     public SettingsViewModel(@NonNull Application application) {
@@ -33,13 +34,12 @@ public class SettingsViewModel extends AndroidViewModel {
 //    }
 
     public LiveData<Boolean> isLoggedOut() {
-        loggedOut = settingsRepository.logoutLiveData
-                (preferenceUtility.getMe().getAccessToken());
+        loggedOut = settingsRepository.logoutLiveData(preferenceUtility.getMe().getAccessToken());
         return loggedOut;
     }
 
-    public LiveData<Boolean> setLanguage(String language) {
-        languageData = settingsRepository.languageLiveData(language, (preferenceUtility.getMe().getAccessToken()));
+    public LiveData<Me> setLanguage(String language) {
+        languageData = settingsRepository.languageLiveData(language, preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken());
         return languageData;
     }
 }

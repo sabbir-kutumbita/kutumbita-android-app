@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onChanged(Boolean aBoolean) {
                         if (aBoolean) {
-                            preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
+
                             Utility.detectLanguage("en", MainActivity.this);
                             preferenceUtility.deleteUser(preferenceUtility.getMe());
 //                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);

@@ -45,7 +45,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     SettingsViewModel settingsViewModel;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,12 +227,13 @@ public class AuthenticationActivity extends AppCompatActivity {
                             userObject.getString("phone"), userObject.getString("gender"),
                             userObject.getString("location"),
                             userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
-                            userObject.getString("avatar"), "A+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"),"in");
+                            userObject.getString("avatar"), "A+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"), userObject.getString("language").toLowerCase());
 
                     preferenceUtility.setMe(me);
 
 
                     GlobalData.getInstance().initializeSocket();
+                    Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), AuthenticationActivity.this);
                     Intent goMain = new Intent(AuthenticationActivity.this, MainActivity.class);
                     startActivity(goMain);
 

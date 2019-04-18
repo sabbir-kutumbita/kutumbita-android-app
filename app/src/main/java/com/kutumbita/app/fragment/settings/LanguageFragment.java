@@ -24,12 +24,12 @@ import androidx.lifecycle.MutableLiveData;
 public class LanguageFragment extends Fragment {
 
 
-    public MutableLiveData<String> languageStringData;
+    public MutableLiveData<String> languageStringLiveData;
 
     public LanguageFragment() {
         // Required empty public constructor
 
-        languageStringData = new MutableLiveData<>();
+        languageStringLiveData = new MutableLiveData<>();
     }
 
     View v;
@@ -50,7 +50,7 @@ public class LanguageFragment extends Fragment {
 
 
 
-        // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.fragment_language, container, false);
 
         radioGroup = v.findViewById(R.id.rgLang);
@@ -61,26 +61,17 @@ public class LanguageFragment extends Fragment {
                 if (checkedId == R.id.rbBang) {
 
 
-                    languageStringData.setValue("bn");
+                    languageStringLiveData.setValue("bn");
 
-//                    preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "bn");
-//                    Utility.detectLanguage("bn", getContext());
+
 
                 } else {
 
-                    languageStringData.setValue("en");
-//                    preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
-//                    Utility.detectLanguage("en", getContext());
+                    languageStringLiveData.setValue("en");
+
 
                 }
 
-//                Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
-//                getActivity().sendBroadcast(intent);
-//
-//                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-//                startActivity(goSplash);
-//
-//                getActivity().finish();
             }
         });
 

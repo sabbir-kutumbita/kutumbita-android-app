@@ -208,6 +208,7 @@ public class InboxFragment extends Fragment {
     private void loadRecycleView() {
 
 
+
         adapter = new InboxAdapter(getActivity(), inboxes);
         adapter.inBoxLiveData.observe(this, new Observer<Inbox>() {
             @Override

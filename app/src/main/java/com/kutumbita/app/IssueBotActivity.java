@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.kutumbita.app.adapter.IssueAdapter;
 import com.kutumbita.app.chat.Dialog;
 import com.kutumbita.app.chat.Issue;
@@ -49,6 +48,7 @@ public class IssueBotActivity extends AppCompatActivity {
     private static String RECEIVE_FIRST_QUESTION = ":first_question";
     private static String RECEIVE_NEXT_QUESTION = ":next_question";
     private static String RECEIVE_END_QUESTION = ":end_question";
+
     private static String RECEIVE_START_CONFIRMATION = ":start_confirmation";
     private static String RECEIVE_FEEDBACK_QUESTION = ":feedback_question";
     private static String RECEIVE_CATEGORY_ANSWER = ":category_answer";
@@ -58,7 +58,7 @@ public class IssueBotActivity extends AppCompatActivity {
     View layout;
     PreferenceUtility preferenceUtility;
 
-    JSONObject tempObject, tempUserAnswerObject;
+    JSONObject tempObject;
     JSONArray tempAnswerArray;
 
     ArrayList<Dialog> dialogs = new ArrayList<>();
@@ -77,7 +77,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
-        setContentView(R.layout.activity_chat_bot);
+        setContentView(R.layout.activity_survey_bot);
         // getLifecycle().addObserver(new ChatBotActivityObserver());
         TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
         preferenceUtility = new PreferenceUtility(this);
@@ -571,7 +571,7 @@ public class IssueBotActivity extends AppCompatActivity {
             tempIssue.getAnswers().get(0).setTitle(etAnswer.getText().toString());
             tempIssue.setUser_answer(tempIssue.getAnswers());
             issues.add(tempIssue);
-            tempObject = tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
+            tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
             sendMessage(0);
             Utility.hideKeyboard(IssueBotActivity.this);
         } catch (JSONException e) {
@@ -596,10 +596,10 @@ public class IssueBotActivity extends AppCompatActivity {
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
 
-            if (GlobalData.getInstance().getmSocket().connected()) {
+
 
                 GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_BOT_ACTIVATE);
-            }
+
 
         } else {
 

@@ -7,7 +7,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/relRadio"
+        android:id="@+id/rel"
         android:layout_width="@dimen/eighty_dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true">

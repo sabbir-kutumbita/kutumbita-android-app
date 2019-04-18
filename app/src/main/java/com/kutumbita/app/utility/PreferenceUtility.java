@@ -59,11 +59,11 @@ public class PreferenceUtility {
 
     }
 
-    public void setString(String key, String value) {
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putString(key, value);
-        edit.commit();
-    }
+//    public void setString(String key, String value) {
+//        SharedPreferences.Editor edit = pref.edit();
+//        edit.putString(key, value);
+//        edit.commit();
+//    }
 
     public String getString(String key) {
 

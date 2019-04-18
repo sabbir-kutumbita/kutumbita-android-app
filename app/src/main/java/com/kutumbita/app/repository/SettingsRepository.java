@@ -9,8 +9,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonObject;
 import com.kutumbita.app.GlobalData;
 import com.kutumbita.app.SplashActivity;
+import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
@@ -105,9 +107,9 @@ public class SettingsRepository {
 
     }
 
-    public LiveData<Boolean> languageLiveData(final String language, final String accessToken) {
+    public LiveData<Me> languageLiveData(final String language, final String accessToken, final String refreshToken) {
 
-        final MutableLiveData<Boolean> isSucceed = new MutableLiveData<>();
+        final MutableLiveData<Me> updatedMe = new MutableLiveData<>();
 
 
         JSONObject object = new JSONObject();
@@ -121,28 +123,33 @@ public class SettingsRepository {
         final String body = object.toString();
 
 
-        S.L("languagebody", body);
+        S.L("languagebody json", body);
+        S.L("URL lang", UrlConstant.URL_UPDATE_LANGUAGE);
         StringRequest languageRequest = new StringRequest(Request.Method.PUT, UrlConstant.URL_UPDATE_LANGUAGE, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
 
-                S.L("language", response);
+                S.L("me json", response);
 
 
                 try {
-
-                    JSONObject object = new JSONObject(response);
-                    if (object.getBoolean("success")) {
-                        isSucceed.setValue(true);
+                    JSONObject userObject = new JSONObject(response);
 
 
-                    }
+                    Me me = new Me(accessToken
+                            , refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), "Star Group",
+                            userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
+                            userObject.getString("phone"), userObject.getString("gender"),
+                            userObject.getString("location"),
+                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
+                            userObject.getString("avatar"), "O+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"), userObject.getString("language").toLowerCase());
 
 
+                    updatedMe.setValue(me);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    isSucceed.setValue(false);
+                    updatedMe.setValue(null);
                 }
 
 
@@ -152,7 +159,7 @@ public class SettingsRepository {
             public void onErrorResponse(VolleyError error) {
 
                 S.L("error: " + error.getMessage());
-                isSucceed.setValue(false);
+                updatedMe.setValue(null);
 
             }
         }) {
@@ -160,7 +167,9 @@ public class SettingsRepository {
             public Map<String, String> getHeaders() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
                 params.put("Authorization", "Bearer " + accessToken);
+
                 return params;
             }
 
@@ -182,12 +191,8 @@ public class SettingsRepository {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         GlobalData.getInstance().addToRequestQueue(languageRequest);
-        try {
-            S.L("languageRequest",languageRequest.getBody().toString());
-        } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
-        }
-        return isSucceed;
+
+        return updatedMe;
 
     }
 }

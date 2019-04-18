@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ChatAdapter extends RecyclerView.Adapter {
+public class DialogAdapter extends RecyclerView.Adapter {
 
     private static final int MESSAGE_TYPE_USER = 1;
     private static final int MESSAGE_TYPE_BOT = 2;
@@ -29,7 +29,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     List<Dialog> dialogs = Collections.emptyList();
    public MutableLiveData<Boolean> liveData;
 
-    public ChatAdapter(Context c, List<Dialog> dialogs) {
+    public DialogAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
         this.c = c;
@@ -147,7 +147,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //listener.onReloadClick();
                     liveData.setValue(true);
                 }
             });
@@ -156,15 +155,5 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     }
 
-//    OnReloadItemClickListener listener;
-//
-//    public void setOnReloadItemClickListener(OnReloadItemClickListener listener) {
-//
-//        this.listener = listener;
-//    }
-//
-//    public interface OnReloadItemClickListener {
-//
-//        void onReloadClick();
-//    }
+
 }

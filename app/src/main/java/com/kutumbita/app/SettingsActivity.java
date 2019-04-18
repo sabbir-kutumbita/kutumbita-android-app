@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.kutumbita.app.fragment.SettingsFragment;
 import com.kutumbita.app.fragment.settings.LanguageFragment;
+import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
@@ -89,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
                         @Override
                         public void onChanged(Boolean aBoolean) {
                             if (aBoolean) {
-                                preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, "en");
+
                                 Utility.detectLanguage("en", SettingsActivity.this);
                                 preferenceUtility.deleteUser(preferenceUtility.getMe());
                                 Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
@@ -112,15 +113,17 @@ public class SettingsActivity extends AppCompatActivity {
                 if (aBoolean) {
                     Fragment languageFragment = new LanguageFragment();
 
-                    ((LanguageFragment) languageFragment).languageStringData.observe(SettingsActivity.this, new Observer<String>() {
+                    ((LanguageFragment) languageFragment).languageStringLiveData.observe(SettingsActivity.this, new Observer<String>() {
                         @Override
                         public void onChanged(final String s) {
-                            settingsViewModel.setLanguage(s).observe(SettingsActivity.this, new Observer<Boolean>() {
+                            settingsViewModel.setLanguage(s).observe(SettingsActivity.this, new Observer<Me>() {
                                 @Override
-                                public void onChanged(Boolean aBoolean) {
-                                    if (aBoolean) {
-                                        preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);
-                                        Utility.detectLanguage(s, SettingsActivity.this);
+                                public void onChanged(Me me) {
+                                    if (me != null) {
+
+                                        preferenceUtility.setMe(me);
+                                        //preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);
+                                        Utility.detectLanguage(me.getLanguage(), SettingsActivity.this);
 
                                         Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
                                         sendBroadcast(intent);

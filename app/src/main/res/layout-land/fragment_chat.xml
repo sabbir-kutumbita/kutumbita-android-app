@@ -21,52 +21,17 @@
         android:textColor="@color/primaryTextColor"
         android:textSize="@dimen/sixteen_sp" />
 
-    <include
-        android:id="@+id/tapSurvey"
-        layout="@layout/row_bot"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/tv"
-        android:layout_margin="@dimen/fifteen_dp"></include>
+        android:layout_marginTop="@dimen/ten_dp">
 
-    <RelativeLayout
-        android:id="@+id/relIssue"
-        android:layout_width="@dimen/eighty_dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/fifteen_dp"
-        android:layout_toRightOf="@+id/tapSurvey">
-
-
-        <ImageView
-            android:id="@+id/ivrGrid"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvChat"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/name" />
-
-
-        <TextView
-            android:id="@+id/tvrName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivrGrid"
-            android:layout_centerHorizontal="true"
-            android:ellipsize="end"
-            android:fadingEdge="horizontal"
-            android:fontFamily="@font/circularstd_book"
-            android:maxLength="22"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="Issue"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/fifteen_sp" />
-
-
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/row_bot"></androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
