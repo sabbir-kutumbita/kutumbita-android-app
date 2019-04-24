@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kutumbita.app.adapter.DialogAdapter;
+import com.kutumbita.app.adapter.SurveyDialogAdapter;
 import com.kutumbita.app.chat.Dialog;
 import com.kutumbita.app.chat.Survey;
 import com.kutumbita.app.utility.Constant;
@@ -33,7 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.Socket;
+
 import io.socket.emitter.Emitter;
 
 public class SurveyBotActivity extends AppCompatActivity {
@@ -65,9 +65,11 @@ public class SurveyBotActivity extends AppCompatActivity {
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
     ArrayList<Survey> surveys;
+
+   // ArrayList<JSONObject> surveyObjects;
     EditText etAnswer;
-    DialogAdapter adapter;
-    Survey tempSurvey;
+    SurveyDialogAdapter adapter;
+   Survey tempSurvey;
 
     JSONObject tempObject;
     JSONArray tempAnswerArray;
@@ -96,7 +98,8 @@ public class SurveyBotActivity extends AppCompatActivity {
         rcv.setLayoutManager(manager);
 
         surveys = new ArrayList<>();
-        adapter = new DialogAdapter(this, dialogs);
+       // surveyObjects= new ArrayList<>();
+        adapter = new SurveyDialogAdapter(this, dialogs);
         adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -107,11 +110,13 @@ public class SurveyBotActivity extends AppCompatActivity {
                         dialogs.remove(dialogs.size() - 1);
                     }
 
-                    surveys.remove(surveys.size() - 1);
+                 //   surveys.remove(surveys.size() - 1);
+
+
 
                     // adapter.notifyDataSetChanged();
-                    tempSurvey = surveys.get(surveys.size() - 1);
-                    //sendMessage();
+                  //  tempSurvey = surveys.get(surveys.size() - 1);
+                    sendMessage(0);
 
                 }
             }
@@ -124,24 +129,11 @@ public class SurveyBotActivity extends AppCompatActivity {
 
     }
 
-//    public Emitter.Listener OnSocketConnected = new Emitter.Listener() {
-//        @Override
-//        public void call(final Object... args) {
-//
-//
-//            if (socket.connected()) {
-//
-//                socket.emit(TYPE + EMMIT_SURVEY_ACTIVATE);
-//            }
-//
-//        }
-//    };
-
     Emitter.Listener OnSurveyInitiated = new Emitter.Listener() {
+
 
         @Override
         public void call(final Object... args) {
-
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -174,8 +166,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
                         }
                         tempSurvey.setAnswers(tempAnswers);
-                        //  surveys.add(tempSurvey);
-                        loadChatMessage();
+                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -205,6 +196,7 @@ public class SurveyBotActivity extends AppCompatActivity {
                         S.L("getQuestion json", args[0].toString());
 
 
+
                         tempObject = (JSONObject) args[0];
                         tempSurvey = new Survey();
                         tempSurvey.setId(tempObject.getString("id"));
@@ -220,13 +212,14 @@ public class SurveyBotActivity extends AppCompatActivity {
                             Dialog tempDialog = new Dialog();
                             tempDialog.setSender(Dialog.SENDER_BOT);
                             tempDialog.setQuestion(tempSurvey.getQuestion());
-                            tempDialog.setAnswerType(Dialog.SENDER_BOT);
+                            //tempDialog.setAnswerType(Dialog.SENDER_BOT);
                             tempDialog.setEnd(tempSurvey.isEnd());
                             refreshRecycleView(tempDialog);
-                            // surveys.add(tempSurvey);
                             loadFinishRadioButton();
                             return;
                         }
+
+
                         ArrayList<Survey.Answer> tempAnswers = new ArrayList<>();
                         if (tempObject.has("answers")) {
 
@@ -241,8 +234,7 @@ public class SurveyBotActivity extends AppCompatActivity {
                         }
 
                         tempSurvey.setAnswers(tempAnswers);
-                        // surveys.add(tempSurvey);
-                        loadChatMessage();
+                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -266,10 +258,12 @@ public class SurveyBotActivity extends AppCompatActivity {
     }
 
 
-    private void loadChatMessage() {
+    private void loadChatMessage(String type, String answerType) {
 
-        if (tempSurvey.getType().toLowerCase().contentEquals("bot")) {
-            if (tempSurvey.getAnswer_type().toLowerCase().contentEquals("none")) {
+        if (type.toLowerCase().contentEquals("bot")) {
+
+
+            if (answerType.toLowerCase().contentEquals("none")) {
 
                 loadNoneAnswerTypeMessage();
                 return;
@@ -283,7 +277,7 @@ public class SurveyBotActivity extends AppCompatActivity {
     private void loadNoneAnswerTypeMessage() {
 
         // makeEditable(false);
-        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), Dialog.SENDER_BOT, null);
+        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), Dialog.SENDER_BOT);
         refreshRecycleView(tempDialog);
 
 
@@ -299,7 +293,7 @@ public class SurveyBotActivity extends AppCompatActivity {
         final ArrayList<Survey.Answer> userAnswers = new ArrayList<>();
 
 
-        Dialog d = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), tempSurvey.getAnswer_type(), tempSurvey.getAnswers());
+        Dialog d = new Dialog(Dialog.SENDER_BOT, tempSurvey.getQuestion(), tempSurvey.getAnswer_type());
 
         refreshRecycleView(d);
         linearLayoutRg.removeAllViews();
@@ -307,10 +301,6 @@ public class SurveyBotActivity extends AppCompatActivity {
         switch (tempSurvey.getAnswer_type().toLowerCase()) {
 
 
-//            case "none":
-////                linearLayout.setVisibility(View.INVISIBLE);
-////                socketSetup(false);
-//                break;
 
             case "free_text":
 
@@ -451,7 +441,7 @@ public class SurveyBotActivity extends AppCompatActivity {
 
     private void sendMessage(int index) {
 
-        //surveys.add(tempSurvey);
+
         Dialog tempDialog = new Dialog();
         tempDialog.setSender(Dialog.SENDER_USER);
         tempDialog.setQuestion(tempSurvey.getUser_answer().get(0).getTitle());

@@ -161,9 +161,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
                     JSONObject object = new JSONObject(str);
                     JSONObject errorObject = object.getJSONObject("error");
                     S.T(InboxDetailsActivity.this, errorObject.getString("message"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

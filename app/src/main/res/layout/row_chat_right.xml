@@ -27,6 +27,6 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/tvMessage"
         android:src="@drawable/ic_autorenew_black_24dp"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
 </RelativeLayout>

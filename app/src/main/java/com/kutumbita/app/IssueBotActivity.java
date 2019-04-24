@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kutumbita.app.adapter.IssueAdapter;
+import com.kutumbita.app.adapter.IssueDialogAdapter;
 import com.kutumbita.app.chat.Dialog;
 import com.kutumbita.app.chat.Issue;
 import com.kutumbita.app.utility.Constant;
@@ -28,11 +28,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import io.socket.emitter.Emitter;
 
 public class IssueBotActivity extends AppCompatActivity {
@@ -58,6 +60,7 @@ public class IssueBotActivity extends AppCompatActivity {
     View layout;
     PreferenceUtility preferenceUtility;
 
+
     JSONObject tempObject;
     JSONArray tempAnswerArray;
 
@@ -65,10 +68,14 @@ public class IssueBotActivity extends AppCompatActivity {
 
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
-    ArrayList<Issue> issues;
+
     EditText etAnswer;
-    IssueAdapter adapter;
+    IssueDialogAdapter adapter;
     Issue tempIssue;
+
+    ArrayList<JSONObject> jsonObjects = new ArrayList<>();
+
+
 
 
     @Override
@@ -78,46 +85,46 @@ public class IssueBotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_survey_bot);
-        // getLifecycle().addObserver(new ChatBotActivityObserver());
+        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
         preferenceUtility = new PreferenceUtility(this);
-        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-        //
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(TYPE.substring(0, 1).toUpperCase() + TYPE.substring(1));
+
         linearLayoutRg = findViewById(R.id.ll);
-
-
         linearLayoutEt = findViewById(R.id.ll2);
         rcv = findViewById(R.id.rcv);
         etAnswer = findViewById(R.id.etMessage);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rcv.setLayoutManager(manager);
 
-        issues = new ArrayList<>();
-        adapter = new IssueAdapter(this, dialogs);
+
+
+        jsonObjects = new ArrayList<>();
+        adapter = new IssueDialogAdapter(this, dialogs);
+
         adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-
-
                 if (aBoolean) {
 
-                    int termination = dialogs.size() < 4 ? dialogs.size() : 4;
-                    for (int i = 0; i < termination; i++) {
-                        dialogs.remove(dialogs.size() - 1);
-                    }
 
-                    issues.remove(issues.size() - 1);
+                        int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+                        for (int i = 0; i < termination; i++) {
+                            dialogs.remove(dialogs.size() - 1);
+                        }
 
-                    // adapter.notifyDataSetChanged();
-                    tempIssue = issues.get(issues.size() - 1);
-                    //sendMessage();
+                        jsonObjects.remove(jsonObjects.size() - 1);
+                        tempObject = jsonObjects.get(jsonObjects.size() - 1);
+
+
+                        sendMessage();
+
 
                 }
+
             }
         });
-
         rcv.setAdapter(adapter);
         if (GlobalData.getInstance().getmSocket().connected())
             socketSetup(true);
@@ -147,13 +154,11 @@ public class IssueBotActivity extends AppCompatActivity {
                         if (tempObject.has("answers")) {
 
                             tempAnswerArray = tempObject.getJSONArray("answers");
-
                             tempAnswers.clear();
                             for (int i = 0; i < tempAnswerArray.length(); i++) {
 
 
                                 JSONObject answerObj = tempAnswerArray.getJSONObject(i);
-
                                 tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "",
                                         //we set event as score here
                                         answerObj.getString("event"),
@@ -165,8 +170,8 @@ public class IssueBotActivity extends AppCompatActivity {
 
                         }
                         tempIssue.setAnswers(tempAnswers);
-                        //surveys.add(tempSurvey);
                         loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
+
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -180,80 +185,11 @@ public class IssueBotActivity extends AppCompatActivity {
 
         }
     };
-
-    Emitter.Listener getIssueQuestion = new Emitter.Listener() {
-
-
-        @Override
-        public void call(final Object... args) {
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-
-                    try {
-                        S.L("issue question json", args[0].toString());
-
-
-                        tempObject = (JSONObject) args[0];
-                        tempIssue = new Issue();
-                        tempIssue.setId(tempObject.getString("id"));
-                        tempIssue.setEnd(tempObject.getBoolean("end"));
-
-                        tempIssue.setSurvey_uuid(tempObject.getString("issue_uuid"));
-                        tempIssue.setQuestion_no(tempObject.getString("question_no"));
-                        tempIssue.setQuestion(tempObject.getString("question"));
-                        tempIssue.setType(tempObject.getString("type"));
-                        tempIssue.setWeightOrWorkerId(tempObject.has("weight") ? tempObject.getString("weight") : "0");
-                        tempIssue.setAnswer_type(tempObject.getString("answer_type"));
-                        if (tempIssue.isEnd()) {
-                            Dialog tempDialog = new Dialog();
-                            tempDialog.setSender(Dialog.SENDER_BOT);
-                            tempDialog.setQuestion(tempIssue.getQuestion());
-                            //tempDialog.setAnswerType(Dialog.SENDER_BOT);
-                            tempDialog.setEnd(tempIssue.isEnd());
-                            refreshRecycleView(tempDialog);
-                            // surveys.add(tempSurvey);
-                            loadFinishRadioButton();
-                            return;
-                        }
-                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
-                        if (tempObject.has("answers")) {
-
-
-                            tempAnswerArray = tempObject.getJSONArray("answers");
-                            tempAnswers.clear();
-                            for (int i = 0; i < tempAnswerArray.length(); i++) {
-                                JSONObject answerObj = tempAnswerArray.getJSONObject(i);
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "", answerObj.has("score") ? answerObj.getString("score") : "", answerObj.getString("next")));
-                            }
-
-                        }
-
-                        tempIssue.setAnswers(tempAnswers);
-                        // surveys.add(tempSurvey);
-                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-
-                        Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
-                    }
-
-
-                }
-            });
-
-        }
-    };
-
 
     Emitter.Listener OnStartConfirmation = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
-
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -287,7 +223,7 @@ public class IssueBotActivity extends AppCompatActivity {
 
                         }
                         tempIssue.setAnswers(tempAnswers);
-                        //  surveys.add(tempSurvey);
+
                         loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
                     } catch (Exception e) {
 
@@ -303,6 +239,68 @@ public class IssueBotActivity extends AppCompatActivity {
         }
     };
 
+    Emitter.Listener getIssueQuestion = new Emitter.Listener() {
+
+
+        @Override
+        public void call(final Object... args) {
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    try {
+                        S.L("issue question json", args[0].toString());
+                        tempObject = (JSONObject) args[0];
+                        tempIssue = new Issue();
+                        tempIssue.setId(tempObject.getString("id"));
+                        tempIssue.setEnd(tempObject.getBoolean("end"));
+
+                        tempIssue.setSurvey_uuid(tempObject.getString("issue_uuid"));
+                        tempIssue.setQuestion_no(tempObject.getString("question_no"));
+                        tempIssue.setQuestion(tempObject.getString("question"));
+                        tempIssue.setType(tempObject.getString("type"));
+                        tempIssue.setWeightOrWorkerId(tempObject.has("weight") ? tempObject.getString("weight") : "0");
+                        tempIssue.setAnswer_type(tempObject.getString("answer_type"));
+                        if (tempIssue.isEnd()) {
+                            Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getType());
+                            tempDialog.setEnd(tempIssue.isEnd());
+                            refreshRecycleView(tempDialog);
+                            loadFinishRadioButton();
+                            return;
+                        }
+                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
+                        if (tempObject.has("answers")) {
+
+
+                            tempAnswerArray = tempObject.getJSONArray("answers");
+                            tempAnswers.clear();
+                            for (int i = 0; i < tempAnswerArray.length(); i++) {
+                                JSONObject answerObj = tempAnswerArray.getJSONObject(i);
+                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "", answerObj.has("score") ? answerObj.getString("score") : "", answerObj.getString("next")));
+                            }
+
+                        }
+
+                        tempIssue.setAnswers(tempAnswers);
+
+                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+
+                        Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
+                    }
+
+
+                }
+            });
+
+        }
+    };
+
+
     private void refreshRecycleView(Dialog d) {
 
         dialogs.add(d);
@@ -315,6 +313,8 @@ public class IssueBotActivity extends AppCompatActivity {
     private void loadChatMessage(String type, String answerType) {
 
         if (type.toLowerCase().contentEquals("bot")) {
+
+
             if (answerType.toLowerCase().contentEquals("none")) {
 
                 loadNoneAnswerTypeMessage();
@@ -328,14 +328,9 @@ public class IssueBotActivity extends AppCompatActivity {
 
     private void loadNoneAnswerTypeMessage() {
 
-
-        try {
-            Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempObject.getString("question"), null);
-            refreshRecycleView(tempDialog);
-            loadFinishRadioButton();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getType());
+        refreshRecycleView(tempDialog);
+        loadFinishRadioButton();
 
 
     }
@@ -347,18 +342,12 @@ public class IssueBotActivity extends AppCompatActivity {
         final ArrayList<Issue.Answer> userAnswers = new ArrayList<>();
 
 
-        Dialog d = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getAnswers());
-
-        refreshRecycleView(d);
+        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getType());
+        refreshRecycleView(tempDialog);
         linearLayoutRg.removeAllViews();
 
         switch (tempIssue.getAnswer_type().toLowerCase()) {
 
-
-//            case "none":
-////                linearLayout.setVisibility(View.INVISIBLE);
-////                socketSetup(false);
-//                break;
 
             case "free_text":
 
@@ -412,13 +401,17 @@ public class IssueBotActivity extends AppCompatActivity {
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
 
-                        userAnswers.add((Issue.Answer) ((RadioButton) group.findViewById(checkedId)).getTag());
+                        try {
+                            userAnswers.add((Issue.Answer) (group.findViewById(checkedId)).getTag());
+                            tempIssue.setUser_answer(userAnswers);
 
-                        tempIssue.setUser_answer(userAnswers);
+                            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
+                            jsonObjects.add(tempObject);
+                            sendMessage();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                        issues.add(tempIssue);
-
-                        sendMessage(checkedId);
                     }
                 });
 
@@ -495,68 +488,31 @@ public class IssueBotActivity extends AppCompatActivity {
         }
 
 
-        //findViewById(R.id.rlMain).invalidate();
-
     }
 
-    private void sendMessage(int index) {
-
-        //surveys.add(tempSurvey);
-        Dialog tempDialog = new Dialog();
-        tempDialog.setSender(Dialog.SENDER_USER);
-        tempDialog.setQuestion(tempIssue.getUser_answer().get(0).getTitle());
-        //tempDialog.setAnswerType(Dialog.SENDER_USER);
-        refreshRecycleView(tempDialog);
+    private void sendMessage() {
 
 
         if (GlobalData.getInstance().getmSocket().connected()) {
+            try {
 
-            if (tempIssue.getType().toLowerCase().contentEquals("bot")) {
-                try {
-                   // if(tempObject.has("user_answer"))
-                    tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(index));
-//                    else{
-//
-//                        JsonArray jsonArray = new JsonArray("")
-//
-//                    }
-
-                    S.L("emmit", tempObject.toString());
-                    GlobalData.getInstance().getmSocket().emit(tempIssue.getUser_answer().get(0).getScoreOrEvent(), new JSONObject(tempObject.toString()));
-
-                } catch (JSONException e) {
-
-                    e.printStackTrace();
-                }
-
-            } else {
-
-
-
-                try {
-
-
-                    tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(index));
-                    S.L("emmit", tempObject.toString());
-                    if (tempIssue.isEnd())
-
+                Dialog tempDialog = new Dialog(Dialog.SENDER_USER, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
+                refreshRecycleView(tempDialog);
+                if (tempObject.getString("type").toLowerCase().contentEquals("bot")) {
+                    GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
+                } else {
+                    if (tempObject.getBoolean("end"))
                         GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_END_ANSWER, new JSONObject(tempObject.toString()));
-
                     else
                         GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_NEXT_ANSWER, new JSONObject(tempObject.toString()));
-
-
-                } catch (JSONException e) {
-
-                    e.printStackTrace();
                 }
-
-
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
+
         etAnswer.setText("");
 
-        //findViewById(R.id.rlMain).invalidate();
 
     }
 
@@ -570,9 +526,12 @@ public class IssueBotActivity extends AppCompatActivity {
         try {
             tempIssue.getAnswers().get(0).setTitle(etAnswer.getText().toString());
             tempIssue.setUser_answer(tempIssue.getAnswers());
-            issues.add(tempIssue);
+
+
             tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
-            sendMessage(0);
+            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
+            jsonObjects.add(tempObject);
+            sendMessage();
             Utility.hideKeyboard(IssueBotActivity.this);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -581,41 +540,6 @@ public class IssueBotActivity extends AppCompatActivity {
 
     }
 
-
-    private void socketSetup(boolean connect) {
-        if (connect) {
-
-
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
-
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
-
-
-
-                GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_BOT_ACTIVATE);
-
-
-        } else {
-
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
-
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
-
-
-        }
-    }
 
     private void makeEditable(boolean b) {
 
@@ -693,6 +617,39 @@ public class IssueBotActivity extends AppCompatActivity {
 
     }
 
+    private void socketSetup(boolean connect) {
+        if (connect) {
+
+
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
+
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+
+
+            GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_BOT_ACTIVATE);
+
+
+        } else {
+
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
+
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+
+
+        }
+    }
 
     @Override
     protected void onDestroy() {

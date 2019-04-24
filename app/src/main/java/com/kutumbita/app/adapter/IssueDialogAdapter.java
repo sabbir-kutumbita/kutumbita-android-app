@@ -1,7 +1,6 @@
 package com.kutumbita.app.adapter;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
-import com.kutumbita.app.model.Inbox;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -20,16 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DialogAdapter extends RecyclerView.Adapter {
+public class IssueDialogAdapter extends RecyclerView.Adapter {
 
     private static final int MESSAGE_TYPE_USER = 1;
     private static final int MESSAGE_TYPE_BOT = 2;
     LayoutInflater inflater;
     Context c;
     List<Dialog> dialogs = Collections.emptyList();
-   public MutableLiveData<Boolean> liveData;
 
-    public DialogAdapter(Context c, List<Dialog> dialogs) {
+    public MutableLiveData<Boolean> liveData;
+
+    public IssueDialogAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
         this.c = c;
@@ -45,6 +43,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
 
         if (viewType == MESSAGE_TYPE_USER) {
+
 
             View v = inflater.inflate(R.layout.row_chat_right, viewGroup, false);
             RightViewHolder viewHolder = new RightViewHolder(v);
@@ -69,10 +68,12 @@ public class DialogAdapter extends RecyclerView.Adapter {
         switch (viewHolder.getItemViewType()) {
             case MESSAGE_TYPE_USER:
 
-                ((RightViewHolder) viewHolder).bind(d, position == dialogs.size() - 2, d.isEnd());
+                ((RightViewHolder) viewHolder).bind(d);
                 break;
+
             case MESSAGE_TYPE_BOT:
                 ((LeftViewHolder) viewHolder).bind(d);
+                break;
         }
 
 
@@ -132,24 +133,30 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bind(Dialog dialog, boolean isVisible, boolean isEnd) {
-
-            if (isVisible) {
-                if (dialogs.size() > 3 && !isEnd)
-                    ivMenu.setVisibility(View.VISIBLE);
-                else
-                    ivMenu.setVisibility(View.INVISIBLE);
-            } else
-                ivMenu.setVisibility(View.INVISIBLE);
+        void bind(Dialog dialog) {
 
             tv.setText(dialog.getQuestion());
 
-            ivMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    liveData.setValue(true);
-                }
-            });
+            if (!dialogs.get(getAdapterPosition()).getType().contentEquals("bot") && !dialogs.get(getAdapterPosition()).getType().contentEquals("none")) {
+                if (getAdapterPosition() == dialogs.size() - 2 )
+
+                    ivMenu.setVisibility(View.VISIBLE);
+                else
+                    ivMenu.setVisibility(View.INVISIBLE);
+
+            } else {
+
+                ivMenu.setVisibility(View.INVISIBLE);
+            }
+
+
+
+                ivMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        liveData.setValue(true);
+                    }
+                });
         }
 
 

@@ -1,10 +1,10 @@
 package com.kutumbita.app;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -31,11 +31,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -175,6 +170,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
 
 
+
             }
         }) {
             @Override
@@ -227,7 +223,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                             userObject.getString("phone"), userObject.getString("gender"),
                             userObject.getString("location"),
                             userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
-                            userObject.getString("avatar"), "A+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"), userObject.getString("language").toLowerCase());
+                            userObject.getString("avatar"), "", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"), userObject.getString("language").toLowerCase());
 
                     preferenceUtility.setMe(me);
 
@@ -249,20 +245,16 @@ public class AuthenticationActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                S.L("error: " + error.networkResponse.statusCode);
+               // S.L("error: " + error.networkResponse.statusCode);
 
                 try {
                     String str = new String(error.networkResponse.data, "UTF-8");
                     JSONObject object = new JSONObject(str);
                     JSONObject errorObject = object.getJSONObject("error");
                     S.T(getApplicationContext(), errorObject.getString("message"));
-                } catch (UnsupportedEncodingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     S.T(AuthenticationActivity.this, "Something went wrong!");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    S.T(AuthenticationActivity.this, "Something went wrong!");
-
                 }
 
             }

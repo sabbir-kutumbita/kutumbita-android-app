@@ -1,6 +1,7 @@
 package com.kutumbita.app.adapter;
 
 import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.model.Inbox;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class IssueAdapter extends RecyclerView.Adapter {
+public class SurveyDialogAdapter extends RecyclerView.Adapter {
 
     private static final int MESSAGE_TYPE_USER = 1;
     private static final int MESSAGE_TYPE_BOT = 2;
@@ -26,7 +29,7 @@ public class IssueAdapter extends RecyclerView.Adapter {
     List<Dialog> dialogs = Collections.emptyList();
    public MutableLiveData<Boolean> liveData;
 
-    public IssueAdapter(Context c, List<Dialog> dialogs) {
+    public SurveyDialogAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
         this.c = c;
@@ -144,7 +147,6 @@ public class IssueAdapter extends RecyclerView.Adapter {
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //listener.onReloadClick();
                     liveData.setValue(true);
                 }
             });
@@ -153,15 +155,5 @@ public class IssueAdapter extends RecyclerView.Adapter {
 
     }
 
-//    OnReloadItemClickListener listener;
-//
-//    public void setOnReloadItemClickListener(OnReloadItemClickListener listener) {
-//
-//        this.listener = listener;
-//    }
-//
-//    public interface OnReloadItemClickListener {
-//
-//        void onReloadClick();
-//    }
+
 }

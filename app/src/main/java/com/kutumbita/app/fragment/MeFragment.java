@@ -133,9 +133,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     JSONObject object = new JSONObject(str);
                     JSONObject errorObject = object.getJSONObject("error");
                     S.T(getActivity(), errorObject.getString("message"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

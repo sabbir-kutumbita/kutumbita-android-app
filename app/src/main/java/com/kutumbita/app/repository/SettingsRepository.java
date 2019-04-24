@@ -82,7 +82,7 @@ public class SettingsRepository {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                S.L("error: " + error.getMessage());
+                S.L("error: in logout" );
                 isSucceed.setValue(false);
 
             }
@@ -123,8 +123,6 @@ public class SettingsRepository {
         final String body = object.toString();
 
 
-        S.L("languagebody json", body);
-        S.L("URL lang", UrlConstant.URL_UPDATE_LANGUAGE);
         StringRequest languageRequest = new StringRequest(Request.Method.PUT, UrlConstant.URL_UPDATE_LANGUAGE, new Response.Listener<String>() {
 
             @Override
@@ -158,7 +156,7 @@ public class SettingsRepository {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                S.L("error: " + error.getMessage());
+                S.L("error: in language hanging");
                 updatedMe.setValue(null);
 
             }

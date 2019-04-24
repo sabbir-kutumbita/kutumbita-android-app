@@ -56,7 +56,7 @@ public class ChatFragmentRepository {
             @Override
             public void onResponse(String response) {
 
-                S.L("Logout", response);
+                S.L("chatbot", response);
                 ArrayList<ChatBot> chatBots = new ArrayList<>();
 
                 try {
@@ -86,7 +86,7 @@ public class ChatFragmentRepository {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                S.L("error: " + error.getMessage());
+                S.L("error getting chat data ");
                 chatBotListLiveData.setValue(null);
 
             }
