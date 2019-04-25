@@ -1,9 +1,6 @@
 package com.kutumbita.app.chat;
 
-import com.kutumbita.app.chat.Survey;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Dialog implements Serializable {
 
@@ -11,23 +8,19 @@ public class Dialog implements Serializable {
     private String question, type, sender;
 
 
-    private boolean isEnd = false;
+    private boolean isEnd;
 
     public static final String SENDER_USER = "user";
     public static final String SENDER_BOT = "bot";
 
-    public Dialog() {
-
-    }
 
     public Dialog(String sender, String question, String type) {
         this.sender = sender;
         this.question = question;
         this.type = type;
-
+        isEnd = false;
 
     }
-
 
     public boolean isEnd() {
         return isEnd;

@@ -1,7 +1,6 @@
 package com.kutumbita.app.adapter;
 
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
-import com.kutumbita.app.model.Inbox;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -20,16 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SurveyDialogAdapter extends RecyclerView.Adapter {
+public class DialogAdapter extends RecyclerView.Adapter {
 
     private static final int MESSAGE_TYPE_USER = 1;
     private static final int MESSAGE_TYPE_BOT = 2;
     LayoutInflater inflater;
     Context c;
     List<Dialog> dialogs = Collections.emptyList();
-   public MutableLiveData<Boolean> liveData;
+    View rightItemView, leftItemView;
+    public MutableLiveData<Boolean> liveData;
 
-    public SurveyDialogAdapter(Context c, List<Dialog> dialogs) {
+    public DialogAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
         this.c = c;
@@ -45,6 +43,7 @@ public class SurveyDialogAdapter extends RecyclerView.Adapter {
 
 
         if (viewType == MESSAGE_TYPE_USER) {
+
 
             View v = inflater.inflate(R.layout.row_chat_right, viewGroup, false);
             RightViewHolder viewHolder = new RightViewHolder(v);
@@ -69,10 +68,19 @@ public class SurveyDialogAdapter extends RecyclerView.Adapter {
         switch (viewHolder.getItemViewType()) {
             case MESSAGE_TYPE_USER:
 
-                ((RightViewHolder) viewHolder).bind(d, position == dialogs.size() - 2, d.isEnd());
+                ((RightViewHolder) viewHolder).bind(d);
                 break;
+
             case MESSAGE_TYPE_BOT:
                 ((LeftViewHolder) viewHolder).bind(d);
+                if (d.isEnd()) {
+                    if (position == dialogs.size() - 2)
+                        rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
+                    else
+                        rightItemView.findViewById(R.id.ivMenu).setVisibility(View.VISIBLE);
+
+                }
+                break;
         }
 
 
@@ -106,6 +114,7 @@ public class SurveyDialogAdapter extends RecyclerView.Adapter {
 
         public LeftViewHolder(@NonNull View itemView) {
             super(itemView);
+            leftItemView = itemView;
             tv = itemView.findViewById(R.id.tvMessage);
 
         }
@@ -114,6 +123,7 @@ public class SurveyDialogAdapter extends RecyclerView.Adapter {
 
 
             tv.setText(dialog.getQuestion());
+
 
         }
 
@@ -127,22 +137,28 @@ public class SurveyDialogAdapter extends RecyclerView.Adapter {
 
         public RightViewHolder(@NonNull View itemView) {
             super(itemView);
+            rightItemView = itemView;
             tv = itemView.findViewById(R.id.tvMessage);
             ivMenu = itemView.findViewById(R.id.ivMenu);
 
         }
 
-        void bind(Dialog dialog, boolean isVisible, boolean isEnd) {
+        void bind(Dialog dialog) {
 
-            if (isVisible) {
-                if (dialogs.size() > 3 && !isEnd)
+            tv.setText(dialog.getQuestion());
+
+            if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
+                if (getAdapterPosition() == dialogs.size() - 2)
+
                     ivMenu.setVisibility(View.VISIBLE);
                 else
                     ivMenu.setVisibility(View.INVISIBLE);
-            } else
-                ivMenu.setVisibility(View.INVISIBLE);
 
-            tv.setText(dialog.getQuestion());
+            } else {
+
+                ivMenu.setVisibility(View.INVISIBLE);
+            }
+
 
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -152,6 +168,15 @@ public class SurveyDialogAdapter extends RecyclerView.Adapter {
             });
         }
 
+        void hideMenu() {
+
+
+            if (getAdapterPosition() == dialogs.size() - 2)
+                ivMenu.setVisibility(View.INVISIBLE);
+            else
+                ivMenu.setVisibility(View.VISIBLE);
+
+        }
 
     }
 

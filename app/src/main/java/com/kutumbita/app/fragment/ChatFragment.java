@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kutumbita.app.SurveyBotActivity;
+import com.kutumbita.app.BotActivity;
 import com.kutumbita.app.GlobalData;
-import com.kutumbita.app.IssueBotActivity;
 import com.kutumbita.app.R;
 import com.kutumbita.app.adapter.ChatBotAdapter;
 import com.kutumbita.app.chat.ChatBot;
@@ -58,7 +57,7 @@ public class ChatFragment extends Fragment {
                             @Override
                             public void onChanged(ChatBot chatBot) {
 
-                                goChat(chatBot.getSocket_key());
+                                goChat(chatBot);
 
                             }
                         });
@@ -94,51 +93,14 @@ public class ChatFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(listener);
         listener.onRefresh();
 
-
-//        surveyView = v.findViewById(R.id.tapSurvey);
-//        surveyView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-////                Intent goSurvey = new Intent(getActivity(), SurveyBotActivity.class);
-////                startActivity(goSurvey);
-//
-//                goChat(Constant.EVENT_SURVEY);
-//            }
-//        });
-//        issueView = v.findViewById(R.id.relIssue);
-//        issueView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //goChat(Constant.EVENT_ISSUE);
-//
-//                Intent goChat = new Intent(getActivity(), IssueBotActivity.class);
-//                goChat.putExtra(Constant.EXTRA_EVENT, Constant.EVENT_ISSUE);
-//                startActivity(goChat);
-//            }
-//        });
-
         return v;
     }
 
-    private void goChat(String socket_key) {
+    private void goChat(ChatBot chatBot) {
 
-        Intent goChat = null;
-        switch (socket_key) {
-
-            case "issue":
-                goChat = new Intent(getActivity(), IssueBotActivity.class);
-                break;
-            case "survey":
-                goChat = new Intent(getActivity(), SurveyBotActivity.class);
-                break;
-
-        }
-
-        if (goChat != null) {
-            goChat.putExtra(Constant.EXTRA_EVENT, socket_key);
-            startActivity(goChat);
-        }
+        Intent goChat = new Intent(getActivity(), BotActivity.class);
+        goChat.putExtra(Constant.EXTRA_CHAT_BOT, chatBot);
+        startActivity(goChat);
     }
 
     @Override

@@ -16,9 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity
-            android:name=".IssueBotActivity"
-            android:label="@string/title_activity_issue_bot"></activity>
+        <activity android:name=".BotActivity"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,7 +40,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SurveyBotActivity" />
         <activity android:name=".SettingsActivity" />
 
         <meta-data

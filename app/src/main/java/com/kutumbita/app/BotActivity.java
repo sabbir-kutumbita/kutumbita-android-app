@@ -15,20 +15,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kutumbita.app.adapter.IssueDialogAdapter;
+import com.kutumbita.app.adapter.DialogAdapter;
+import com.kutumbita.app.chat.ChatBot;
 import com.kutumbita.app.chat.Dialog;
-import com.kutumbita.app.chat.Issue;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -37,7 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.socket.emitter.Emitter;
 
-public class IssueBotActivity extends AppCompatActivity {
+public class BotActivity extends AppCompatActivity {
 
 
     private static String EMMIT_BOT_ACTIVATE = ":bot_activate";
@@ -60,21 +58,19 @@ public class IssueBotActivity extends AppCompatActivity {
     View layout;
     PreferenceUtility preferenceUtility;
 
+    ChatBot gotChatBot;
 
-    JSONObject tempObject;
-    JSONArray tempAnswerArray;
 
     ArrayList<Dialog> dialogs = new ArrayList<>();
 
     LinearLayout linearLayoutRg, linearLayoutEt;
     RecyclerView rcv;
-
     EditText etAnswer;
-    IssueDialogAdapter adapter;
-    Issue tempIssue;
+    DialogAdapter adapter;
+    Dialog tempDialog;
 
+    JSONObject tempObject;
     ArrayList<JSONObject> jsonObjects = new ArrayList<>();
-
 
 
 
@@ -84,12 +80,13 @@ public class IssueBotActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
-        setContentView(R.layout.activity_survey_bot);
+        setContentView(R.layout.activity_bot);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-        TYPE = getIntent().getStringExtra(Constant.EXTRA_EVENT);
+        gotChatBot = (ChatBot) getIntent().getSerializableExtra(Constant.EXTRA_CHAT_BOT);
+        TYPE = gotChatBot.getSocket_key();
         preferenceUtility = new PreferenceUtility(this);
         layout = findViewById(R.id.header);
-        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(TYPE.substring(0, 1).toUpperCase() + TYPE.substring(1));
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(gotChatBot.getName());
 
         linearLayoutRg = findViewById(R.id.ll);
         linearLayoutEt = findViewById(R.id.ll2);
@@ -99,9 +96,8 @@ public class IssueBotActivity extends AppCompatActivity {
         rcv.setLayoutManager(manager);
 
 
-
         jsonObjects = new ArrayList<>();
-        adapter = new IssueDialogAdapter(this, dialogs);
+        adapter = new DialogAdapter(this, dialogs);
 
         adapter.liveData.observe(this, new Observer<Boolean>() {
             @Override
@@ -109,16 +105,16 @@ public class IssueBotActivity extends AppCompatActivity {
                 if (aBoolean) {
 
 
-                        int termination = dialogs.size() < 4 ? dialogs.size() : 4;
-                        for (int i = 0; i < termination; i++) {
-                            dialogs.remove(dialogs.size() - 1);
-                        }
+                    int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+                    for (int i = 0; i < termination; i++) {
+                        dialogs.remove(dialogs.size() - 1);
+                    }
 
-                        jsonObjects.remove(jsonObjects.size() - 1);
-                        tempObject = jsonObjects.get(jsonObjects.size() - 1);
+                    jsonObjects.remove(jsonObjects.size() - 1);
+                    tempObject = jsonObjects.get(jsonObjects.size() - 1);
 
 
-                        sendMessage();
+                    sendMessage();
 
 
                 }
@@ -129,59 +125,14 @@ public class IssueBotActivity extends AppCompatActivity {
         if (GlobalData.getInstance().getmSocket().connected())
             socketSetup(true);
 
-
     }
-
 
     Emitter.Listener OnBotActivated = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
 
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        S.L("bot activate json", args[0].toString());
-                        tempObject = (JSONObject) args[0];
-                        tempIssue = new Issue();
-                        tempIssue.setQuestion(tempObject.getString("question"));
-                        tempIssue.setType(tempObject.getString("type"));
-                        tempIssue.setAnswer_type(tempObject.getString("answer_type"));
-                        tempIssue.setWeightOrWorkerId(tempObject.has("workerIssueUUID") ? tempObject.getString("workerIssueUUID") : "");
-                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
-                        if (tempObject.has("answers")) {
-
-                            tempAnswerArray = tempObject.getJSONArray("answers");
-                            tempAnswers.clear();
-                            for (int i = 0; i < tempAnswerArray.length(); i++) {
-
-
-                                JSONObject answerObj = tempAnswerArray.getJSONObject(i);
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "",
-                                        //we set event as score here
-                                        answerObj.getString("event"),
-
-                                        //we set UUID as next here
-                                        answerObj.has("uuid") ? answerObj.getString("uuid") : "0"));
-                            }
-
-
-                        }
-                        tempIssue.setAnswers(tempAnswers);
-                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
-
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-
-                        Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
-                    }
-
-
-                }
-            });
+            handleBotData(args[0]);
 
         }
     };
@@ -191,50 +142,8 @@ public class IssueBotActivity extends AppCompatActivity {
         @Override
         public void call(final Object... args) {
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        S.L("start confirmation json", args[0].toString());
-                        tempObject = (JSONObject) args[0];
-                        tempIssue = new Issue();
-                        tempIssue.setQuestion(tempObject.getString("question"));
-                        tempIssue.setType(tempObject.getString("type"));
-                        tempIssue.setAnswer_type(tempObject.getString("answer_type"));
-                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
-                        if (tempObject.has("answers")) {
+            handleBotData(args[0]);
 
-                            JSONArray answerArray = tempObject.getJSONArray("answers");
-                            tempAnswers.clear();
-
-                            for (int i = 0; i < answerArray.length(); i++) {
-
-
-                                JSONObject answerObj = answerArray.getJSONObject(i);
-
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "",
-                                        //we set event as score here
-                                        answerObj.getString("event"),
-
-                                        //we set surveyUUID as next here
-                                        answerObj.has("uuid") ? answerObj.getString("uuid") : "0"));
-                            }
-
-
-                        }
-                        tempIssue.setAnswers(tempAnswers);
-
-                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-
-                        Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
-                    }
-
-
-                }
-            });
 
         }
     };
@@ -245,90 +154,72 @@ public class IssueBotActivity extends AppCompatActivity {
         @Override
         public void call(final Object... args) {
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-
-                    try {
-                        S.L("issue question json", args[0].toString());
-                        tempObject = (JSONObject) args[0];
-                        tempIssue = new Issue();
-                        tempIssue.setId(tempObject.getString("id"));
-                        tempIssue.setEnd(tempObject.getBoolean("end"));
-
-                        tempIssue.setSurvey_uuid(tempObject.getString("issue_uuid"));
-                        tempIssue.setQuestion_no(tempObject.getString("question_no"));
-                        tempIssue.setQuestion(tempObject.getString("question"));
-                        tempIssue.setType(tempObject.getString("type"));
-                        tempIssue.setWeightOrWorkerId(tempObject.has("weight") ? tempObject.getString("weight") : "0");
-                        tempIssue.setAnswer_type(tempObject.getString("answer_type"));
-                        if (tempIssue.isEnd()) {
-                            Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getType());
-                            tempDialog.setEnd(tempIssue.isEnd());
-                            refreshRecycleView(tempDialog);
-                            loadFinishRadioButton();
-                            return;
-                        }
-                        ArrayList<Issue.Answer> tempAnswers = new ArrayList<>();
-                        if (tempObject.has("answers")) {
-
-
-                            tempAnswerArray = tempObject.getJSONArray("answers");
-                            tempAnswers.clear();
-                            for (int i = 0; i < tempAnswerArray.length(); i++) {
-                                JSONObject answerObj = tempAnswerArray.getJSONObject(i);
-                                tempAnswers.add(new Issue.Answer(answerObj.getString("title"), answerObj.has("slug") ? answerObj.getString("slug") : "", answerObj.has("score") ? answerObj.getString("score") : "", answerObj.getString("next")));
-                            }
-
-                        }
-
-                        tempIssue.setAnswers(tempAnswers);
-
-                        loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-
-                        Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
-                    }
-
-
-                }
-            });
+            handleBotData(args[0]);
 
         }
     };
 
 
+    private void handleBotData(final Object arg) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    tempObject = (JSONObject) arg;
+                    S.L("bot json", tempObject.toString());
+                    if (tempObject.has("end") ? tempObject.getBoolean("end") : false) {
+                        loadNoneAnswerTypeMessage();
+                        return;
+                    }
+
+                    loadChatMessage(tempObject.getString("type"), tempObject.getString("answer_type"));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json exception", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+    }
+
     private void refreshRecycleView(Dialog d) {
 
         dialogs.add(d);
-        //adapter.notifyItemInserted(dialogs.size()-1);
         adapter.notifyDataSetChanged();
+        //adapter.notifyItemInserted(dialogs.size()-1);
         rcv.scrollToPosition(dialogs.size() - 1);
     }
 
 
     private void loadChatMessage(String type, String answerType) {
 
-        if (type.toLowerCase().contentEquals("bot")) {
+
+        try {
+            if (type.toLowerCase().contentEquals("bot")) {
 
 
-            if (answerType.toLowerCase().contentEquals("none")) {
+                if (answerType.toLowerCase().contentEquals("none")) {
 
-                loadNoneAnswerTypeMessage();
-                return;
+                    loadNoneAnswerTypeMessage();
+                    return;
+                }
             }
-        }
 
-        loadNormalMessage();
+            loadNormalMessage();
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+        }
 
     }
 
-    private void loadNoneAnswerTypeMessage() {
+    private void loadNoneAnswerTypeMessage() throws JSONException {
 
-        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getType());
+        tempDialog = new Dialog(Dialog.SENDER_BOT, tempObject.getString("question"), tempObject.getString("type"));
+        tempDialog.setEnd(true);
         refreshRecycleView(tempDialog);
         loadFinishRadioButton();
 
@@ -336,17 +227,14 @@ public class IssueBotActivity extends AppCompatActivity {
     }
 
 
-    private void loadNormalMessage() {
+    private void loadNormalMessage() throws JSONException {
 
 
-        final ArrayList<Issue.Answer> userAnswers = new ArrayList<>();
-
-
-        Dialog tempDialog = new Dialog(Dialog.SENDER_BOT, tempIssue.getQuestion(), tempIssue.getType());
+        tempDialog = new Dialog(Dialog.SENDER_BOT, tempObject.getString("question"), tempObject.getString("type"));
         refreshRecycleView(tempDialog);
         linearLayoutRg.removeAllViews();
 
-        switch (tempIssue.getAnswer_type().toLowerCase()) {
+        switch (tempObject.getString("answer_type").toLowerCase()) {
 
 
             case "free_text":
@@ -358,11 +246,11 @@ public class IssueBotActivity extends AppCompatActivity {
             case "radio":
 
                 makeEditable(false);
-                userAnswers.clear();
+                linearLayoutRg.removeAllViews();
                 RadioGroup rg = new RadioGroup(this);
                 rg.setOrientation(RadioGroup.VERTICAL);
 
-                for (int i = 0; i < tempIssue.getAnswers().size(); i++) {
+                for (int i = 0; i < tempObject.getJSONArray("answers").length(); i++) {
 
                     RadioButton radioButton = new RadioButton(this);
 
@@ -376,9 +264,8 @@ public class IssueBotActivity extends AppCompatActivity {
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
-                    radioButton.setTag(tempIssue.getAnswers().get(i));
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                    radioButton.setText(tempIssue.getAnswers().get(i).getTitle());
+                    radioButton.setText(tempObject.getJSONArray("answers").getJSONObject(i).getString("title"));
 
                     if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
                         radioButton.setTextSize(16);
@@ -402,8 +289,6 @@ public class IssueBotActivity extends AppCompatActivity {
 
 
                         try {
-                            userAnswers.add((Issue.Answer) (group.findViewById(checkedId)).getTag());
-                            tempIssue.setUser_answer(userAnswers);
 
                             tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
                             jsonObjects.add(tempObject);
@@ -496,7 +381,7 @@ public class IssueBotActivity extends AppCompatActivity {
         if (GlobalData.getInstance().getmSocket().connected()) {
             try {
 
-                Dialog tempDialog = new Dialog(Dialog.SENDER_USER, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
+                tempDialog = new Dialog(Dialog.SENDER_USER, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
                 refreshRecycleView(tempDialog);
                 if (tempObject.getString("type").toLowerCase().contentEquals("bot")) {
                     GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
@@ -524,15 +409,11 @@ public class IssueBotActivity extends AppCompatActivity {
 
 
         try {
-            tempIssue.getAnswers().get(0).setTitle(etAnswer.getText().toString());
-            tempIssue.setUser_answer(tempIssue.getAnswers());
-
-
             tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
             tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
             jsonObjects.add(tempObject);
             sendMessage();
-            Utility.hideKeyboard(IssueBotActivity.this);
+            Utility.hideKeyboard(this);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -576,7 +457,7 @@ public class IssueBotActivity extends AppCompatActivity {
     }
 
     private void loadFinishRadioButton() {
-
+        makeEditable(false);
         linearLayoutRg.removeAllViews();
         RadioGroup rg = new RadioGroup(this);
         rg.setOrientation(RadioGroup.VERTICAL);
@@ -612,8 +493,6 @@ public class IssueBotActivity extends AppCompatActivity {
             }
         });
 
-
-        makeEditable(false);
 
     }
 

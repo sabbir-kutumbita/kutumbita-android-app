@@ -46,5 +46,5 @@
     <string name="job_type">Job Type</string>
     <string name="emergency_phone">Emergency Phone</string>
     <string name="blood_group">Blood Group</string>
-    <string name="title_activity_issue_bot">IssueBotActivity</string>
+
 </resources>

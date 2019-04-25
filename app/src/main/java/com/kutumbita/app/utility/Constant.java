@@ -18,4 +18,5 @@ public class Constant {
     public static final String EXTRA_EVENT = "exEvent";
 
     public static final long MAXIMUM_UN_TOUCHED_TIME = 60 * 1000;
+    public static final String EXTRA_CHAT_BOT = "exchat";
 }
