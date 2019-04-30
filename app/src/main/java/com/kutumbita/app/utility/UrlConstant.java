@@ -3,7 +3,7 @@ package com.kutumbita.app.utility;
 public class UrlConstant {
 
     //local
-   // public static final String URL_BASE = "http://10.100.1.205:5100/android/api/v1/";
+    public static final String URL_BASE = "http://10.100.1.205:5100/android/api/v1/";
 
     //global
     //  public static final String URL_BASE = "http://52.221.241.27/android/api/v1/";
@@ -13,7 +13,7 @@ public class UrlConstant {
     // public static final String URL_BASE = "http://10.100.1.77:5100/android/api/v1/";
 
     //ALAMIN_VAI
-    public static final String URL_BASE = "http://10.100.1.202:5100/android/api/v1/";
+    //public static final String URL_BASE = "http://10.100.1.202:5100/android/api/v1/";
 
     //STAGING
     //public static final String URL_BASE = "http://13.127.64.209:5100/android/api/v1/";
@@ -36,8 +36,9 @@ public class UrlConstant {
     public static final String URL_SURVEY_ANSWER = URL_BASE + "surveys/";
 
 
-    //socket_global
-   // public static final String URL_SOCKET = "http://10.100.1.205:5222?token=";
+    //socket_local
+   public static final String URL_SOCKET = "http://10.100.1.205:5222?token=";
+
 
     //ngrok socket
     //public static final String URL_SOCKET = "https://6e94f855.ngrok.io?token=";
@@ -46,7 +47,7 @@ public class UrlConstant {
     //public static final String URL_SOCKET = "http://10.100.1.77:5222?token=";
 
     //socket_al_amin
-    public static final String URL_SOCKET = "http://10.100.1.202:5222?token=";
+    //public static final String URL_SOCKET = "http://10.100.1.202:5222?token=";
 
     //socket_global
     //public static final String URL_SOCKET = "http://52.221.241.27:5222?token=";

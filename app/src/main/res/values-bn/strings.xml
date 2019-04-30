@@ -54,7 +54,10 @@
     <string name="blood_group">রক্তের গ্রুপ</string>
     <string name="department">বিভাগ</string>
     <string name="company">কোম্পানি</string>
-
+    <string name="photo_uploader">Photo uploader</string>
+    <string name="camera_roll">Upload photo from camera roll</string>
+    <string name="permission_needed">All permissions needed to be granted to use this application!</string>
+    <string name="ok">OK</string>
 
 
 </resources>

@@ -73,13 +73,10 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
             case MESSAGE_TYPE_BOT:
                 ((LeftViewHolder) viewHolder).bind(d);
-                if (d.isEnd()) {
-                    if (position == dialogs.size() - 2)
-                        rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
-                    else
-                        rightItemView.findViewById(R.id.ivMenu).setVisibility(View.VISIBLE);
-
-                }
+//                if (d.isEnd()) {
+//
+//                    rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
+//                }
                 break;
         }
 
@@ -122,9 +119,11 @@ public class DialogAdapter extends RecyclerView.Adapter {
         void bind(Dialog dialog) {
 
 
+
             tv.setText(dialog.getQuestion());
 
-
+//            if(dialog.isEnd())
+//                rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
         }
 
 
@@ -166,6 +165,8 @@ public class DialogAdapter extends RecyclerView.Adapter {
                     liveData.setValue(true);
                 }
             });
+
+
         }
 
         void hideMenu() {

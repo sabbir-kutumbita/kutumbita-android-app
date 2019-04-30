@@ -46,5 +46,10 @@
     <string name="job_type">Job Type</string>
     <string name="emergency_phone">Emergency Phone</string>
     <string name="blood_group">Blood Group</string>
+    <string name="photo_uploader">Photo uploader</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="camera_roll">Upload photo from camera roll</string>
+    <string name="permission_needed">All permissions needed to be granted to use this application!</string>
+    <string name="ok">OK</string>
 
 </resources>

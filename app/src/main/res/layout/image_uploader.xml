@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/vZero"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/uploader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_below="@+id/vZero"
+        android:fontFamily="@font/circularstd_book"
+        android:gravity="center"
+        android:text="@string/photo_uploader"
+        android:textColor="@color/primaryColor" />
+
+    <View
+        android:id="@+id/vOne"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/uploader"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/tvCam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vOne"
+        android:textColor="@color/primaryTextColor"
+        android:drawableStart="@drawable/ic_photo_camera_black_24dp"
+        android:drawablePadding="@dimen/ten_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:gravity="left|center_vertical"
+        android:padding="@dimen/ten_dp"
+        android:text="@string/take_a_photo" />
+
+    <View
+        android:id="@+id/vTwo"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tvCam"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/tvUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primaryTextColor"
+        android:layout_below="@+id/vTwo"
+        android:drawableStart="@drawable/ic_photo_library_black_24dp"
+        android:drawablePadding="@dimen/ten_dp"
+        android:fontFamily="@font/circularstd_book"
+        android:gravity="left|center_vertical"
+        android:padding="@dimen/ten_dp"
+        android:text="@string/camera_roll" />
+
+</RelativeLayout>
