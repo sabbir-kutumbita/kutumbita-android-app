@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +28,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
     List<Dialog> dialogs = Collections.emptyList();
     View rightItemView, leftItemView;
     public MutableLiveData<Boolean> liveData;
-
+    private int lastPosition = -1;
     public DialogAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
@@ -68,11 +70,11 @@ public class DialogAdapter extends RecyclerView.Adapter {
         switch (viewHolder.getItemViewType()) {
             case MESSAGE_TYPE_USER:
 
-                ((RightViewHolder) viewHolder).bind(d);
+                ((RightViewHolder) viewHolder).bind(d,position);
                 break;
 
             case MESSAGE_TYPE_BOT:
-                ((LeftViewHolder) viewHolder).bind(d);
+                ((LeftViewHolder) viewHolder).bind(d,position);
 //                if (d.isEnd()) {
 //
 //                    rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
@@ -116,7 +118,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bind(Dialog dialog) {
+        void bind(Dialog dialog, int pos) {
 
 
 
@@ -131,10 +133,13 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
     class RightViewHolder extends RecyclerView.ViewHolder {
 
+
         TextView tv;
         ImageView ivMenu;
 
         public RightViewHolder(@NonNull View itemView) {
+
+
             super(itemView);
             rightItemView = itemView;
             tv = itemView.findViewById(R.id.tvMessage);
@@ -142,10 +147,10 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bind(Dialog dialog) {
+        void bind(Dialog dialog, int pos) {
 
             tv.setText(dialog.getQuestion());
-
+            setAnimation(tv, pos);
             if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
                 if (getAdapterPosition() == dialogs.size() - 2)
 
@@ -157,7 +162,6 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
                 ivMenu.setVisibility(View.INVISIBLE);
             }
-
 
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,5 +185,15 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
     }
 
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(c, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
 
 }

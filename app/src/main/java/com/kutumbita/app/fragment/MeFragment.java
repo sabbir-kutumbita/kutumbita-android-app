@@ -84,7 +84,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         // mbLogOut.setOnClickListener(this);
 
         loadProfileData();
-        parseMe();
+       // parseMe();
 
 
         return v;
@@ -103,13 +103,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
 
                     Me me = new Me(preferenceUtility.getMe().getAccessToken()
-                            , preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), "Star Group",
+                            , preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), userObject.getJSONObject("company").getString("name"),
                             //userObject.getString("company"),
                             userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
                             userObject.getString("phone"), userObject.getString("gender"),
                             userObject.getString("location"),
                             userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
-                            userObject.getString("avatar"), "O+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"),userObject.getString("language").toLowerCase());
+                            userObject.getString("avatar"), "", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"),userObject.getString("language").toLowerCase());
 
                     preferenceUtility.setMe(me);
 

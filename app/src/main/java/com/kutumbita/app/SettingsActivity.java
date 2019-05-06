@@ -98,6 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 Intent goSplash = new Intent(SettingsActivity.this, SplashActivity.class);
                                 startActivity(goSplash);
                                 finish();
+
                             }
                         }
                     });
@@ -120,6 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void onChanged(Me me) {
                                     if (me != null) {
+
 
                                         preferenceUtility.setMe(me);
                                         //preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);

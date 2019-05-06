@@ -170,7 +170,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
 
 
-
             }
         }) {
             @Override
@@ -217,7 +216,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     JSONObject userObject = new JSONObject(response);
 
 
-                    Me me = new Me(accessToken, refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), "Star Group",
+                    Me me = new Me(accessToken, refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), userObject.getJSONObject("company").getString("name"),
                             //userObject.getString("company"),
                             userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
                             userObject.getString("phone"), userObject.getString("gender"),
@@ -245,7 +244,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // S.L("error: " + error.networkResponse.statusCode);
+                // S.L("error: " + error.networkResponse.statusCode);
 
                 try {
                     String str = new String(error.networkResponse.data, "UTF-8");

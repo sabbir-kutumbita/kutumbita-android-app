@@ -81,11 +81,21 @@ public class ChatFragment extends Fragment {
         chatFragmentViewModel = ViewModelProviders.of(this).get(ChatFragmentViewModel.class);
 
         rcv = v.findViewById(R.id.rcvChat);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager gridLayoutManager;
+        if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
+            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        }else{
+            gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+
+        }
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rcv.setLayoutManager(gridLayoutManager);
         rcv.setItemAnimator(new DefaultItemAnimator());
-        rcv.addItemDecoration(new GridSpacingItemDecoration(3, 50, true));
+        if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
+            rcv.addItemDecoration(new GridSpacingItemDecoration(4, 70, true));
+        }else{
+            rcv.addItemDecoration(new GridSpacingItemDecoration(3, 50, true));
+        }
         swipeRefreshLayout = v.findViewById(R.id.srl);
         swipeRefreshLayout.setColorSchemeResources(
                 R.color.primaryColor,

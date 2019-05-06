@@ -10,12 +10,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonObject;
+import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
+import com.kutumbita.app.MainActivity;
 import com.kutumbita.app.SplashActivity;
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
+import com.kutumbita.app.utility.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +85,7 @@ public class SettingsRepository {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                S.L("error: in logout" );
+                S.L("error: in logout");
                 isSucceed.setValue(false);
 
             }
@@ -131,24 +134,54 @@ public class SettingsRepository {
                 S.L("me json", response);
 
 
-                try {
-                    JSONObject userObject = new JSONObject(response);
+                StringRequest meRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        S.L("me", response);
+                        try {
+
+                            JSONObject userObject = new JSONObject(response);
 
 
-                    Me me = new Me(accessToken
-                            , refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), "Star Group",
-                            userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
-                            userObject.getString("phone"), userObject.getString("gender"),
-                            userObject.getString("location"),
-                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
-                            userObject.getString("avatar"), "O+", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"), userObject.getString("language").toLowerCase());
+                            Me me = new Me(accessToken, refreshToken, userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), userObject.getJSONObject("company").getString("name"),
+                                    //userObject.getString("company"),
+                                    userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
+                                    userObject.getString("phone"), userObject.getString("gender"),
+                                    userObject.getString("location"),
+                                    userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
+                                    userObject.getString("avatar"), "", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"), userObject.getString("language").toLowerCase());
+
+                            updatedMe.setValue(me);
 
 
-                    updatedMe.setValue(me);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    updatedMe.setValue(null);
-                }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            updatedMe.setValue(null);
+                        }
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // S.L("error: " + error.networkResponse.statusCode);
+                        updatedMe.setValue(null);
+
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("Authorization", "Bearer " + accessToken);
+                        return params;
+                    }
+
+                };
+                meRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        Constant.TIME_OUT,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                GlobalData.getInstance().addToRequestQueue(meRequest);
 
 
             }

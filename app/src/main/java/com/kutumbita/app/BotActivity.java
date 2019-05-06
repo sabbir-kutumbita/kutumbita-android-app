@@ -31,8 +31,8 @@ import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +40,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -395,13 +396,10 @@ public class BotActivity extends AppCompatActivity {
 
     }
 
-    //keep track of camera capture intent
-    static final int CAMERA_CAPTURE = 1;
-    //keep track of cropping intent
-    final int PIC_CROP = 3;
-    //keep track of gallery intent
-    final int PICK_IMAGE_REQUEST = 2;
-    //captured picture uri
+
+    static final int CAMERA_CAPTURE_REQUEST = 1;
+    final int GALLERY_IMAGE_REQUEST = 2;
+
     private Uri picUri;
 
     String mCurrentPhotoPath;
@@ -415,15 +413,15 @@ public class BotActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
+                    //use standard intent to capture an image
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     String imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/picture.jpg";
                     File imageFile = new File(imageFilePath);
                     picUri = Uri.fromFile(imageFile); // convert path to Uri
-                    takePictureIntent.putExtra( MediaStore.EXTRA_OUTPUT,  picUri );
-                    startActivityForResult(takePictureIntent, CAMERA_CAPTURE);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
+                    startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
+                } catch (ActivityNotFoundException anfe) {
 
-                } catch(ActivityNotFoundException anfe){
-                    //display an error message
                     String errorMessage = "Whoops - your device doesn't support capturing images!";
                     Toast.makeText(BotActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
@@ -436,69 +434,22 @@ public class BotActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 // Start the Intent
-                startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+                startActivityForResult(galleryIntent, GALLERY_IMAGE_REQUEST);
             }
         });
         linearLayoutOthers.addView(uploaderView);
         linearLayoutOthers.setVisibility(View.VISIBLE);
     }
 
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            //user is returning from capturing an image using the camera
-            if(requestCode == CAMERA_CAPTURE){
-                //get the Uri for the captured image
-                Uri uri = picUri;
-                //carry out the crop operation
-                performCrop();
-                Log.d("picUri", uri.toString());
+
+            if(requestCode==CAMERA_CAPTURE_REQUEST){
+
 
             }
-
-            else if(requestCode == PICK_IMAGE_REQUEST){
-                picUri = data.getData();
-                Log.d("uriGallery", picUri.toString());
-                performCrop();
-            }
-
-            //user is returning from cropping the image
-            else if(requestCode == PIC_CROP){
-                //get the returned data
-                Bundle extras = data.getExtras();
-                //get the cropped bitmap
-                Bitmap thePic = (Bitmap) extras.get("data");
-                //display the returned cropped image
-                //imageView.setImageBitmap(thePic);
-            }
-
-        }
-    }
-
-    private void performCrop(){
-        try {
-            //call the standard crop action intent (the user device may not support it)
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            //indicate image type and Uri
-            cropIntent.setDataAndType(picUri, "image/*");
-            //set crop properties
-            cropIntent.putExtra("crop", "true");
-            //indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            //indicate output X and Y
-            cropIntent.putExtra("outputX", 256);
-            cropIntent.putExtra("outputY", 256);
-            //retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            //start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, PIC_CROP);
-        }
-        catch(ActivityNotFoundException anfe){
-            //display an error message
-            String errorMessage = "Whoops - your device doesn't support the crop action!";
-            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 
