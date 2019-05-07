@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.kutumbita.app.fragment.SettingsFragment;
+import com.kutumbita.app.fragment.settings.ChangePasswordFragment;
 import com.kutumbita.app.fragment.settings.LanguageFragment;
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
+import com.kutumbita.app.viewmodel.AuthenticationViewModel;
 import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     View layout;
 
     PreferenceUtility preferenceUtility;
-
+    AuthenticationViewModel authenticationViewModel;
     SettingsViewModel settingsViewModel;
 //    @Override
 //    public void onUserInteraction() {
@@ -69,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         preferenceUtility = new PreferenceUtility(this);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         settingsViewModel = ViewModelProviders.of(SettingsActivity.this).get(SettingsViewModel.class);
-
+        authenticationViewModel = ViewModelProviders.of(SettingsActivity.this).get(AuthenticationViewModel.class);
         setFragment();
 
     }
@@ -117,29 +119,39 @@ public class SettingsActivity extends AppCompatActivity {
                     ((LanguageFragment) languageFragment).languageStringLiveData.observe(SettingsActivity.this, new Observer<String>() {
                         @Override
                         public void onChanged(final String s) {
-                            settingsViewModel.setLanguage(s).observe(SettingsActivity.this, new Observer<Me>() {
+
+                            settingsViewModel.setLanguage(s).observe(SettingsActivity.this, new Observer<Boolean>() {
                                 @Override
-                                public void onChanged(Me me) {
-                                    if (me != null) {
+                                public void onChanged(Boolean aBoolean) {
+                                    if (aBoolean) {
 
+                                        authenticationViewModel.meLiveData(preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken()).observe(SettingsActivity.this, new Observer<Me>() {
+                                            @Override
+                                            public void onChanged(Me me) {
+                                                if (me != null) {
+                                                    preferenceUtility.setMe(me);
+                                                    //preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);
+                                                    Utility.detectLanguage(me.getLanguage(), SettingsActivity.this);
 
-                                        preferenceUtility.setMe(me);
-                                        //preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);
-                                        Utility.detectLanguage(me.getLanguage(), SettingsActivity.this);
+                                                    Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
+                                                    sendBroadcast(intent);
 
-                                        Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
-                                        sendBroadcast(intent);
+                                                    Intent goSplash = new Intent(SettingsActivity.this, SplashActivity.class);
+                                                    startActivity(goSplash);
 
-                                        Intent goSplash = new Intent(SettingsActivity.this, SplashActivity.class);
-                                        startActivity(goSplash);
+                                                    finish();
 
-                                        finish();
-                                    } else {
+                                                } else {
 
-                                        S.T(SettingsActivity.this, "Failed to update language");
+                                                    S.T(SettingsActivity.this, "Failed to update language");
+                                                }
+                                            }
+                                        });
+
                                     }
                                 }
                             });
+
                         }
                     });
 
@@ -151,26 +163,28 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-//        fragment.setOnSettingEventListener(new SettingsFragment.OnSettingEventListener() {
+        fragment.changePassClicked.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    Fragment changePassFr = new ChangePasswordFragment();
+                    ((ChangePasswordFragment) changePassFr).passChanged.observe(SettingsActivity.this, new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if(aBoolean)
+                            getSupportFragmentManager().popBackStack();
+                        }
+                    });
 
-//            @Override
-//            public void OnLanguageClicked() {
-//                ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.language));
-//                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-//                        .addToBackStack(null).replace(R.id.frPref, new LanguageFragment()).commit();
-//
-//            }
-//
-//            @Override
-//            public void OnFaqClicked() {
-//
-//            }
-//
-//            @Override
-//            public void OnTermsConditionClicked() {
-//
-//            }
-//        });
+                    ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.change_password));
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                            .addToBackStack(null).replace(R.id.frPref, changePassFr).commit();
+                }
+
+
+            }
+        });
+
         getSupportFragmentManager().beginTransaction().replace(R.id.frPref, fragment).commit();
     }
 }

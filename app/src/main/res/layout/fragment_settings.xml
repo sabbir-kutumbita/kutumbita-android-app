@@ -7,28 +7,33 @@
     tools:context=".fragment.SettingsFragment">
 
 
-
     <include
         android:id="@+id/tvLanguage"
         layout="@layout/menu_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fifteen_dp"
-       ></include>
+        android:layout_marginTop="@dimen/fifteen_dp"></include>
+
+    <include
+        android:id="@+id/tvchangePass"
+        layout="@layout/menu_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/one_dp"></include>
 
     <!--<include-->
-        <!--android:id="@+id/tvTermsAndCondition"-->
-        <!--layout="@layout/menu_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="@dimen/one_dp"></include>-->
+    <!--android:id="@+id/tvTermsAndCondition"-->
+    <!--layout="@layout/menu_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/one_dp"></include>-->
 
     <!--<include-->
-        <!--android:id="@+id/tvFaq"-->
-        <!--layout="@layout/menu_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="@dimen/one_dp"></include>-->
+    <!--android:id="@+id/tvFaq"-->
+    <!--layout="@layout/menu_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/one_dp"></include>-->
 
 
     <include

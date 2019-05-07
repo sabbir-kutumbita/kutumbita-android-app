@@ -51,5 +51,7 @@
     <string name="camera_roll">Upload photo from camera roll</string>
     <string name="permission_needed">All permissions needed to be granted to use this application!</string>
     <string name="ok">OK</string>
+    <string name="current_password">Current Password</string>
+    <string name="change_password">Change your password</string>
 
 </resources>

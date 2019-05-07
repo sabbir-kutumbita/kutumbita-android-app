@@ -15,8 +15,9 @@ public class SettingsViewModel extends AndroidViewModel {
 
     LiveData<Boolean> loggedOut;
     PreferenceUtility preferenceUtility;
-    LiveData<Me> languageData;
+    LiveData<Boolean> languageData;
     SettingsRepository settingsRepository;
+    LiveData<Boolean> passWordChangedLiveData;
 
     public SettingsViewModel(@NonNull Application application) {
         super(application);
@@ -38,8 +39,13 @@ public class SettingsViewModel extends AndroidViewModel {
         return loggedOut;
     }
 
-    public LiveData<Me> setLanguage(String language) {
+    public LiveData<Boolean> setLanguage(String language) {
         languageData = settingsRepository.languageLiveData(language, preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken());
         return languageData;
+    }
+
+    public LiveData<Boolean> changePassword(String currentPass, String newPass) {
+        passWordChangedLiveData = settingsRepository.changePasswordLiveData(currentPass, newPass, preferenceUtility.getMe().getAccessToken());
+        return passWordChangedLiveData;
     }
 }

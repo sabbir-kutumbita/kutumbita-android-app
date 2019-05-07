@@ -23,6 +23,7 @@ import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
+import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
@@ -44,16 +46,20 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public MutableLiveData<Boolean> termsConditionClicked;
     public MutableLiveData<Boolean> logoutClicked;
 
+    public MutableLiveData<Boolean> changePassClicked;
+
     public SettingsFragment() {
         // Required empty public constructor
         faqClicked = new MutableLiveData<>();
         termsConditionClicked = new MutableLiveData<>();
         languageClicked = new MutableLiveData<>();
         logoutClicked = new MutableLiveData<>();
+        changePassClicked = new MutableLiveData<>();
     }
 
+    SettingsViewModel settingsViewModel;
     View v;
-    View langLayout, termsLayout, faqLayout,
+    View langLayout, termsLayout, faqLayout, changePassLayout,
             logOutLayout;
 
     PreferenceUtility preferenceUtility;
@@ -63,6 +69,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferenceUtility = new PreferenceUtility(getActivity());
+        settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
 
     }
 
@@ -74,14 +81,21 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
         langLayout = v.findViewById(R.id.tvLanguage);
-       // termsLayout = v.findViewById(R.id.tvTermsAndCondition);
-       // faqLayout = v.findViewById(R.id.tvFaq);
+        changePassLayout = v.findViewById(R.id.tvchangePass);
+        // termsLayout = v.findViewById(R.id.tvTermsAndCondition);
+        // faqLayout = v.findViewById(R.id.tvFaq);
         logOutLayout = v.findViewById(R.id.tvLogout);
 
         ((TextView) langLayout.findViewById(R.id.value)).setText(getString(R.string.title_language));
         ((ImageView) langLayout.findViewById(R.id.icon)).setImageResource(R.drawable.language);
         langLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
         langLayout.setOnClickListener(this);
+
+
+        ((TextView) changePassLayout.findViewById(R.id.value)).setText(getString(R.string.change_password));
+        ((ImageView) changePassLayout.findViewById(R.id.icon)).setImageResource(R.drawable.password_change);
+        changePassLayout.findViewById(R.id.ivNext).setVisibility(View.VISIBLE);
+        changePassLayout.setOnClickListener(this);
 
 //        ((TextView) termsLayout.findViewById(R.id.value)).setText(getString(R.string.terms_condition));
 //        ((ImageView) termsLayout.findViewById(R.id.icon)).setImageResource(R.drawable.terms_conditions);
@@ -195,11 +209,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 //
                 break;
 
+            case R.id.tvchangePass:
+
+                changePassClicked.setValue(true);
+
+                break;
+
 
         }
     }
-
-
 
 
 //    OnSettingEventListener listener;

@@ -1,22 +1,18 @@
 package com.kutumbita.app.fragment.settings;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-import com.kutumbita.app.R;
-import com.kutumbita.app.SplashActivity;
-import com.kutumbita.app.utility.Constant;
-import com.kutumbita.app.utility.PreferenceUtility;
-import com.kutumbita.app.utility.Utility;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+
+import com.kutumbita.app.R;
+import com.kutumbita.app.utility.PreferenceUtility;
 
 /**
  * A simple {@link Fragment} subclass.

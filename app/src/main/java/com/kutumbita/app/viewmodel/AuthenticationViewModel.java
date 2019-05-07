@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.kutumbita.app.model.Me;
 import com.kutumbita.app.repository.AuthenticationRepository;
 
 import org.json.JSONObject;
@@ -23,5 +24,11 @@ public class AuthenticationViewModel extends AndroidViewModel {
     public LiveData<JSONObject> signInLiveData(String email, String password) {
 
         return authenticationRepository.signInLiveData(email, password);
+    }
+
+
+    public LiveData<Me> meLiveData(String accessToken, String refreshToken) {
+
+        return authenticationRepository.getMeLiveData(accessToken, refreshToken);
     }
 }

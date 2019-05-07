@@ -25,6 +25,7 @@ import com.kutumbita.app.utility.DateUtility;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
+import com.kutumbita.app.viewmodel.AuthenticationViewModel;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -36,6 +37,8 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,11 +61,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     TextView textViewAccountName;
     ImageView avatar;
     StringRequest loginRequest;
+    AuthenticationViewModel authenticationViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferenceUtility = new PreferenceUtility(getActivity());
+        authenticationViewModel = ViewModelProviders.of(this).get(AuthenticationViewModel.class);
     }
 
     @Override
@@ -80,82 +85,19 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 startActivity(goSettings);
             }
         });
-        // mbLogOut = v.findViewById(R.id.bLogout);
-        // mbLogOut.setOnClickListener(this);
+
 
         loadProfileData();
-       // parseMe();
 
+        authenticationViewModel.meLiveData(preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken()).observe(this, new Observer<Me>() {
+            @Override
+            public void onChanged(Me me) {
+                preferenceUtility.setMe(me);
+                loadProfileData();
+            }
+        });
 
         return v;
-
-    }
-
-    private void parseMe() {
-        S.L("accessToken", preferenceUtility.getMe().getAccessToken());
-        loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                S.L(response);
-                try {
-
-                    JSONObject userObject = new JSONObject(response);
-
-
-                    Me me = new Me(preferenceUtility.getMe().getAccessToken()
-                            , preferenceUtility.getMe().getRefreshToken(), userObject.getString("id"), userObject.getString("uuid"), userObject.getString("name"), userObject.getJSONObject("company").getString("name"),
-                            //userObject.getString("company"),
-                            userObject.getString("factory"), userObject.getString("department"), userObject.getString("position"),
-                            userObject.getString("phone"), userObject.getString("gender"),
-                            userObject.getString("location"),
-                            userObject.getString("emergency_contact_name"), userObject.getString("emergency_contact_phone"),
-                            userObject.getString("avatar"), "", userObject.getString("national_id"), userObject.getString("joined_at"), userObject.getString("job_type"),userObject.getString("language").toLowerCase());
-
-                    preferenceUtility.setMe(me);
-
-                    loadProfileData();
-
-
-                } catch (JSONException e) {
-
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                S.L("error: " + error.networkResponse.statusCode);
-
-                try {
-                    String str = new String(error.networkResponse.data, "UTF-8");
-                    JSONObject object = new JSONObject(str);
-                    JSONObject errorObject = object.getJSONObject("error");
-                    S.T(getActivity(), errorObject.getString("message"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
-                return params;
-            }
-
-        };
-
-        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
-
-                Constant.TIME_OUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        GlobalData.getInstance().addToRequestQueue(loginRequest);
 
     }
 
@@ -219,83 +161,9 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((ImageView) bloodGroupLayout.findViewById(R.id.icon)).setImageResource(R.drawable.blood_group);
 
     }
-
-//    private void switchView(View nameLayout) {
-//
-//        if ((nameLayout.findViewById(R.id.value)).getVisibility() == View.VISIBLE) {
-//
-//            nameLayout.findViewById(R.id.value).setVisibility(View.GONE);
-//            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_navigate_next_black_24dp);
-//
-//        } else {
-//
-//            nameLayout.findViewById(R.id.value).setVisibility(View.VISIBLE);
-//            ((ImageView) nameLayout.findViewById(R.id.expand)).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-//        }
-//    }
-
-
     @Override
 
     public void onClick(View v) {
-
-
-//        switch (v.getId()) {
-//
-//            case R.id.bLogout:
-//
-//                StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//
-//                        S.L(response);
-//
-//
-//                        try {
-//                            JSONObject object = new JSONObject(response);
-//                            if (object.getBoolean("success")) {
-//                                preferenceUtility.deleteUser(preferenceUtility.getMe());
-//                                Intent goSplash = new Intent(getActivity(), SplashActivity.class);
-//                                startActivity(goSplash);
-//                                getActivity().finish();
-//
-//                            }
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//
-//                        S.L("error: " + error.getMessage());
-//
-//                    }
-//                }) {
-//
-//                    @Override
-//                    public Map<String, String> getHeaders() throws AuthFailureError {
-//                        Map<String, String> params = new HashMap<String, String>();
-//                        params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
-//                        return params;
-//                    }
-//
-//                };
-//
-//                loginRequest.setRetryPolicy(new DefaultRetryPolicy(
-//                        Constant.TIME_OUT,
-//                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//                GlobalData.getInstance().addToRequestQueue(loginRequest);
-//
-//
-//                break;
-//
-//        }
 
 
 

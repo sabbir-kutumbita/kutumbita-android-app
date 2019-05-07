@@ -11,7 +11,6 @@
     <string name="terms_condition"><![CDATA[Terms & Conditions]]></string>
 
 
-
     <string name="faq">FAQ</string>
     <string name="edit_pro">Edit Profile</string>
     <string name="logout">Log Out</string>
@@ -54,10 +53,12 @@
     <string name="blood_group">রক্তের গ্রুপ</string>
     <string name="department">বিভাগ</string>
     <string name="company">কোম্পানি</string>
-    <string name="photo_uploader">Photo uploader</string>
-    <string name="camera_roll">Upload photo from camera roll</string>
-    <string name="permission_needed">All permissions needed to be granted to use this application!</string>
-    <string name="ok">OK</string>
+    <string name="photo_uploader">ফটো আপলোডার</string>
+    <string name="camera_roll">গ্যালারি থেকে ছবি আপলোড করুন</string>
+    <string name="permission_needed">অ্যাপ্লিকেশন টি ব্যাবহার করার জন্য সবগুলি পারমিশন এর অনুমতি দিন</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="current_password">বর্তমান পাসওয়ার্ড</string>
+    <string name="change_password">পাসওয়ার্ড পরিবর্তন করুন</string>
 
 
 </resources>
