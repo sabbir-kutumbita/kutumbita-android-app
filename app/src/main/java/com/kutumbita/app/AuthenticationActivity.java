@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -18,11 +20,13 @@ import com.kutumbita.app.fragment.authentication.ForgotPasswordFragment;
 import com.kutumbita.app.fragment.authentication.RequestForAccountFragment;
 import com.kutumbita.app.fragment.authentication.SignInFragment;
 import com.kutumbita.app.model.Me;
+import com.kutumbita.app.repository.AuthenticationRepository;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
+import com.kutumbita.app.viewmodel.AuthenticationViewModel;
 import com.kutumbita.app.viewmodel.SettingsViewModel;
 
 import org.json.JSONException;
@@ -34,7 +38,7 @@ import java.util.Map;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
-
+    AuthenticationViewModel authenticationViewModel;
     Fragment fr;
     PreferenceUtility preferenceUtility;
     SettingsViewModel settingsViewModel;
@@ -47,7 +51,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
-
+        authenticationViewModel = ViewModelProviders.of(AuthenticationActivity.this).get(AuthenticationViewModel.class);
         //loadChooserFragment();
         loadSignInFragment();
     }
@@ -98,8 +102,23 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void OnSignInClicked(String emailOrPhone, String password) {
 
-                signIn(emailOrPhone, password);
+               // signIn(emailOrPhone, password);
+                authenticationViewModel.signInLiveData(emailOrPhone, password).observe(AuthenticationActivity.this, new Observer<JSONObject>() {
+                    @Override
+                    public void onChanged(JSONObject jsonObject) {
+                        if (jsonObject != null) {
+                            try {
+                                getMe(jsonObject.getString("access_token"), "refresh");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
+                        } else {
+
+                            S.T(AuthenticationActivity.this, "Something went wrong");
+                        }
+                    }
+                });
 
             }
 
