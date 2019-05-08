@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     boolean shouldShow;
     BroadcastReceiver receiver, langReceiver;
     SettingsViewModel settingsViewModel;
+    public static int TAB_POSITION = 0;
+    public static int TAB_LAST_POSITION = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.item_home:
 
-
+                        TAB_POSITION = 0;
                         loadHomeFragment();
 
 
@@ -161,19 +163,19 @@ public class MainActivity extends AppCompatActivity {
 
 
                     case R.id.item_chat:
-
+                        TAB_POSITION = 1;
                         loadChatFragment();
 
                         break;
 
                     case R.id.item_inbox:
-
+                        TAB_POSITION = 2;
                         loadInboxFragment();
 
                         break;
 
                     case R.id.item_me:
-
+                        TAB_POSITION = 3;
                         loadMeFragment();
 
                         break;
@@ -219,25 +221,30 @@ public class MainActivity extends AppCompatActivity {
     private void loadInboxFragment() {
 
         fr = new InboxFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frMain, fr).commitAllowingStateLoss();
+
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        TAB_LAST_POSITION = 2;
     }
 
     private void loadChatFragment() {
 
         fr = new ChatFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frMain, fr).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        TAB_LAST_POSITION = 1;
     }
 
     private void loadHomeFragment() {
 
         fr = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frMain, fr).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        TAB_LAST_POSITION = 0;
     }
 
     private void loadMeFragment() {
 
         fr = new MeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frMain, fr).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        TAB_LAST_POSITION = 3;
 
     }
 
@@ -323,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onChanged(Boolean aBoolean) {
                         if (aBoolean) {
 
-                            Utility.detectLanguage("en", MainActivity.this);
+
                             preferenceUtility.deleteUser(preferenceUtility.getMe());
 //                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
 //                            sendBroadcast(intent);
@@ -337,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-                GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+            GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
 
 
         }

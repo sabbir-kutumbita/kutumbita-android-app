@@ -154,7 +154,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
                 logoutClicked.setValue(true);
 
-//                loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new Response.Listener<String>() {
+//                loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_LOGOUT, new ServerResponse.Listener<String>() {
 //
 //                    @Override
 //                    public void onResponse(String response) {
@@ -183,7 +183,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 //
 //
 //                    }
-//                }, new Response.ErrorListener() {
+//                }, new ServerResponse.ErrorListener() {
 //                    @Override
 //                    public void onErrorResponse(VolleyError error) {
 //

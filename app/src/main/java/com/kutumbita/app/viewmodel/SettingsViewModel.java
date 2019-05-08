@@ -3,12 +3,15 @@ package com.kutumbita.app.viewmodel;
 import android.app.Application;
 
 import com.kutumbita.app.model.Me;
+import com.kutumbita.app.model.ServerResponse;
 import com.kutumbita.app.repository.SettingsRepository;
 import com.kutumbita.app.utility.PreferenceUtility;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import java.util.HashMap;
 
 public class SettingsViewModel extends AndroidViewModel {
 
@@ -17,7 +20,7 @@ public class SettingsViewModel extends AndroidViewModel {
     PreferenceUtility preferenceUtility;
     LiveData<Boolean> languageData;
     SettingsRepository settingsRepository;
-    LiveData<Boolean> passWordChangedLiveData;
+    LiveData<ServerResponse> passWordChangedLiveData;
 
     public SettingsViewModel(@NonNull Application application) {
         super(application);
@@ -44,7 +47,7 @@ public class SettingsViewModel extends AndroidViewModel {
         return languageData;
     }
 
-    public LiveData<Boolean> changePassword(String currentPass, String newPass) {
+    public LiveData<ServerResponse> changePassword(String currentPass, String newPass) {
         passWordChangedLiveData = settingsRepository.changePasswordLiveData(currentPass, newPass, preferenceUtility.getMe().getAccessToken());
         return passWordChangedLiveData;
     }

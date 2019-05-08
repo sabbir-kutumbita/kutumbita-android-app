@@ -1,6 +1,7 @@
 package com.kutumbita.app.repository;
 
-import android.content.Intent;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -9,16 +10,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.google.gson.JsonObject;
-import com.kutumbita.app.AuthenticationActivity;
 import com.kutumbita.app.GlobalData;
-import com.kutumbita.app.MainActivity;
-import com.kutumbita.app.SplashActivity;
-import com.kutumbita.app.model.Me;
+import com.kutumbita.app.model.ServerResponse;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
-import com.kutumbita.app.utility.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,9 +22,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class SettingsRepository {
 
@@ -110,9 +103,9 @@ public class SettingsRepository {
 
     }
 
-    public LiveData<Boolean> changePasswordLiveData(final String currentPass, final String newPass, final String accessToken) {
+    public LiveData<ServerResponse> changePasswordLiveData(final String currentPass, final String newPass, final String accessToken) {
 
-        final MutableLiveData<Boolean> updatedMe = new MutableLiveData<>();
+        final MutableLiveData<ServerResponse> updatedMe = new MutableLiveData<>();
 
 
         JSONObject object = new JSONObject();
@@ -133,7 +126,15 @@ public class SettingsRepository {
             public void onResponse(String response) {
 
                 S.L("pass response", response);
-                updatedMe.setValue(true);
+
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    updatedMe.setValue(new ServerResponse(true, obj.getString("success")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    updatedMe.setValue(new ServerResponse(false, "password change failed"));
+                }
+
             }
 
         }, new Response.ErrorListener() {
@@ -141,7 +142,7 @@ public class SettingsRepository {
             public void onErrorResponse(VolleyError error) {
 
                 S.L("Error", "password change failed");
-                updatedMe.setValue(false);
+                updatedMe.setValue(new ServerResponse(false, "password change failed"));
 
             }
         }) {
@@ -160,6 +161,7 @@ public class SettingsRepository {
                 try {
                     return body == null ? null : body.getBytes("utf-8");
                 } catch (UnsupportedEncodingException uee) {
+
                     VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
                             body, "utf-8");
                     return null;
@@ -208,7 +210,7 @@ public class SettingsRepository {
             public void onErrorResponse(VolleyError error) {
 
                 S.L("error: in language hanging");
-                updatedMe.setValue(null);
+                updatedMe.setValue(false);
 
             }
         }) {
@@ -232,6 +234,7 @@ public class SettingsRepository {
                     return null;
                 }
             }
+
 
         };
 

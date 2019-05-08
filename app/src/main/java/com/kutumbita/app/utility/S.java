@@ -29,7 +29,7 @@ public class S {
         text.setText(s);
 
         Toast toast = new Toast(c);
-        toast.setGravity(Gravity.BOTTOM, -0, 230);
+        toast.setGravity(Gravity.BOTTOM, Utility.dpFromPx(c, -0), Utility.dpFromPx(c, 230));
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(layout);
         toast.show();

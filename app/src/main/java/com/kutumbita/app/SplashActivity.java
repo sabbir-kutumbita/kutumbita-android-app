@@ -57,11 +57,12 @@ public class SplashActivity extends AppCompatActivity {
                     } else {
 
                         if (preferenceUtility.getMe() == null) {
+                            Utility.detectLanguage("en", SplashActivity.this);
                             Intent goAuth = new Intent(SplashActivity.this, AuthenticationActivity.class);
                             startActivity(goAuth);
                             finish();
                         } else {
-
+                            Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), SplashActivity.this);
                             Intent goMain = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(goMain);
                             finish();

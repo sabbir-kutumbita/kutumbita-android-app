@@ -17,9 +17,12 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.kutumbita.app.R;
+import com.kutumbita.app.model.ServerResponse;
 import com.kutumbita.app.repository.SettingsRepository;
 import com.kutumbita.app.utility.Utility;
 import com.kutumbita.app.viewmodel.SettingsViewModel;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +34,7 @@ public class ChangePasswordFragment extends Fragment {
     TextInputLayout cPassWrapper, oPassWrapper;
     Button bDone;
     SettingsViewModel settingsViewModel;
-    public MutableLiveData<Boolean> passChanged;
+    public MutableLiveData<ServerResponse> passChanged;
 
     public ChangePasswordFragment() {
         passChanged = new MutableLiveData<>();
@@ -53,16 +56,14 @@ public class ChangePasswordFragment extends Fragment {
 
                 if (!hasUpError()) {
 
-                    settingsViewModel.changePassword(cPassWrapper.getEditText().getText().toString(), oPassWrapper.getEditText().getText().toString()).observe(ChangePasswordFragment.this, new Observer<Boolean>() {
-                        @Override
-                        public void onChanged(Boolean aBoolean) {
+                    settingsViewModel.changePassword(cPassWrapper.getEditText().getText().toString(), oPassWrapper.getEditText().getText().toString()).
+                            observe(ChangePasswordFragment.this, new Observer<ServerResponse>() {
+                                @Override
+                                public void onChanged(ServerResponse serverResponse) {
 
-
-                            passChanged.setValue(aBoolean);
-
-
-                        }
-                    });
+                                    passChanged.setValue(serverResponse);
+                                }
+                            });
                 }
             }
         });

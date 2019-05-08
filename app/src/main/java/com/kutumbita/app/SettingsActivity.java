@@ -12,6 +12,7 @@ import com.kutumbita.app.fragment.SettingsFragment;
 import com.kutumbita.app.fragment.settings.ChangePasswordFragment;
 import com.kutumbita.app.fragment.settings.LanguageFragment;
 import com.kutumbita.app.model.Me;
+import com.kutumbita.app.model.ServerResponse;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
@@ -93,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
                         public void onChanged(Boolean aBoolean) {
                             if (aBoolean) {
 
-                                Utility.detectLanguage("en", SettingsActivity.this);
+
                                 preferenceUtility.deleteUser(preferenceUtility.getMe());
                                 Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
                                 sendBroadcast(intent);
@@ -130,8 +131,6 @@ public class SettingsActivity extends AppCompatActivity {
                                             public void onChanged(Me me) {
                                                 if (me != null) {
                                                     preferenceUtility.setMe(me);
-                                                    //preferenceUtility.setString(Constant.LANGUAGE_SETTINGS, s);
-                                                    Utility.detectLanguage(me.getLanguage(), SettingsActivity.this);
 
                                                     Intent intent = new Intent(Constant.ACTION_BROADCAST_LANGUAGE_CHANGE);
                                                     sendBroadcast(intent);
@@ -168,13 +167,18 @@ public class SettingsActivity extends AppCompatActivity {
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
                     Fragment changePassFr = new ChangePasswordFragment();
-                    ((ChangePasswordFragment) changePassFr).passChanged.observe(SettingsActivity.this, new Observer<Boolean>() {
+                    ((ChangePasswordFragment) changePassFr).passChanged.observe(SettingsActivity.this, new Observer<ServerResponse>() {
                         @Override
-                        public void onChanged(Boolean aBoolean) {
-                            if(aBoolean)
-                            getSupportFragmentManager().popBackStack();
+                        public void onChanged(ServerResponse serverResponse) {
+
+                            S.T(SettingsActivity.this, serverResponse.getMessage());
+                            if (serverResponse.isSucceess()) {
+
+                                getSupportFragmentManager().popBackStack();
+                            }
                         }
                     });
+
 
                     ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.change_password));
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)

@@ -29,6 +29,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
     View rightItemView, leftItemView;
     public MutableLiveData<Boolean> liveData;
     private int lastPosition = -1;
+
     public DialogAdapter(Context c, List<Dialog> dialogs) {
 
         inflater = LayoutInflater.from(c);
@@ -70,11 +71,11 @@ public class DialogAdapter extends RecyclerView.Adapter {
         switch (viewHolder.getItemViewType()) {
             case MESSAGE_TYPE_USER:
 
-                ((RightViewHolder) viewHolder).bind(d,position);
+                ((RightViewHolder) viewHolder).bind(d, position);
                 break;
 
             case MESSAGE_TYPE_BOT:
-                ((LeftViewHolder) viewHolder).bind(d,position);
+                ((LeftViewHolder) viewHolder).bind(d, position);
 //                if (d.isEnd()) {
 //
 //                    rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
@@ -121,8 +122,8 @@ public class DialogAdapter extends RecyclerView.Adapter {
         void bind(Dialog dialog, int pos) {
 
 
-
             tv.setText(dialog.getQuestion());
+            //setAnimation(tv, pos, MESSAGE_TYPE_BOT);
 
 //            if(dialog.isEnd())
 //                rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
@@ -150,7 +151,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
         void bind(Dialog dialog, int pos) {
 
             tv.setText(dialog.getQuestion());
-            setAnimation(tv, pos);
+           // setAnimation(tv, pos, MESSAGE_TYPE_USER);
             if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
                 if (getAdapterPosition() == dialogs.size() - 2)
 
@@ -185,12 +186,10 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position, int messsageType) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
-            Animation animation = AnimationUtils.loadAnimation(c, android.R.anim.slide_in_left);
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(c, messsageType == MESSAGE_TYPE_USER ? R.anim.enter_from_left : R.anim.enter_from_right);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }

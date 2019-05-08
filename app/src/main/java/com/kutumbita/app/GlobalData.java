@@ -37,12 +37,8 @@ public class GlobalData extends Application {
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null) {
 
-
             initializeSocket();
-            Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), this);
-        } else {
 
-            Utility.detectLanguage("en", this);
         }
         mInstance = this;
         orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
