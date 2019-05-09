@@ -47,7 +47,8 @@
             android:text="@string/request_for_account"
             android:textAllCaps="false"
             android:textColor="@color/secondaryTextColor"
-            android:textSize="@dimen/fifteen_sp" />
+            android:textSize="@dimen/fifteen_sp"
+            android:visibility="invisible" />
 
 
         <com.google.android.material.button.MaterialButton
