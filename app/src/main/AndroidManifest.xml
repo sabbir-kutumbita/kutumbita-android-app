@@ -20,7 +20,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".BotActivity" />
+        <activity
+            android:name=".BotActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,9 +55,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/primaryColor" />
 
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+
     </application>
 
 </manifest>

@@ -221,29 +221,41 @@ public class MainActivity extends AppCompatActivity {
     private void loadInboxFragment() {
 
         fr = new InboxFragment();
-
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        animateFragment();
         TAB_LAST_POSITION = 2;
     }
 
-    private void loadChatFragment() {
+    private void animateFragment() {
 
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (TAB_POSITION > TAB_LAST_POSITION)
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        else if (TAB_POSITION < TAB_LAST_POSITION)
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+
+        fragmentTransaction.replace(R.id.frMain, fr).commitAllowingStateLoss();
+    }
+
+    private void loadChatFragment() {
         fr = new ChatFragment();
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        animateFragment();
+
         TAB_LAST_POSITION = 1;
     }
 
     private void loadHomeFragment() {
 
+
         fr = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+
+        animateFragment();
         TAB_LAST_POSITION = 0;
     }
 
     private void loadMeFragment() {
 
         fr = new MeFragment();
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left).replace(R.id.frMain, fr).commitAllowingStateLoss();
+        animateFragment();
         TAB_LAST_POSITION = 3;
 
     }

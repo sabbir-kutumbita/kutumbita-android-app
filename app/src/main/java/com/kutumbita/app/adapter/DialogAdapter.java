@@ -1,5 +1,6 @@
 package com.kutumbita.app.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,9 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DialogAdapter extends RecyclerView.Adapter {
@@ -28,6 +31,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
     List<Dialog> dialogs = Collections.emptyList();
     View rightItemView, leftItemView;
     public MutableLiveData<Boolean> liveData;
+    public MutableLiveData<Boolean> isEnd;
     private int lastPosition = -1;
 
     public DialogAdapter(Context c, List<Dialog> dialogs) {
@@ -36,7 +40,9 @@ public class DialogAdapter extends RecyclerView.Adapter {
         this.c = c;
         this.dialogs = dialogs;
         liveData = new MutableLiveData();
+        isEnd = new MutableLiveData<>();
         liveData.setValue(false);
+        isEnd.setValue(false);
     }
 
 
@@ -76,10 +82,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
             case MESSAGE_TYPE_BOT:
                 ((LeftViewHolder) viewHolder).bind(d, position);
-//                if (d.isEnd()) {
-//
-//                    rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
-//                }
+                isEnd.setValue(d.isEnd());
                 break;
         }
 
@@ -123,10 +126,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
 
             tv.setText(dialog.getQuestion());
-            //setAnimation(tv, pos, MESSAGE_TYPE_BOT);
 
-//            if(dialog.isEnd())
-//                rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
         }
 
 
@@ -136,6 +136,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
 
         TextView tv;
+
         ImageView ivMenu;
 
         public RightViewHolder(@NonNull View itemView) {
@@ -151,18 +152,27 @@ public class DialogAdapter extends RecyclerView.Adapter {
         void bind(Dialog dialog, int pos) {
 
             tv.setText(dialog.getQuestion());
-           // setAnimation(tv, pos, MESSAGE_TYPE_USER);
+            // setAnimation(tv, pos, MESSAGE_TYPE_USER);
             if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
-                if (getAdapterPosition() == dialogs.size() - 2)
+                if (getAdapterPosition() == dialogs.size() - 2) {
 
                     ivMenu.setVisibility(View.VISIBLE);
-                else
+
+                } else
                     ivMenu.setVisibility(View.INVISIBLE);
 
             } else {
 
                 ivMenu.setVisibility(View.INVISIBLE);
             }
+
+            isEnd.observe((LifecycleOwner) c, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    if (aBoolean)
+                        ivMenu.setVisibility(View.INVISIBLE);
+                }
+            });
 
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -31,7 +32,6 @@ import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
-
 
 
 import org.json.JSONException;
@@ -93,6 +93,7 @@ public class BotActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_bot);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         gotChatBot = (ChatBot) getIntent().getSerializableExtra(Constant.EXTRA_CHAT_BOT);
@@ -446,7 +447,7 @@ public class BotActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
-            if(requestCode==CAMERA_CAPTURE_REQUEST){
+            if (requestCode == CAMERA_CAPTURE_REQUEST) {
 
 
             }

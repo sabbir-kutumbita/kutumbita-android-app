@@ -1,6 +1,7 @@
 package com.kutumbita.app;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,8 +39,10 @@ public class AuthenticationActivity extends AppCompatActivity {
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
         authenticationViewModel = ViewModelProviders.of(AuthenticationActivity.this).get(AuthenticationViewModel.class);
-        //loadChooserFragment();
-        loadSignInFragment();
+        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
+            loadChooserFragment();
+        else
+            loadSignInFragment();
     }
 
     private void loadChooserFragment() {
@@ -138,8 +141,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                 loadRequestForAccountFragment();
             }
         });
+if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
+    else
+    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
 
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
     }
 
     private void loadForgotPassFragment() {

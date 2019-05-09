@@ -29,13 +29,14 @@ public class ChatBotAdapter extends RecyclerView.Adapter<ChatBotAdapter.TheViewH
     Context c;
     View v = null;
     public MutableLiveData<ChatBot> inBoxLiveData;
-PreferenceUtility preferenceUtility;
+    PreferenceUtility preferenceUtility;
+
     public ChatBotAdapter(Context c, List<ChatBot> listModel) {
         inflater = LayoutInflater.from(c);
         this.c = c;
         this.listModel = listModel;
         inBoxLiveData = new MutableLiveData<>();
-        preferenceUtility= new PreferenceUtility(c);
+        preferenceUtility = new PreferenceUtility(c);
     }
 
     @Override
