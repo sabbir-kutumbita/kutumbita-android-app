@@ -2,6 +2,8 @@ package com.kutumbita.app.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +24,17 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.kutumbita.app.BotActivity.currentPhotoPath;
+
 public class DialogAdapter extends RecyclerView.Adapter {
 
-    private static final int MESSAGE_TYPE_USER = 1;
-    private static final int MESSAGE_TYPE_BOT = 2;
     LayoutInflater inflater;
     Context c;
     List<Dialog> dialogs = Collections.emptyList();
-    View rightItemView, leftItemView;
+    View rightItemView, leftItemView, photoItemView;
     public MutableLiveData<Boolean> liveData;
     public MutableLiveData<Boolean> isEnd;
+
     private int lastPosition = -1;
 
     public DialogAdapter(Context c, List<Dialog> dialogs) {
@@ -41,8 +44,10 @@ public class DialogAdapter extends RecyclerView.Adapter {
         this.dialogs = dialogs;
         liveData = new MutableLiveData();
         isEnd = new MutableLiveData<>();
+
         liveData.setValue(false);
         isEnd.setValue(false);
+
     }
 
 
@@ -51,19 +56,24 @@ public class DialogAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
 
-        if (viewType == MESSAGE_TYPE_USER) {
+        if (viewType == Dialog.SENDER_USER) {
 
 
             View v = inflater.inflate(R.layout.row_chat_right, viewGroup, false);
             RightViewHolder viewHolder = new RightViewHolder(v);
             return viewHolder;
 
-        } else if (viewType == MESSAGE_TYPE_BOT) {
+        } else if (viewType == Dialog.SENDER_BOT) {
 
             View v = inflater.inflate(R.layout.row_chat_left, viewGroup, false);
             LeftViewHolder viewHolder = new LeftViewHolder(v);
             return viewHolder;
 
+        } else if (viewType == Dialog.SENDER_USER_WITH_PHOTO) {
+
+            View v = inflater.inflate(R.layout.row_chat_photo, viewGroup, false);
+            PhotoViewHolder viewHolder = new PhotoViewHolder(v);
+            return viewHolder;
         }
 
         return null;
@@ -75,14 +85,19 @@ public class DialogAdapter extends RecyclerView.Adapter {
         Dialog d = dialogs.get(position);
 
         switch (viewHolder.getItemViewType()) {
-            case MESSAGE_TYPE_USER:
-
-                ((RightViewHolder) viewHolder).bind(d, position);
+            case Dialog.SENDER_USER:
+                ((RightViewHolder) viewHolder).bind(d);
                 break;
 
-            case MESSAGE_TYPE_BOT:
-                ((LeftViewHolder) viewHolder).bind(d, position);
+            case Dialog.SENDER_BOT:
+                ((LeftViewHolder) viewHolder).bind(d);
                 isEnd.setValue(d.isEnd());
+                break;
+
+            case Dialog.SENDER_USER_WITH_PHOTO:
+                ((PhotoViewHolder) viewHolder).bind(d);
+                isEnd.setValue(d.isEnd());
+
                 break;
         }
 
@@ -93,17 +108,9 @@ public class DialogAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
 
-        Dialog dialog = dialogs.get(position);
 
-        if (dialog.getSender() == Dialog.SENDER_USER) {
+        return dialogs.get(position).getSender();
 
-            return MESSAGE_TYPE_USER;
-        } else if (dialog.getSender() == Dialog.SENDER_BOT) {
-
-            return MESSAGE_TYPE_BOT;
-        }
-
-        return position;
     }
 
     @Override
@@ -122,10 +129,10 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bind(Dialog dialog, int pos) {
+        void bind(Dialog dialog) {
 
 
-            tv.setText(dialog.getQuestion());
+            tv.setText(dialog.getQuestionOrPhotoPath());
 
         }
 
@@ -149,9 +156,9 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         }
 
-        void bind(Dialog dialog, int pos) {
+        void bind(Dialog dialog) {
 
-            tv.setText(dialog.getQuestion());
+            tv.setText(dialog.getQuestionOrPhotoPath());
             // setAnimation(tv, pos, MESSAGE_TYPE_USER);
             if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
                 if (getAdapterPosition() == dialogs.size() - 2) {
@@ -184,25 +191,97 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         }
 
-        void hideMenu() {
+    }
+
+    class PhotoViewHolder extends RecyclerView.ViewHolder {
 
 
-            if (getAdapterPosition() == dialogs.size() - 2)
-                ivMenu.setVisibility(View.INVISIBLE);
-            else
-                ivMenu.setVisibility(View.VISIBLE);
+        ImageView ivImage, ivMenu;
+
+        public PhotoViewHolder(@NonNull View itemView) {
+
+
+            super(itemView);
+            photoItemView = itemView;
+            ivImage = itemView.findViewById(R.id.ivMessage);
+            ivMenu = itemView.findViewById(R.id.ivMenu);
 
         }
 
+        void bind(final Dialog dialog) {
+
+            ivImage.post(new Runnable() {
+                @Override
+                public void run() {
+                    setPic(ivImage, dialog.getQuestionOrPhotoPath());
+                }
+            });
+
+
+            if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
+                if (getAdapterPosition() == dialogs.size() - 2) {
+
+                    ivMenu.setVisibility(View.VISIBLE);
+
+                } else
+                    ivMenu.setVisibility(View.INVISIBLE);
+
+            } else {
+
+                ivMenu.setVisibility(View.INVISIBLE);
+            }
+
+            isEnd.observe((LifecycleOwner) c, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    if (aBoolean)
+                        ivMenu.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            ivMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    liveData.setValue(true);
+                }
+            });
+
+
+        }
     }
 
     private void setAnimation(View viewToAnimate, int position, int messsageType) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(c, messsageType == MESSAGE_TYPE_USER ? R.anim.enter_from_left : R.anim.enter_from_right);
+            Animation animation = AnimationUtils.loadAnimation(c, messsageType == Dialog.SENDER_USER ? R.anim.enter_from_left : R.anim.enter_from_right);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
     }
+
+    private void setPic(ImageView imageView, String path) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+        imageView.setImageBitmap(bitmap);
+    }
+
 
 }

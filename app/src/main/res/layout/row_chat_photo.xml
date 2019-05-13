@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/five_dp">
+
+    <ImageView
+
+        android:id="@+id/ivMessage"
+        android:layout_width="@dimen/hundread_forty_dp"
+        android:layout_height="@dimen/hundread_forty_dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/ten_dp"
+        android:background="@drawable/rounded_rectangle_white"
+        android:scaleType="fitXY"
+        android:padding="@dimen/ten_dp"
+        tools:src="@drawable/kutumbita_with_logo" />
+
+    <ImageView
+
+        android:id="@+id/ivMenu"
+        android:layout_width="@dimen/thirty_five_dp"
+        android:layout_height="@dimen/thirty_five_dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/ivMessage"
+        android:src="@drawable/ic_autorenew_black_24dp"
+        android:visibility="invisible" />
+
+</RelativeLayout>

@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            tools:listitem="@layout/row_bot"></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/grid_bot"></androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

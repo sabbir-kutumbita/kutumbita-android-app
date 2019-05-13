@@ -25,7 +25,7 @@
             android:id="@+id/passWraper"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
-            android:layout_centerInParent="true"
+            android:layout_below="@+id/emailWrapper"
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginRight="@dimen/thirty_dp"
             app:passwordToggleEnabled="true">
@@ -38,6 +38,7 @@
                 android:backgroundTint="@color/grey"
                 android:fontFamily="@font/circularstd_book"
                 android:hint="@string/password"
+
                 android:inputType="textPassword"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
@@ -52,9 +53,9 @@
             android:id="@+id/emailWrapper"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fifty_dp"
-
-            android:layout_above="@+id/passWraper"
+            android:layout_below="@+id/ivKutumBita"
             android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginTop="@dimen/fifty_dp"
             android:layout_marginRight="@dimen/thirty_dp"
             android:layout_marginBottom="@dimen/ten_dp">
 
@@ -79,9 +80,9 @@
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/sixty_dp"
-            android:layout_below="@+id/passWraper"
+            android:layout_above="@+id/bForgotPassword"
             android:layout_marginLeft="@dimen/sixty_dp"
-            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/sixty_dp"
             android:background="@color/primaryColor"
             android:fontFamily="@font/circularstd_book"
@@ -95,7 +96,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
-            android:layout_below="@+id/bSignIn"
+            android:layout_above="@+id/bReqForAccount"
             android:layout_marginLeft="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/sixty_dp"
             android:background="@android:color/transparent"
@@ -103,22 +104,25 @@
             android:text="@string/forgot_your_password"
             android:textAllCaps="false"
             android:textColor="@color/primaryColor"
-            android:textSize="@dimen/fifteen_sp" />
+            android:textSize="@dimen/fifteen_sp"
+            android:visibility="invisible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bReqForAccount"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
-            android:layout_below="@+id/bForgotPassword"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/sixty_dp"
+            android:layout_marginBottom="@dimen/thirty_dp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/circularstd_book"
             android:text="@string/request_for_account"
             android:textAllCaps="false"
             android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/fifteen_sp" />
+            android:textSize="@dimen/fifteen_sp"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 </ScrollView>

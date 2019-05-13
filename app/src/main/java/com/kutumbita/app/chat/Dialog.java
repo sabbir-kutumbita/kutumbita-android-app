@@ -5,22 +5,27 @@ import java.io.Serializable;
 public class Dialog implements Serializable {
 
 
-    private String question, type, sender;
-
+    private String questionOrPhotoPath, type;
+    private int sender;
 
     private boolean isEnd;
 
-    public static final String SENDER_USER = "user";
-    public static final String SENDER_BOT = "bot";
+    public static final int SENDER_USER = 1;
+    public static final int SENDER_BOT = 2;
+    public static final int SENDER_USER_WITH_PHOTO = 3;
 
-
-    public Dialog(String sender, String question, String type) {
+    public Dialog(int sender, String questionOrPhotoPath, String type) {
         this.sender = sender;
-        this.question = question;
+        this.questionOrPhotoPath = questionOrPhotoPath;
         this.type = type;
         isEnd = false;
 
+
     }
+
+
+
+
 
     public boolean isEnd() {
         return isEnd;
@@ -30,21 +35,20 @@ public class Dialog implements Serializable {
         isEnd = end;
     }
 
-    public String getSender() {
+    public int getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(int sender) {
         this.sender = sender;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getQuestionOrPhotoPath() {
+        return questionOrPhotoPath;
     }
 
-    public void setQuestion(String question) {
-
-        this.question = question;
+    public void setQuestionOrPhotoPath(String questionOrPhotoPath) {
+        this.questionOrPhotoPath = questionOrPhotoPath;
     }
 
     public String getType() {

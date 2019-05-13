@@ -18,6 +18,8 @@ import com.kutumbita.app.utility.GridSpacingItemDecoration;
 import com.kutumbita.app.viewmodel.ChatFragmentViewModel;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -84,7 +86,7 @@ public class ChatFragment extends Fragment {
         GridLayoutManager gridLayoutManager;
         if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        }else{
+        } else {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 
         }
@@ -93,7 +95,7 @@ public class ChatFragment extends Fragment {
         rcv.setItemAnimator(new DefaultItemAnimator());
         if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
             rcv.addItemDecoration(new GridSpacingItemDecoration(4, 70, true));
-        }else{
+        } else {
             rcv.addItemDecoration(new GridSpacingItemDecoration(3, 50, true));
         }
         swipeRefreshLayout = v.findViewById(R.id.srl);
@@ -101,10 +103,12 @@ public class ChatFragment extends Fragment {
                 R.color.primaryColor,
                 R.color.primaryTextColor);
         swipeRefreshLayout.setOnRefreshListener(listener);
-        listener.onRefresh();
 
+        listener.onRefresh();
         return v;
     }
+
+
 
     private void goChat(ChatBot chatBot) {
 

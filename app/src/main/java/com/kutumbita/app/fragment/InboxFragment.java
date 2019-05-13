@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -85,7 +87,7 @@ public class InboxFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.inbox));
@@ -101,6 +103,7 @@ public class InboxFragment extends Fragment {
                 R.color.primaryColor,
                 R.color.primaryTextColor);
         swipeRefreshLayout.setOnRefreshListener(listener);
+        swipeRefreshLayout.setRefreshing(true);
         listener.onRefresh();
         receiver = new BroadcastReceiver() {
             @Override
@@ -109,16 +112,24 @@ public class InboxFragment extends Fragment {
                 listener.onRefresh();
             }
         };
+        listener.onRefresh();
         return v;
     }
+
+
 
 
     @Override
     public void onResume() {
         super.onResume();
+
         IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST);
         if (getActivity() != null)
             getActivity().registerReceiver(receiver, filter);
+
+
+
+
     }
 
     @Override
@@ -170,7 +181,7 @@ public class InboxFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // S.L("error: " + error.networkResponse.statusCode);
+                // S.L("error: " + error.networkResponse.statusCode);
                 swipeRefreshLayout.setRefreshing(false);
                 try {
                     String str = new String(error.networkResponse.data, "UTF-8");
@@ -205,7 +216,6 @@ public class InboxFragment extends Fragment {
     }
 
     private void loadRecycleView() {
-
 
 
         adapter = new InboxAdapter(getActivity(), inboxes);

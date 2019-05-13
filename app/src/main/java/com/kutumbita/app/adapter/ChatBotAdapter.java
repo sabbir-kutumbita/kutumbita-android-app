@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.ChatBot;
-import com.kutumbita.app.model.Inbox;
-import com.kutumbita.app.utility.DateUtility;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +40,7 @@ public class ChatBotAdapter extends RecyclerView.Adapter<ChatBotAdapter.TheViewH
     @Override
     public TheViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        v = inflater.inflate(R.layout.row_bot, parent, false);
+        v = inflater.inflate(R.layout.grid_bot, parent, false);
         TheViewHolder holder = new TheViewHolder(v);
         return holder;
 

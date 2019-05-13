@@ -38,10 +38,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -128,7 +130,7 @@ public class BotActivity extends AppCompatActivity {
                     tempObject = jsonObjects.get(jsonObjects.size() - 1);
 
 
-                    sendMessage();
+                    sendMessage(Dialog.SENDER_USER);
 
 
                 }
@@ -314,7 +316,7 @@ public class BotActivity extends AppCompatActivity {
                         try {
                             tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
                             jsonObjects.add(tempObject);
-                            sendMessage();
+                            sendMessage(Dialog.SENDER_USER);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -401,9 +403,7 @@ public class BotActivity extends AppCompatActivity {
     static final int CAMERA_CAPTURE_REQUEST = 1;
     final int GALLERY_IMAGE_REQUEST = 2;
 
-    private Uri picUri;
-
-    String mCurrentPhotoPath;
+    public static String currentPhotoPath = "";
 
     private void loadImageUploadingLayout() {
         View uploaderView = ((LayoutInflater) getApplicationContext().getSystemService
@@ -413,19 +413,30 @@ public class BotActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    //use standard intent to capture an image
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    String imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/picture.jpg";
-                    File imageFile = new File(imageFilePath);
-                    picUri = Uri.fromFile(imageFile); // convert path to Uri
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
-                    startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
-                } catch (ActivityNotFoundException anfe) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                    String errorMessage = "Whoops - your device doesn't support capturing images!";
-                    Toast.makeText(BotActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                // Ensure that there's a camera activity to handle the intent
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    // Create the File where the photo should go
+                    File photoFile = null;
+                    try {
+                        photoFile = Utility.createImageFile(BotActivity.this);
+                    } catch (IOException ex) {
+                        // Error occurred while creating the File
+
+                    }
+                    // Continue only if the File was successfully created
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
+                                "com.kutumbita.app.fileprovider",
+                                photoFile);
+
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
+                    }
                 }
+
+
             }
         });
 
@@ -444,35 +455,56 @@ public class BotActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
-            if (requestCode == CAMERA_CAPTURE_REQUEST) {
+            switch (requestCode) {
+
+                case CAMERA_CAPTURE_REQUEST:
+                    sendMessage(Dialog.SENDER_USER_WITH_PHOTO);
+                    break;
 
 
+                case GALLERY_IMAGE_REQUEST:
+
+                    break;
             }
+
+
+        } else {
+
+            S.T(BotActivity.this, getString(R.string.something_went_wrong));
         }
+
     }
 
-    private void sendMessage() {
+    private void sendMessage(int senderType) {
 
 
         if (GlobalData.getInstance().getmSocket().connected()) {
 
             try {
-                tempDialog = new Dialog(Dialog.SENDER_USER, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
-                refreshRecycleView(tempDialog);
-                if (tempObject.getString("type").toLowerCase().contentEquals("bot")) {
-                    GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
+                if (senderType == Dialog.SENDER_USER_WITH_PHOTO) {
+
+                    tempDialog = new Dialog(senderType, currentPhotoPath, tempObject.getString("type"));
+                    refreshRecycleView(tempDialog);
+
                 } else {
-                    if (tempObject.getBoolean("end"))
-                        GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_END_ANSWER, new JSONObject(tempObject.toString()));
-                    else
-                        GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_NEXT_ANSWER, new JSONObject(tempObject.toString()));
+                    tempDialog = new Dialog(senderType, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
+
+                    refreshRecycleView(tempDialog);
+                    if (tempObject.getString("type").toLowerCase().contentEquals("bot")) {
+                        GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
+                    } else {
+                        if (tempObject.getBoolean("end"))
+                            GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_END_ANSWER, new JSONObject(tempObject.toString()));
+                        else
+                            GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_NEXT_ANSWER, new JSONObject(tempObject.toString()));
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
 
         etAnswer.setText("");
@@ -491,7 +523,7 @@ public class BotActivity extends AppCompatActivity {
             tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
             tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
             jsonObjects.add(tempObject);
-            sendMessage();
+            sendMessage(Dialog.SENDER_USER);
             Utility.hideKeyboard(this);
         } catch (JSONException e) {
             e.printStackTrace();
