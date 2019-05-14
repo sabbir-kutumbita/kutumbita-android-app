@@ -141,10 +141,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                 loadRequestForAccountFragment();
             }
         });
-if(GlobalData.getInstance().getOrientation()==ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
-    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
-    else
-    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
+        else
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
 
     }
 

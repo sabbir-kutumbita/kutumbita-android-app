@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
@@ -165,6 +166,15 @@ public class Utility {
         }
 
         imageView.setImageBitmap(bitmap);
+    }
+
+    public static String bitmapToBase64(Bitmap b) {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
+
     }
 
 //    private void setAnimation(View viewToAnimate, int position, int messsageType) {

@@ -12,6 +12,8 @@ import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
 
+import net.gotev.uploadservice.UploadService;
+
 import java.net.URISyntaxException;
 
 
@@ -34,6 +36,7 @@ public class GlobalData extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null) {
 

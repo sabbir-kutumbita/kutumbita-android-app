@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Utility.setFullScreen(this);
         preferenceUtility = new PreferenceUtility(this);
+        S.L("token", preferenceUtility.getMe().getAccessToken());
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
         bnv = findViewById(R.id.bottom_navigation);

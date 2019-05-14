@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
@@ -25,21 +26,35 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.kutumbita.app.adapter.DialogAdapter;
 import com.kutumbita.app.chat.ChatBot;
 import com.kutumbita.app.chat.Dialog;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
+import com.kutumbita.app.utility.UrlConstant;
 import com.kutumbita.app.utility.Utility;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +62,9 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
 
 import io.socket.emitter.Emitter;
 
@@ -474,6 +492,7 @@ public class BotActivity extends AppCompatActivity {
 
     }
 
+
     private void sendMessage(int senderType) {
 
 
@@ -484,9 +503,11 @@ public class BotActivity extends AppCompatActivity {
 
                     tempDialog = new Dialog(senderType, currentPhotoPath, tempObject.getString("type"));
                     refreshRecycleView(tempDialog);
+                    uploadImage();
 
                 } else {
                     tempDialog = new Dialog(senderType, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
+
                     refreshRecycleView(tempDialog);
 
                     if (tempObject.getString("type").toLowerCase().contentEquals("bot")) {
@@ -508,6 +529,84 @@ public class BotActivity extends AppCompatActivity {
 
 
     }
+
+    private void uploadImage() {
+
+
+        Bitmap ResizedBitmap = Utility.getResizedBitmap(BitmapFactory.decodeFile(currentPhotoPath), 2000);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        ResizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        final String b64 = Utility.bitmapToBase64(bmp);
+
+        JSONObject object = new JSONObject();
+
+
+        final String body = "avatar:" + b64;
+
+
+        final StringRequest uploadRequest = new StringRequest(Request.Method.POST, UrlConstant.IMAGE_UPLOAD, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                S.L("imageresponse", response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                S.T(BotActivity.this, "Failed to update profile data");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/form-data";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("avatar", b64);
+                StringBuilder sbPost = new StringBuilder();
+                for (String key : params.keySet()) {
+                    if (params.get(key) != null) {
+
+                        sbPost.append("Content-Disposition: form-data; name=\"" + key + "\"" + "\r\n\r\n");
+                        sbPost.append(params.get(key));
+                    }
+                }
+
+                return sbPost.toString().getBytes();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
+                params.put("Content-Type", "application/octet-stream");
+                return params;
+            }
+
+
+        };
+        uploadRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        GlobalData.getInstance().addToRequestQueue(uploadRequest);
+
+
+    }
+
 
     public void sendClick(View view) {
 
