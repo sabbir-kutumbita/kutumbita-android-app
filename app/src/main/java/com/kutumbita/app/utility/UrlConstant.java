@@ -35,6 +35,8 @@ public class UrlConstant {
     public static final String URL_UPDATE_LANGUAGE = URL_BASE + "me/update-language";
     public static final String URL_UPDATE_PASSWORD = URL_BASE + "auth/change-password";
 
+    public static final String IMAGE_UPLOAD = URL_BASE + "media";
+
     public static final String URL_SURVEY_SINGLE = URL_BASE + "surveys/5c372cae60b272198f3c0548";
     public static final String URL_SURVEY_ANSWER = URL_BASE + "surveys/";
 

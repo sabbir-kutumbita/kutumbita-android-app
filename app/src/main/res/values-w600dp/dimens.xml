@@ -29,7 +29,7 @@
 
     <dimen name="twelve_sp">18sp</dimen>
     <dimen name="one_sixty_dp">240dp</dimen>
-    <dimen name="two_hundred_dp">200dp</dimen>
+    <dimen name="two_hundred_dp">300dp</dimen>
     <dimen name="three_hundred_dp">450dp</dimen>
     <dimen name="five_hundred_dp">750dp</dimen>
     <dimen name="four_hundred_dp">600dp</dimen>
@@ -39,4 +39,5 @@
     <dimen name="sixteen_dp">24dp</dimen>
     <dimen name="eight_sp">12sp</dimen>
     <dimen name="sixty_five_dp">97dp</dimen>
+    <dimen name="hundred_ten_dp">165dp</dimen>
 </resources>

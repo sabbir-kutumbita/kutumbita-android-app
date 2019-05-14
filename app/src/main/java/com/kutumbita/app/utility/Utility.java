@@ -6,17 +6,25 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 
 import com.kutumbita.app.BotActivity;
 import com.kutumbita.app.R;
+import com.kutumbita.app.chat.Dialog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -45,7 +53,7 @@ public class Utility {
 
     }
 
-    public static int dpFromPx(final Context context, final float px) {
+    public static int dpFromPx(final Context context, final int px) {
         return (int) (px / context.getResources().getDisplayMetrics().density);
     }
 
@@ -99,10 +107,6 @@ public class Utility {
         return image;
     }
 
-    public int dpToPixel(Context c, int dp) {
-        Resources r = c.getResources();
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
-    }
 
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
@@ -118,5 +122,58 @@ public class Utility {
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static void setPictureToImageView(Context c, ImageView imageView, String path) {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        bmOptions.inScaled = false;
+        BitmapFactory.decodeFile(path, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+
+        if (bitmap.getHeight() > bitmap.getWidth()) {
+            imageView.getLayoutParams().height =(int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+            imageView.getLayoutParams().width = (int)c.getResources().getDimension(R.dimen.one_sixty_dp);
+
+        } else {
+
+            imageView.getLayoutParams().height = (int)c.getResources().getDimension(R.dimen.one_sixty_dp);
+            imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+        }
+
+        imageView.setImageBitmap(bitmap);
+    }
+
+//    private void setAnimation(View viewToAnimate, int position, int messsageType) {
+//        // If the bound view wasn't previously displayed on screen, it's animated
+//        if (position > lastPosition) {
+//            Animation animation = AnimationUtils.loadAnimation(c, messsageType == Dialog.SENDER_USER ? R.anim.enter_from_left : R.anim.enter_from_right);
+//            viewToAnimate.startAnimation(animation);
+//            lastPosition = position;
+//        }
+//    }
 
 }

@@ -1,6 +1,5 @@
 package com.kutumbita.app.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.utility.Utility;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.kutumbita.app.BotActivity.currentPhotoPath;
 
 public class DialogAdapter extends RecyclerView.Adapter {
 
@@ -213,7 +212,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
             ivImage.post(new Runnable() {
                 @Override
                 public void run() {
-                    setPic(ivImage, dialog.getQuestionOrPhotoPath());
+                    Utility.setPictureToImageView(c, ivImage, dialog.getQuestionOrPhotoPath());
                 }
             });
 
@@ -248,39 +247,6 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
 
         }
-    }
-
-    private void setAnimation(View viewToAnimate, int position, int messsageType) {
-        // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(c, messsageType == Dialog.SENDER_USER ? R.anim.enter_from_left : R.anim.enter_from_right);
-            viewToAnimate.startAnimation(animation);
-            lastPosition = position;
-        }
-    }
-
-    private void setPic(ImageView imageView, String path) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
-        imageView.setImageBitmap(bitmap);
     }
 
 

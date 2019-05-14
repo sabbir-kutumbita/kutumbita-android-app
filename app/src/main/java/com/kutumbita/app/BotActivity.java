@@ -280,22 +280,18 @@ public class BotActivity extends AppCompatActivity {
                     RadioButton radioButton = new RadioButton(this);
 
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            110);
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                    if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-                        params.height = 110;
-                    else
-                        params.height = 80;
+
                     radioButton.setLayoutParams(params);
                     radioButton.setId(i);
 
                     radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
                     radioButton.setText(tempObject.getJSONArray("answers").getJSONObject(i).getString("title"));
 
-                    if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-                        radioButton.setTextSize(16);
-                    else
-                        radioButton.setTextSize(20);
+                    radioButton.setTextSize(16);
+                    radioButton.setPadding(25, 25, 25, 25);
+
                     Drawable dr = getResources().getDrawable(R.drawable.rectangle);
                     radioButton.setBackground(dr);
 
@@ -402,7 +398,7 @@ public class BotActivity extends AppCompatActivity {
 
     static final int CAMERA_CAPTURE_REQUEST = 1;
     final int GALLERY_IMAGE_REQUEST = 2;
-
+    static final int CROP_PIC_REQUEST = 3;
     public static String currentPhotoPath = "";
 
     private void loadImageUploadingLayout() {
@@ -415,17 +411,17 @@ public class BotActivity extends AppCompatActivity {
 
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                // Ensure that there's a camera activity to handle the intent
+
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    // Create the File where the photo should go
+
                     File photoFile = null;
                     try {
                         photoFile = Utility.createImageFile(BotActivity.this);
-                    } catch (IOException ex) {
-                        // Error occurred while creating the File
+                    } catch (IOException e) {
 
+                        e.printStackTrace();
                     }
-                    // Continue only if the File was successfully created
+
                     if (photoFile != null) {
                         Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
                                 "com.kutumbita.app.fileprovider",
@@ -445,7 +441,6 @@ public class BotActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Start the Intent
                 startActivityForResult(galleryIntent, GALLERY_IMAGE_REQUEST);
             }
         });
@@ -461,6 +456,8 @@ public class BotActivity extends AppCompatActivity {
 
                 case CAMERA_CAPTURE_REQUEST:
                     sendMessage(Dialog.SENDER_USER_WITH_PHOTO);
+
+
                     break;
 
 
@@ -490,8 +487,8 @@ public class BotActivity extends AppCompatActivity {
 
                 } else {
                     tempDialog = new Dialog(senderType, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
-
                     refreshRecycleView(tempDialog);
+
                     if (tempObject.getString("type").toLowerCase().contentEquals("bot")) {
                         GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
                     } else {
