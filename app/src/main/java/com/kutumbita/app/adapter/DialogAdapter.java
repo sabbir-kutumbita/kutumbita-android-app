@@ -3,6 +3,10 @@ package com.kutumbita.app.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +14,21 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
+import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +49,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
     public MutableLiveData<Boolean> isEnd;
 
     private int lastPosition = -1;
+
 
     public DialogAdapter(Context c, List<Dialog> dialogs) {
 
@@ -212,8 +227,15 @@ public class DialogAdapter extends RecyclerView.Adapter {
             ivImage.post(new Runnable() {
                 @Override
                 public void run() {
-                    Utility.setPictureToImageView(c, ivImage, dialog.getQuestionOrPhotoPath());
+
+
+//                    Picasso.get().load(dialog.getQuestionOrPhotoPath()).into(ivImage);
+
+                    new DownloadImageFromInternet(ivImage).execute(dialog.getQuestionOrPhotoPath());
+
                 }
+
+
             });
 
 
@@ -245,6 +267,45 @@ public class DialogAdapter extends RecyclerView.Adapter {
                 }
             });
 
+
+        }
+    }
+
+    private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public DownloadImageFromInternet(ImageView imageView) {
+            this.imageView = imageView;
+
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String imageURL = urls[0];
+            Bitmap bimage = null;
+            try {
+                InputStream in = new java.net.URL(imageURL).openStream();
+                bimage = BitmapFactory.decodeStream(in);
+
+            } catch (Exception e) {
+                Log.e("Error Message", e.getMessage());
+                e.printStackTrace();
+            }
+            return bimage;
+        }
+
+        protected void onPostExecute(Bitmap bitmap) {
+            if (bitmap.getHeight() > bitmap.getWidth()) {
+                imageView.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+                imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
+
+            } else {
+
+                imageView.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
+                imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+            }
+
+
+            imageView.setImageBitmap(bitmap);
 
         }
     }

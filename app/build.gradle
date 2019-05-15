@@ -49,9 +49,8 @@ dependencies {
     }
     implementation 'androidx.appcompat:appcompat:1.0.0'
 
-    def uploadServiceVersion = "3.5.2"
-
-    implementation "net.gotev:uploadservice:$uploadServiceVersion"
+    implementation 'com.squareup.okhttp3:okhttp:parent-3.12.3'
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
 }
 apply plugin: 'com.google.gms.google-services'

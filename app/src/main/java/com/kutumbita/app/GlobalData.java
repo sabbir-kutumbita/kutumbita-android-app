@@ -7,18 +7,16 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.UrlConstant;
-import com.kutumbita.app.utility.Utility;
-
-import net.gotev.uploadservice.UploadService;
 
 import java.net.URISyntaxException;
-
+import java.util.concurrent.TimeUnit;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import okhttp3.OkHttpClient;
+
 
 public class GlobalData extends Application {
 
@@ -32,11 +30,12 @@ public class GlobalData extends Application {
     private Socket mSocket;
     private int orientation;
     private long touchTime;
+    OkHttpClient okHttpClient;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
+
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null) {
 
@@ -46,6 +45,20 @@ public class GlobalData extends Application {
         mInstance = this;
         orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
         touchTime = System.currentTimeMillis();
+
+
+        buildOkHttpClient();
+
+
+    }
+
+    private void buildOkHttpClient() {
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(30, TimeUnit.MINUTES);
+        builder.readTimeout(30, TimeUnit.MINUTES);
+        builder.writeTimeout(30, TimeUnit.MINUTES);
+        okHttpClient = builder.build();
     }
 
     public long getTouchTime() {
@@ -84,6 +97,17 @@ public class GlobalData extends Application {
     public static synchronized GlobalData getInstance() {
         return mInstance;
     }
+
+    public OkHttpClient getOkHttpClient() {
+
+        if (okHttpClient == null) {
+
+            buildOkHttpClient();
+        }
+        return new OkHttpClient();
+
+    }
+
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {

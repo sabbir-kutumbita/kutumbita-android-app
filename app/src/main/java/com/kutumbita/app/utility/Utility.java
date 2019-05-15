@@ -132,7 +132,7 @@ public class Utility {
     }
 
     public static void setPictureToImageView(Context c, ImageView imageView, String path) {
-        // Get the dimensions of the View
+
         int targetW = imageView.getWidth();
         int targetH = imageView.getHeight();
 
@@ -156,14 +156,15 @@ public class Utility {
         Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 
         if (bitmap.getHeight() > bitmap.getWidth()) {
-            imageView.getLayoutParams().height =(int) c.getResources().getDimension(R.dimen.two_hundred_dp);
-            imageView.getLayoutParams().width = (int)c.getResources().getDimension(R.dimen.one_sixty_dp);
+            imageView.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+            imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
 
         } else {
 
-            imageView.getLayoutParams().height = (int)c.getResources().getDimension(R.dimen.one_sixty_dp);
+            imageView.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
             imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
         }
+
 
         imageView.setImageBitmap(bitmap);
     }
