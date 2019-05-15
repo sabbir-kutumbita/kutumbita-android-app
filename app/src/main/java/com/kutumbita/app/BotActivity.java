@@ -443,36 +443,55 @@ public class BotActivity extends AppCompatActivity {
 
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 
-                    File photoFile = null;
+
                     try {
-                        photoFile = Utility.createImageFile(BotActivity.this);
+                        File photoFile = Utility.createImageFile(BotActivity.this);
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
+                                    "com.kutumbita.app.fileprovider",
+                                    photoFile);
+
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
+                        }
                     } catch (IOException e) {
 
                         e.printStackTrace();
                     }
 
-                    if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
-                                "com.kutumbita.app.fileprovider",
-                                photoFile);
 
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
-                    }
                 }
-
-
             }
         });
 
-        uploaderView.findViewById(R.id.tvUpload).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, GALLERY_IMAGE_REQUEST);
-            }
-        });
+        uploaderView.findViewById(R.id.tvUpload).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        Intent takePictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                        try {
+                            File photoFile = Utility.createImageFile(BotActivity.this);
+                            if (photoFile != null) {
+                                Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
+                                        "com.kutumbita.app.fileprovider",
+                                        photoFile);
+
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
+                            }
+                        } catch (IOException e) {
+
+                            e.printStackTrace();
+                        }
+
+
+                        startActivityForResult(takePictureIntent, GALLERY_IMAGE_REQUEST);
+                    }
+                });
         linearLayoutOthers.addView(uploaderView);
         linearLayoutOthers.setVisibility(View.VISIBLE);
     }
@@ -493,6 +512,10 @@ public class BotActivity extends AppCompatActivity {
 
 
                 case GALLERY_IMAGE_REQUEST:
+
+                    uploadImage();
+
+                    //S.T(BotActivity.this, "gallery");
 
                     break;
             }

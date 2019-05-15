@@ -9,8 +9,8 @@
     <ImageView
 
         android:id="@+id/ivMessage"
-        android:layout_width="@dimen/two_hundred_dp"
-        android:layout_height="@dimen/one_sixty_dp"
+        android:layout_width="@dimen/one_sixty_dp"
+        android:layout_height="@dimen/two_hundred_dp"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/ten_dp"
         android:background="@drawable/rounded_rectangle_white"
