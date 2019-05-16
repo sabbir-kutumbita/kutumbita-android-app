@@ -61,6 +61,7 @@
     <string name="change_password">পাসওয়ার্ড পরিবর্তন করুন</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="uploading">Uploading photo...</string>
+    <string name="photo_upload_aborted">Photo upload aborted</string>
 
 
 </resources>

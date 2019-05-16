@@ -3,6 +3,7 @@ package com.kutumbita.app.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kutumbita.app.R;
 import com.kutumbita.app.chat.Dialog;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -215,9 +218,36 @@ public class DialogAdapter extends RecyclerView.Adapter {
                 public void run() {
 
 
-//                    Picasso.get().load(dialog.getQuestionOrPhotoPath()).into(ivImage);
+                    Picasso.get().load(dialog.getQuestionOrPhotoPath()).placeholder(R.drawable.ic_insert_photo_black_24dp).error(R.drawable.ic_error_black_24dp).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                    new DownloadImageFromInternet(ivImage).execute(dialog.getQuestionOrPhotoPath());
+                            if (bitmap.getHeight() > bitmap.getWidth()) {
+                                ivImage.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+                                ivImage.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
+
+                            } else {
+
+                                ivImage.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
+                                ivImage.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
+                            }
+
+                            ivImage.setImageBitmap(bitmap);
+
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                            ivImage.setImageDrawable(errorDrawable);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            ivImage.setImageDrawable(placeHolderDrawable);
+                        }
+                    });
+
 
                 }
 
@@ -253,44 +283,6 @@ public class DialogAdapter extends RecyclerView.Adapter {
                 }
             });
 
-
-        }
-    }
-
-    private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-
-        public DownloadImageFromInternet(ImageView imageView) {
-            this.imageView = imageView;
-
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String imageURL = urls[0];
-            Bitmap bimage = null;
-            try {
-                InputStream in = new java.net.URL(imageURL).openStream();
-                bimage = BitmapFactory.decodeStream(in);
-
-            } catch (Exception e) {
-                Log.e("Error Message", e.getMessage());
-                e.printStackTrace();
-            }
-            return bimage;
-        }
-
-        protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap.getHeight() > bitmap.getWidth()) {
-                imageView.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
-                imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
-
-            } else {
-
-                imageView.getLayoutParams().height = (int) c.getResources().getDimension(R.dimen.one_sixty_dp);
-                imageView.getLayoutParams().width = (int) c.getResources().getDimension(R.dimen.two_hundred_dp);
-            }
-
-            imageView.setImageBitmap(bitmap);
 
         }
     }

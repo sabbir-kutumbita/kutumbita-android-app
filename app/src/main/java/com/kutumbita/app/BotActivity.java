@@ -95,13 +95,12 @@ public class BotActivity extends AppCompatActivity {
     private static String RECEIVE_CATEGORY_ANSWER = ":category_answer";
     private static String RECEIVE_BOT_DEACTIVE = ":bot_deactivate_response";
 
-    private volatile boolean running = true;
     View layout;
     PreferenceUtility preferenceUtility;
     Thread uploadThread;
     RunUpload uploadRunnable;
     ChatBot gotChatBot;
-
+    Bitmap galleryImageBitmap;
 
     ArrayList<Dialog> dialogs = new ArrayList<>();
     AlertDialog alertDialog;
@@ -122,9 +121,9 @@ public class BotActivity extends AppCompatActivity {
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_bot);
-        alertDialog = new SpotsDialog.Builder().setContext(this).build();
+        alertDialog = new SpotsDialog.Builder().setMessage(getResources().getString(R.string.uploading)).setContext(this).build();
         alertDialog.setCancelable(false);
-        alertDialog.setTitle(getResources().getString(R.string.uploading));
+
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         gotChatBot = (ChatBot) getIntent().getSerializableExtra(Constant.EXTRA_CHAT_BOT);
         TYPE = gotChatBot.getSocket_key();
@@ -156,7 +155,7 @@ public class BotActivity extends AppCompatActivity {
 
                     jsonObjects.remove(jsonObjects.size() - 1);
                     tempObject = jsonObjects.get(jsonObjects.size() - 1);
-
+                    currentPhotoPath = "";
 
                     sendMessage(Dialog.SENDER_USER);
 
@@ -427,7 +426,7 @@ public class BotActivity extends AppCompatActivity {
 
     static final int CAMERA_CAPTURE_REQUEST = 1;
     final int GALLERY_IMAGE_REQUEST = 2;
-    static final int CROP_PIC_REQUEST = 3;
+
     public static String currentPhotoPath = "";
 
     private void loadImageUploadingLayout() {
@@ -471,25 +470,16 @@ public class BotActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
 
-                        Intent takePictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent intent = new Intent(Intent.ACTION_PICK);
 
-                        try {
-                            File photoFile = Utility.createImageFile(BotActivity.this);
-                            if (photoFile != null) {
-                                Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
-                                        "com.kutumbita.app.fileprovider",
-                                        photoFile);
+                        intent.setType("image/*");
 
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                                startActivityForResult(takePictureIntent, CAMERA_CAPTURE_REQUEST);
-                            }
-                        } catch (IOException e) {
+                        String[] mimeTypes = {"image/jpeg", "image/png"};
+                        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
 
-                            e.printStackTrace();
-                        }
+                        startActivityForResult(intent, GALLERY_IMAGE_REQUEST);
 
 
-                        startActivityForResult(takePictureIntent, GALLERY_IMAGE_REQUEST);
                     }
                 });
         linearLayoutOthers.addView(uploaderView);
@@ -513,17 +503,22 @@ public class BotActivity extends AppCompatActivity {
 
                 case GALLERY_IMAGE_REQUEST:
 
-                    uploadImage();
+                    try {
+                        galleryImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
-                    //S.T(BotActivity.this, "gallery");
+                        uploadImage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     break;
             }
 
 
         } else {
-
-            S.T(BotActivity.this, getString(R.string.something_went_wrong));
+            currentPhotoPath = "";
+            S.T(BotActivity.this, getString(R.string.photo_upload_aborted
+            ));
         }
 
     }
@@ -667,7 +662,6 @@ public class BotActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-
                 finish();
             }
         });
@@ -732,8 +726,14 @@ public class BotActivity extends AppCompatActivity {
             });
 
             if (!uploadThread.isInterrupted()) {
-                Bitmap ResizedBitmap = Utility.getResizedBitmap(BitmapFactory.decodeFile(currentPhotoPath), 1000);
+                Bitmap ResizedBitmap;
+                if (!currentPhotoPath.isEmpty()) {
+                    ResizedBitmap = Utility.getResizedBitmap(BitmapFactory.decodeFile(currentPhotoPath), 1000);
+                } else {
 
+                    ResizedBitmap = Utility.getResizedBitmap(galleryImageBitmap, 1000);
+                }
+                currentPhotoPath = "";
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ResizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 String path = MediaStore.Images.Media.insertImage(getContentResolver(), ResizedBitmap, "issue_android_image", null);
@@ -769,11 +769,11 @@ public class BotActivity extends AppCompatActivity {
                             public void run() {
 
                                 try {
-                                    JSONObject jsonObject = new JSONObject(response.body().string());
-//                                    tempDialog = new Dialog(Dialog.SENDER_USER_WITH_PHOTO, jsonObject.getString("imageUrl"), tempObject.getString("type"));
-//                                    refreshRecycleView(tempDialog);
-                                    tempObject.getJSONArray("answers").getJSONObject(0).put("title", jsonObject.getString("imageUrl"));
+                                    String imageUrl = new JSONObject(response.body().string()).getString("imageUrl");
+                                    S.L("image_url", imageUrl);
+                                    tempObject.getJSONArray("answers").getJSONObject(0).put("title", imageUrl);
                                     tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
+                                    jsonObjects.add(tempObject);
                                     sendMessage(Dialog.SENDER_USER_WITH_PHOTO);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
