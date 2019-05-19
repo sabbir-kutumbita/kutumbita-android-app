@@ -56,5 +56,7 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="uploading">Uploading photo...</string>
     <string name="photo_upload_aborted">Photo upload aborted</string>
+    <string name="empty_inbox">Inbox Empty</string>
+    <string name="empty_inbox_details">Your inbox is empty, you will see messages here when they arrive</string>
 
 </resources>

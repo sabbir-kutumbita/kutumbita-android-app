@@ -2,14 +2,12 @@ package com.kutumbita.app.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +21,6 @@ import com.kutumbita.app.chat.Dialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,10 +31,8 @@ public class DialogAdapter extends RecyclerView.Adapter {
     Context c;
     List<Dialog> dialogs = Collections.emptyList();
     View rightItemView, leftItemView, photoItemView;
-    public MutableLiveData<Boolean> liveData;
+    public MutableLiveData<Boolean> undoData;
     public MutableLiveData<Boolean> isEnd;
-
-    private int lastPosition = -1;
 
 
     public DialogAdapter(Context c, List<Dialog> dialogs) {
@@ -45,10 +40,10 @@ public class DialogAdapter extends RecyclerView.Adapter {
         inflater = LayoutInflater.from(c);
         this.c = c;
         this.dialogs = dialogs;
-        liveData = new MutableLiveData();
+        undoData = new MutableLiveData();
         isEnd = new MutableLiveData<>();
 
-        liveData.setValue(false);
+        undoData.setValue(false);
         isEnd.setValue(false);
 
     }
@@ -89,6 +84,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         switch (viewHolder.getItemViewType()) {
             case Dialog.SENDER_USER:
+                rightItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
                 ((RightViewHolder) viewHolder).bind(d);
                 break;
 
@@ -98,6 +94,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
                 break;
 
             case Dialog.SENDER_USER_WITH_PHOTO:
+                photoItemView.findViewById(R.id.ivMenu).setVisibility(View.INVISIBLE);
                 ((PhotoViewHolder) viewHolder).bind(d);
                 isEnd.setValue(d.isEnd());
 
@@ -134,7 +131,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
         void bind(Dialog dialog) {
 
-
+            //((RelativeLayout) itemView.findViewById(R.id.rlLeft)).scheduleLayoutAnimation();
             tv.setText(dialog.getQuestionOrPhotoPath());
 
         }
@@ -162,7 +159,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
         void bind(Dialog dialog) {
 
             tv.setText(dialog.getQuestionOrPhotoPath());
-            // setAnimation(tv, pos, MESSAGE_TYPE_USER);
+
             if (!dialog.getType().contentEquals("bot") && !dialog.getType().contentEquals("none")) {
                 if (getAdapterPosition() == dialogs.size() - 2) {
 
@@ -176,6 +173,8 @@ public class DialogAdapter extends RecyclerView.Adapter {
                 ivMenu.setVisibility(View.INVISIBLE);
             }
 
+
+
             isEnd.observe((LifecycleOwner) c, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
@@ -187,7 +186,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    liveData.setValue(true);
+                    undoData.setValue(true);
                 }
             });
 
@@ -238,6 +237,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
 
                         @Override
                         public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
                             ivImage.setImageDrawable(errorDrawable);
                         }
 
@@ -268,6 +268,8 @@ public class DialogAdapter extends RecyclerView.Adapter {
                 ivMenu.setVisibility(View.INVISIBLE);
             }
 
+
+
             isEnd.observe((LifecycleOwner) c, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
@@ -279,7 +281,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    liveData.setValue(true);
+                    undoData.setValue(true);
                 }
             });
 

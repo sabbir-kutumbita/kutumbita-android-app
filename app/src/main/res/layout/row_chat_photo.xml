@@ -3,7 +3,9 @@
 
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/rlImageRight"
     android:layout_height="wrap_content"
+    android:layoutAnimation="@anim/layout_animation_fade_in"
     android:padding="@dimen/five_dp">
 
     <ImageView
@@ -14,8 +16,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/ten_dp"
         android:background="@drawable/rounded_rectangle_white"
+
         android:scaleType="fitCenter"
-        android:padding="@dimen/ten_dp"
         tools:src="@drawable/kutumbita_with_logo" />
 
     <ImageView

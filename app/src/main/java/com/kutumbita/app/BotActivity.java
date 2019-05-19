@@ -142,7 +142,7 @@ public class BotActivity extends AppCompatActivity {
         jsonObjects = new ArrayList<>();
         adapter = new DialogAdapter(this, dialogs);
 
-        adapter.liveData.observe(this, new Observer<Boolean>() {
+        adapter.undoData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
@@ -233,6 +233,7 @@ public class BotActivity extends AppCompatActivity {
 
         dialogs.add(d);
         adapter.notifyDataSetChanged();
+
         //adapter.notifyItemInserted(dialogs.size()-1);
         rcv.scrollToPosition(dialogs.size() - 1);
     }
@@ -483,6 +484,7 @@ public class BotActivity extends AppCompatActivity {
                     }
                 });
         linearLayoutOthers.addView(uploaderView);
+        linearLayoutOthers.scheduleLayoutAnimation();
         linearLayoutOthers.setVisibility(View.VISIBLE);
     }
 
@@ -614,8 +616,9 @@ public class BotActivity extends AppCompatActivity {
 
         } else {
 
-
+            linearLayoutOthers.scheduleLayoutAnimation();
             linearLayoutOthers.setVisibility(View.VISIBLE);
+
             linearLayoutEt.setVisibility(View.GONE);
 
 

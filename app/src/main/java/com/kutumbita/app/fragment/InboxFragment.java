@@ -49,6 +49,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import libs.mjn.prettydialog.PrettyDialog;
+
 
 public class InboxFragment extends Fragment {
 
@@ -87,7 +89,6 @@ public class InboxFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.inbox));
@@ -104,7 +105,6 @@ public class InboxFragment extends Fragment {
                 R.color.primaryTextColor);
         swipeRefreshLayout.setOnRefreshListener(listener);
         swipeRefreshLayout.setRefreshing(true);
-        listener.onRefresh();
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -117,8 +117,6 @@ public class InboxFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -126,8 +124,6 @@ public class InboxFragment extends Fragment {
         IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST);
         if (getActivity() != null)
             getActivity().registerReceiver(receiver, filter);
-
-
 
 
     }
@@ -217,29 +213,26 @@ public class InboxFragment extends Fragment {
 
     private void loadRecycleView() {
 
+        if (inboxes.size() > 0) {
+            adapter = new InboxAdapter(getActivity(), inboxes);
+            adapter.inBoxLiveData.observe(this, new Observer<Inbox>() {
+                @Override
+                public void onChanged(Inbox inbox) {
+                    Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
+                    goDetails.putExtra(Constant.EXTRA_UUID, inbox.getUuId());
+                    startActivity(goDetails);
+                }
+            });
 
-        adapter = new InboxAdapter(getActivity(), inboxes);
-        adapter.inBoxLiveData.observe(this, new Observer<Inbox>() {
-            @Override
-            public void onChanged(Inbox inbox) {
-                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-                goDetails.putExtra(Constant.EXTRA_UUID, inbox.getUuId());
-                startActivity(goDetails);
-            }
-        });
-//        adapter.setOnRecycleViewItemClickListener(new InboxAdapter.OnRecycleViewItemClickListener() {
-//            @Override
-//            public void onRecycleViewItemClick(View v, List<Inbox> model, int position) {
-//
-//                Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-//                goDetails.putExtra(Constant.EXTRA_UUID, model.get(position).getUuId());
-//                startActivity(goDetails);
-//
-//            }
-//        });
+            rcv.setAdapter(adapter);
+        } else {
 
-        rcv.setAdapter(adapter);
-
+            new PrettyDialog(getActivity())
+                    .setTitle(getResources().getString(R.string.empty_inbox))
+                    .setMessage(getResources().getString(R.string.empty_inbox_details))
+                    .setIcon(R.drawable.ic_error_outline_black_24dp)
+                    .show();
+        }
     }
 
 
