@@ -56,17 +56,9 @@ public class SplashActivity extends AppCompatActivity {
                         ActivityCompat.requestPermissions(SplashActivity.this, PERMISSIONS, PERMISSION_ALL);
                     } else {
 
-                        if (preferenceUtility.getMe() == null) {
-                            Utility.detectLanguage("en", SplashActivity.this);
-                            Intent goAuth = new Intent(SplashActivity.this, AuthenticationActivity.class);
-                            startActivity(goAuth);
-                            finish();
-                        } else {
-                            Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), SplashActivity.this);
-                            Intent goMain = new Intent(SplashActivity.this, MainActivity.class);
-                            startActivity(goMain);
-                            finish();
-                        }
+
+                        goToNextActivity();
+
 
                     }
                 } else {
@@ -85,6 +77,21 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    private void goToNextActivity() {
+
+        if (preferenceUtility.getMe() == null) {
+            Utility.detectLanguage("en", SplashActivity.this);
+            Intent goAuth = new Intent(SplashActivity.this, AuthenticationActivity.class);
+            startActivity(goAuth);
+            finish();
+        } else {
+            Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), SplashActivity.this);
+            Intent goMain = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(goMain);
+            finish();
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -92,9 +99,7 @@ public class SplashActivity extends AppCompatActivity {
             case PERMISSION_ALL: {
                 if (grantResults.length == 2
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(SplashActivity.this, SplashActivity.class);
-                    startActivity(intent);
-                    finish();
+                    goToNextActivity();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
                     builder.setMessage(R.string.permission_needed);

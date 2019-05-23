@@ -279,6 +279,7 @@ public class DialogAdapter extends RecyclerView.Adapter {
             });
 
             ivMenu.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     undoData.setValue(true);

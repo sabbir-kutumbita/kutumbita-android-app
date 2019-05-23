@@ -50,6 +50,9 @@ public class AuthenticationRepository {
     }
 
 
+
+
+
     public LiveData<Me> getMeLiveData(final String accessToken, final String refreshToken) {
 
 
@@ -108,6 +111,7 @@ public class AuthenticationRepository {
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Bearer " + accessToken);
+
                 return params;
             }
 
@@ -120,6 +124,89 @@ public class AuthenticationRepository {
 
         return meData;
 
+    }
+
+    public LiveData<JSONObject> forgotPasswordCodeGenerator(String emailOrPhone) {
+
+        final MutableLiveData<JSONObject> jsonObject = new MutableLiveData<>();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("username", emailOrPhone);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final String body = object.toString();
+
+
+        StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.FORGOT_PASS_CODE_GENERATOR, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                S.L("sign in", response);
+                try {
+
+                    JSONObject object = new JSONObject(response);
+
+                    jsonObject.setValue(object);
+                    // getMe(object.getString("access_token"), object.getString("refresh_token"));
+                    //getMe(object.getString("access_token"), "refresh");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    jsonObject.setValue(null);
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                try {
+                    S.L("error: " + error.networkResponse.statusCode);
+                    String str = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject object = new JSONObject(str);
+                    JSONObject errorObject = object.getJSONObject("error");
+                    jsonObject.setValue(errorObject);
+
+                } catch (Exception e) {
+                    jsonObject.setValue(null);
+                    e.printStackTrace();
+                }
+
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return body == null ? null : body.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            body, "utf-8");
+                    return null;
+                }
+            }
+
+        };
+        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        GlobalData.getInstance().addToRequestQueue(loginRequest);
+
+        return jsonObject;
     }
 
 

@@ -113,6 +113,11 @@ public class BotActivity extends AppCompatActivity {
     JSONObject tempObject;
     ArrayList<JSONObject> jsonObjects = new ArrayList<>();
 
+    static final int CAMERA_CAPTURE_REQUEST = 1;
+    final int GALLERY_IMAGE_REQUEST = 2;
+
+    public static String currentPhotoPath = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -254,6 +259,7 @@ public class BotActivity extends AppCompatActivity {
             }
 
             loadNormalMessage();
+
         } catch (JSONException e) {
 
             e.printStackTrace();
@@ -267,7 +273,7 @@ public class BotActivity extends AppCompatActivity {
         tempDialog = new Dialog(Dialog.SENDER_BOT, tempObject.getString("question"), tempObject.getString("type"));
         tempDialog.setEnd(true);
         refreshRecycleView(tempDialog);
-        loadFinishRadioButton();
+        loadFinishLayout();
 
 
     }
@@ -305,32 +311,9 @@ public class BotActivity extends AppCompatActivity {
 
                 for (int i = 0; i < tempObject.getJSONArray("answers").length(); i++) {
 
+                    loadRadioButton(i, rg);
 
-                    RadioButton radioButton = new RadioButton(this);
-
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-                    radioButton.setLayoutParams(params);
-                    radioButton.setId(i);
-
-                    radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-                    radioButton.setText(tempObject.getJSONArray("answers").getJSONObject(i).getString("title"));
-
-                    radioButton.setTextSize(16);
-                    radioButton.setPadding(25, 25, 25, 25);
-
-                    Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-                    radioButton.setBackground(dr);
-
-                    radioButton.setGravity(Gravity.CENTER);
-
-                    radioButton.setButtonDrawable(new StateListDrawable());
-                    rg.addView(radioButton);
                 }
-
-
                 linearLayoutOthers.addView(rg);
 
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -425,10 +408,58 @@ public class BotActivity extends AppCompatActivity {
     }
 
 
-    static final int CAMERA_CAPTURE_REQUEST = 1;
-    final int GALLERY_IMAGE_REQUEST = 2;
+    private void loadFinishLayout() throws JSONException {
 
-    public static String currentPhotoPath = "";
+        makeEditable(false);
+        linearLayoutOthers.removeAllViews();
+        RadioGroup rg = new RadioGroup(this);
+        rg.setOrientation(RadioGroup.VERTICAL);
+
+        loadRadioButton(-1, rg);
+
+        linearLayoutOthers.addView(rg);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                finish();
+            }
+        });
+
+
+    }
+
+    private void loadRadioButton(int index, RadioGroup rg) throws JSONException {
+
+        RadioButton radioButton = new RadioButton(this);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        radioButton.setLayoutParams(params);
+        radioButton.setId(index);
+
+        radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
+        if (index == -1)
+            radioButton.setText(getResources().getString(R.string.finish));
+        else
+            radioButton.setText(tempObject.getJSONArray("answers").getJSONObject(index).getString("title"));
+
+        radioButton.setTextSize(16);
+        radioButton.setPadding(25, 25, 25, 25);
+
+        Drawable dr = getResources().getDrawable(R.drawable.rectangle);
+        radioButton.setBackground(dr);
+
+        radioButton.setGravity(Gravity.CENTER);
+
+        radioButton.setButtonDrawable(new StateListDrawable());
+        rg.addView(radioButton);
+
+
+    }
+
 
     private void loadImageUploadingLayout() {
         View uploaderView = ((LayoutInflater) getApplicationContext().getSystemService
@@ -448,7 +479,7 @@ public class BotActivity extends AppCompatActivity {
                         File photoFile = Utility.createImageFile(BotActivity.this);
                         if (photoFile != null) {
                             Uri photoURI = FileProvider.getUriForFile(BotActivity.this,
-                                    "com.kutumbita.app.fileprovider",
+                                    getResources().getString(R.string.file_provider),
                                     photoFile);
 
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -633,44 +664,6 @@ public class BotActivity extends AppCompatActivity {
 
     }
 
-    private void loadFinishRadioButton() {
-        makeEditable(false);
-        linearLayoutOthers.removeAllViews();
-        RadioGroup rg = new RadioGroup(this);
-        rg.setOrientation(RadioGroup.VERTICAL);
-        RadioButton radioButton = new RadioButton(this);
-
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                110);
-        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-            params.height = 110;
-        else
-            params.height = 80;
-        radioButton.setLayoutParams(params);
-        radioButton.setId(0);
-        radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
-        radioButton.setText("Finish");
-        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-            radioButton.setTextSize(16);
-        else
-            radioButton.setTextSize(20);
-        Drawable dr = getResources().getDrawable(R.drawable.rectangle);
-        radioButton.setBackground(dr);
-        radioButton.setGravity(Gravity.CENTER);
-        radioButton.setButtonDrawable(new StateListDrawable());
-        rg.addView(radioButton);
-        linearLayoutOthers.addView(rg);
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                finish();
-            }
-        });
-
-
-    }
 
     private void socketSetup(boolean connect) {
         if (connect) {

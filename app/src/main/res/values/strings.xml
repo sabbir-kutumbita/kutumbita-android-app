@@ -58,5 +58,7 @@
     <string name="photo_upload_aborted">Photo upload aborted</string>
     <string name="empty_inbox">Inbox Empty</string>
     <string name="empty_inbox_details">Your inbox is empty, you will see messages here when they arrive</string>
+    <string name="finish">Finish</string>
+    <string name="file_provider">com.kutumbita.app.fileprovider</string>
 
 </resources>

@@ -88,6 +88,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         fr = new SignInFragment();
         ((SignInFragment) fr).setOnButtonClickListener(new SignInFragment.OnButtonClickListener() {
+
             @Override
             public void OnSignInClicked(String emailOrPhone, String password) {
 
@@ -102,19 +103,19 @@ public class AuthenticationActivity extends AppCompatActivity {
                                         if (me != null) {
 
                                             preferenceUtility.setMe(me);
-
                                             GlobalData.getInstance().initializeSocket();
                                             Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), AuthenticationActivity.this);
                                             Intent goMain = new Intent(AuthenticationActivity.this, MainActivity.class);
                                             startActivity(goMain);
-
                                             finish();
+
                                         } else {
 
                                             S.T(AuthenticationActivity.this, "Something went wrong");
                                         }
                                     }
                                 });
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 S.T(AuthenticationActivity.this, "Something went wrong");

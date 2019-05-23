@@ -11,208 +11,202 @@
             type="com.kutumbita.app.model.Inbox" />
     </data>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="4">
+        android:fillViewport="true">
 
-        <!-- TODO: Update blank fragment layout -->
-        <ImageView
-            android:id="@+id/ivImage"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.95"
-            tools:src="@drawable/name"></ImageView>
+            android:orientation="vertical">
 
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:columnCount="2"
-            android:orientation="vertical"
-            android:padding="@dimen/twenty_dp"
-            android:rowCount="2">
-
-            <RelativeLayout
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/star"
-                    android:layout_width="@dimen/twelve_dp"
-                    android:layout_height="@dimen/twelve_dp"
-                    android:src="@drawable/image_star" />
-
-                <TextView
-                    android:id="@+id/tvStar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_toRightOf="@+id/star"
-                    android:fontFamily="@font/circularstd_bold"
-                    android:text="@{inbox.title}"
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="@dimen/twelve_sp"
-                    tools:text="Fire extinguisher using method" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlStar">
-
-                <ImageView
-                    android:id="@+id/event"
-                    android:layout_width="@dimen/twelve_dp"
-                    android:layout_height="@dimen/twelve_dp"
-                    android:src="@drawable/image_event" />
-
-                <TextView
-                    android:id="@+id/tvEvent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_toRightOf="@+id/event"
-                    android:fontFamily="@font/circularstd_book"
-                    android:text="@{inbox.startDate}"
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="@dimen/twelve_sp"
-                    tools:text="Fire extinguisher using method" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-
+            <!-- TODO: Update blank fragment layout -->
+            <ImageView
+                android:id="@+id/ivImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/rlStar">
-
-                <ImageView
-                    android:id="@+id/time"
-                    android:layout_width="@dimen/twelve_dp"
-                    android:layout_height="@dimen/twelve_dp"
-                    android:src="@drawable/image_clock" />
-
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_toRightOf="@+id/time"
-                    android:fontFamily="@font/circularstd_book"
-
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="@dimen/twelve_sp"
-                    tools:text="Fire extinguisher using method" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlStar"
-                android:layout_toRightOf="@+id/rlEvent">
-
-                <ImageView
-                    android:id="@+id/venue"
-                    android:layout_width="@dimen/twelve_dp"
-                    android:layout_height="@dimen/twelve_dp"
-                    android:src="@drawable/image_location" />
-
-                <TextView
-                    android:id="@+id/tvvenue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/five_dp"
-                    android:layout_toRightOf="@+id/venue"
-                    android:fontFamily="@font/circularstd_book"
-                    android:text="@{inbox.venue}"
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="@dimen/twelve_sp"
-                    tools:text="Fire extinguisher using method" />
-
-            </RelativeLayout>
-
-        </GridLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_weight="1.0"
-            android:fillViewport="true">
+                android:layout_height="@dimen/eighty_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                tools:src="@drawable/name"></ImageView>
 
             <LinearLayout
-
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/twenty_dp">
+                android:padding="@dimen/ten_dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/note"
-                        android:layout_width="@dimen/fifteen_dp"
-                        android:layout_height="@dimen/fifteen_dp"
-                        android:src="@drawable/image_note" />
+                        android:id="@+id/star"
+                        android:layout_width="@dimen/ten_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:src="@drawable/image_star" />
 
                     <TextView
-                        android:id="@+id/tvNote"
+                        android:id="@+id/tvStar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/five_dp"
-                        android:layout_toRightOf="@+id/note"
-                        android:fontFamily="@font/circularstd_bold"
-                        android:text="Notes"
+                        android:layout_toRightOf="@+id/star"
+                        android:fontFamily="@font/circularstd_book"
+                        android:text="@{inbox.title}"
                         android:textColor="@color/primaryTextColor"
-                        android:textSize="@dimen/fifteen_sp" />
+                        android:textSize="@dimen/ten_sp"
+                        tools:text="Fire extinguisher using method" />
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tvNotesDetails"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/five_dp"
-                    android:fontFamily="@font/circularstd_book"
-                    android:gravity="left"
-                    android:text="@{inbox.body}"
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="@dimen/twelve_sp"
-                    app:autoSizeTextType="uniform"
-                    tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
+                    android:layout_marginTop="@dimen/one_dp">
+
+                    <ImageView
+                        android:id="@+id/event"
+                        android:layout_width="@dimen/ten_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:src="@drawable/image_event" />
+
+                    <TextView
+                        android:id="@+id/tvEvent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/five_dp"
+                        android:layout_toRightOf="@+id/event"
+                        android:fontFamily="@font/circularstd_book"
+                        android:text="@{inbox.startDate}"
+                        android:textColor="@color/primaryTextColor"
+                        android:textSize="@dimen/ten_sp"
+                        tools:text="Fire extinguisher using method" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/one_dp">
+
+                    <ImageView
+                        android:id="@+id/time"
+                        android:layout_width="@dimen/ten_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:src="@drawable/image_clock" />
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/five_dp"
+                        android:layout_toRightOf="@+id/time"
+                        android:fontFamily="@font/circularstd_book"
+                        android:textColor="@color/primaryTextColor"
+                        android:textSize="@dimen/ten_sp"
+                        tools:text="Fire extinguisher using method" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/one_dp">
+
+                    <ImageView
+                        android:id="@+id/venue"
+                        android:layout_width="@dimen/ten_dp"
+                        android:layout_height="@dimen/ten_dp"
+                        android:src="@drawable/image_location" />
+
+                    <TextView
+                        android:id="@+id/tvvenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/five_dp"
+                        android:layout_toRightOf="@+id/venue"
+                        android:fontFamily="@font/circularstd_book"
+                        android:text="@{inbox.venue}"
+                        android:textColor="@color/primaryTextColor"
+                        android:textSize="@dimen/ten_sp"
+                        tools:text="Fire extinguisher using method" />
+
+                </RelativeLayout>
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:padding="@dimen/twenty_dp">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fifty_dp"
+                android:layout_alignParentStart="true"
+                android:fillViewport="true">
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="@dimen/two_hundred_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/thirty_five_dp"
-                android:layout_marginRight="@dimen/thirty_five_dp"
-                android:layout_marginBottom="@dimen/ten_dp"
-                android:fontFamily="@font/circularstd_book"
-                android:text="@string/yes_i_can_join"
-                android:textAllCaps="false"
-                android:textSize="@dimen/twelve_sp" />
+                <LinearLayout
 
-        </RelativeLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/note"
+                            android:layout_width="@dimen/ten_dp"
+                            android:layout_height="@dimen/ten_dp"
+                            android:layout_marginLeft="@dimen/ten_dp"
+                            android:src="@drawable/image_note" />
+
+                        <TextView
+                            android:id="@+id/tvNote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/five_dp"
+                            android:layout_toRightOf="@+id/note"
+                            android:fontFamily="@font/circularstd_bold"
+                            android:text="Notes"
+                            android:textColor="@color/primaryTextColor"
+                            android:textSize="@dimen/ten_sp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvNotesDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:fontFamily="@font/circularstd_book"
+                        android:gravity="left"
+                        android:text="@{inbox.body}"
+                        android:textColor="@color/primaryTextColor"
+                        android:textSize="@dimen/ten_sp"
+                        tools:text="A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation A fire extinguisher is an active fire protection device used to extinguish or control small fires, often in emergency situation" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/five_dp"
+                android:padding="@dimen/twenty_dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="@dimen/two_hundred_dp_fifty_dp"
+                    android:layout_height="@dimen/sixty_dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/thirty_five_dp"
+                    android:layout_marginRight="@dimen/thirty_five_dp"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    android:fontFamily="@font/circularstd_book"
+                    android:text="@string/yes_i_can_join"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/fifteen_sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
