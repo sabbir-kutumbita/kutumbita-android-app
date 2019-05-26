@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -95,6 +96,22 @@ public class BotActivity extends AppCompatActivity {
     private static String RECEIVE_CATEGORY_ANSWER = ":category_answer";
     private static String RECEIVE_BOT_DEACTIVE = ":bot_deactivate_response";
 
+    //leave topic starts
+    private static String RECEIVE_LEAVE_SERVICE = ":select_leave_service";
+
+    private static String RECEIVE_LEAVE_TYPE = ":select_leave_type";
+
+    private static String RECEIVE_LEAVE_START_DATE = ":select_start_date";
+
+    private static String RECEIVE_LEAVE_INSUFFICIENT = ":insufficient_leave";
+
+    private static String RECEIVE_LEAVE_SELECT_DAYS = ":select_days";
+
+    private static String RECEIVE_LEAVE_REASON = ":reason";
+    private static String RECEIVE_LEAVE_DOC = ":document";
+    private static String RECEIVE_LEAVE_END = ":end";
+
+
     View layout;
     PreferenceUtility preferenceUtility;
     Thread uploadThread;
@@ -175,6 +192,7 @@ public class BotActivity extends AppCompatActivity {
             socketSetup(true);
 
     }
+
 
     Emitter.Listener OnBotActivated = new Emitter.Listener() {
 
@@ -289,12 +307,58 @@ public class BotActivity extends AppCompatActivity {
         switch (tempObject.getString("answer_type").toLowerCase()) {
 
 
+            case "emit":
+                makeEditable(false);
+                GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
+
+                break;
+
+
+            case "date":
+
+                makeEditable(false);
+                linearLayoutOthers.removeAllViews();
+                RadioGroup rgDate = new RadioGroup(this);
+                rgDate.setOrientation(RadioGroup.VERTICAL);
+
+                for (int i = 0; i < tempObject.getJSONArray("answers").length(); i++) {
+
+                    loadRadioButton(i, rgDate);
+
+                }
+                linearLayoutOthers.addView(rgDate);
+
+                rgDate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                        try {
+                            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
+                            jsonObjects.add(tempObject);
+                            sendMessage(Dialog.SENDER_USER);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+
+                break;
+
             case "image":
                 makeEditable(false);
                 loadImageUploadingLayout();
 
                 break;
 
+
+            case "number":
+
+                makeEditable(true);
+
+                break;
 
             case "free_text":
 
@@ -638,8 +702,20 @@ public class BotActivity extends AppCompatActivity {
             linearLayoutEt.setVisibility(View.VISIBLE);
             linearLayoutOthers.setVisibility(View.GONE);
 
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rcv.getLayoutParams();
+            try {
+                if (tempObject.getString("answer_type").toLowerCase().contentEquals("number")) {
 
+                    etAnswer.setInputType(InputType.TYPE_CLASS_NUMBER);
+                } else {
+                    etAnswer.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rcv.getLayoutParams();
             layoutParams.addRule(RelativeLayout.ABOVE, R.id.ll2);
 
             rcv.setLayoutParams(layoutParams);
@@ -679,6 +755,15 @@ public class BotActivity extends AppCompatActivity {
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
 
+            //leave type bot start
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_SERVICE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_TYPE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_START_DATE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_INSUFFICIENT, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_SELECT_DAYS, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_REASON, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_DOC, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_END, OnBotActivated);
 
             GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_BOT_ACTIVATE);
 
@@ -695,6 +780,14 @@ public class BotActivity extends AppCompatActivity {
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
 
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_SERVICE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_TYPE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_START_DATE, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_INSUFFICIENT, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_SELECT_DAYS, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_REASON, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_DOC, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_END, OnBotActivated);
 
         }
     }
