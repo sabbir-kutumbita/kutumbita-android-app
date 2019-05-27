@@ -55,6 +55,19 @@ public class Utility {
 
     }
 
+    public static String convertDate(String givenDate, String fromFormat, String toFormat) {
+        try {
+            SimpleDateFormat t24 = new SimpleDateFormat(fromFormat);
+            SimpleDateFormat t12 = new SimpleDateFormat(toFormat);
+            Date date = t24.parse(givenDate);
+            return t12.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return givenDate;
+        }
+    }
+
+
     public static int dpFromPx(final Context context, final int px) {
         return (int) (px / context.getResources().getDisplayMetrics().density);
     }

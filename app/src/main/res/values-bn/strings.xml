@@ -65,7 +65,7 @@
     <string name="empty_inbox">Inbox Empty</string>
     <string name="empty_inbox_details">Your inbox is empty, you will see messages here when they arrive</string>
     <string name="finish">Finish</string>
-
+    <string name="select_date">Select date</string>
 
 
 </resources>

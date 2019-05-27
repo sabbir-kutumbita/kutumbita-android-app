@@ -1,6 +1,7 @@
 package com.kutumbita.app;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -54,14 +56,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -111,14 +116,14 @@ public class BotActivity extends AppCompatActivity {
     private static String RECEIVE_LEAVE_DOC = ":document";
     private static String RECEIVE_LEAVE_END = ":end";
 
-
+    static String selectedDate;
     View layout;
     PreferenceUtility preferenceUtility;
     Thread uploadThread;
     RunUpload uploadRunnable;
     ChatBot gotChatBot;
     Bitmap galleryImageBitmap;
-
+    static MutableLiveData<String> dateSetLiveData;
     ArrayList<Dialog> dialogs = new ArrayList<>();
     AlertDialog alertDialog;
     LinearLayout linearLayoutOthers, linearLayoutEt;
@@ -145,7 +150,7 @@ public class BotActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bot);
         alertDialog = new SpotsDialog.Builder().setMessage(getResources().getString(R.string.uploading)).setContext(this).build();
         alertDialog.setCancelable(false);
-
+        dateSetLiveData = new MutableLiveData<>();
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         gotChatBot = (ChatBot) getIntent().getSerializableExtra(Constant.EXTRA_CHAT_BOT);
         TYPE = gotChatBot.getSocket_key();
@@ -179,7 +184,7 @@ public class BotActivity extends AppCompatActivity {
                     tempObject = jsonObjects.get(jsonObjects.size() - 1);
                     currentPhotoPath = "";
 
-                    sendMessage(Dialog.SENDER_USER);
+                    sendMessage(Dialog.SENDER_USER, null);
 
 
                 }
@@ -187,6 +192,23 @@ public class BotActivity extends AppCompatActivity {
             }
         });
         rcv.setAdapter(adapter);
+
+
+        dateSetLiveData.observe(BotActivity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+
+                try {
+                    tempObject.getJSONArray("answers").getJSONObject(Integer.parseInt(s.split(":")[0])).put("date", s.split(":")[1]);
+                    tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(Integer.parseInt(s.split(":")[0])));
+                    jsonObjects.add(tempObject);
+                    sendMessage(Dialog.SENDER_USER, s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         if (GlobalData.getInstance().getmSocket().connected())
             socketSetup(true);
@@ -203,29 +225,6 @@ public class BotActivity extends AppCompatActivity {
 
         }
     };
-
-    Emitter.Listener OnStartConfirmation = new Emitter.Listener() {
-
-        @Override
-        public void call(final Object... args) {
-
-            handleBotData(args[0]);
-
-
-        }
-    };
-
-    Emitter.Listener getIssueQuestion = new Emitter.Listener() {
-
-
-        @Override
-        public void call(final Object... args) {
-
-            handleBotData(args[0]);
-
-        }
-    };
-
 
     private void handleBotData(final Object arg) {
 
@@ -316,33 +315,8 @@ public class BotActivity extends AppCompatActivity {
 
             case "date":
 
-                makeEditable(false);
-                linearLayoutOthers.removeAllViews();
-                RadioGroup rgDate = new RadioGroup(this);
-                rgDate.setOrientation(RadioGroup.VERTICAL);
 
-                for (int i = 0; i < tempObject.getJSONArray("answers").length(); i++) {
-
-                    loadRadioButton(i, rgDate);
-
-                }
-                linearLayoutOthers.addView(rgDate);
-
-                rgDate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                        try {
-                            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
-                            jsonObjects.add(tempObject);
-                            sendMessage(Dialog.SENDER_USER);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
+                loadRadioGroup();
 
 
                 break;
@@ -367,35 +341,7 @@ public class BotActivity extends AppCompatActivity {
                 break;
 
             case "radio":
-
-                makeEditable(false);
-                linearLayoutOthers.removeAllViews();
-                RadioGroup rg = new RadioGroup(this);
-                rg.setOrientation(RadioGroup.VERTICAL);
-
-                for (int i = 0; i < tempObject.getJSONArray("answers").length(); i++) {
-
-                    loadRadioButton(i, rg);
-
-                }
-                linearLayoutOthers.addView(rg);
-
-                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
-                        try {
-                            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
-                            jsonObjects.add(tempObject);
-                            sendMessage(Dialog.SENDER_USER);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-
+                loadRadioGroup();
 
                 break;
 
@@ -469,6 +415,55 @@ public class BotActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void loadRadioGroup() throws JSONException {
+
+        makeEditable(false);
+        linearLayoutOthers.removeAllViews();
+        RadioGroup rgDate = new RadioGroup(this);
+        rgDate.setOrientation(RadioGroup.VERTICAL);
+
+        for (int i = 0; i < tempObject.getJSONArray("answers").length(); i++) {
+
+            loadRadioButton(i, rgDate);
+
+        }
+        linearLayoutOthers.addView(rgDate);
+
+        rgDate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                try {
+                    if (tempObject.getJSONArray("answers").getJSONObject(checkedId).has("calender")) {
+
+                        if (tempObject.getJSONArray("answers").getJSONObject(checkedId).getBoolean("calender")) {
+
+                            DialogFragment dialogFragment = new DateCalender(checkedId);
+                            dialogFragment.show(getSupportFragmentManager(), getResources().getString(R.string.select_date));
+
+
+                        } else {
+
+                            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
+                            jsonObjects.add(tempObject);
+                            sendMessage(Dialog.SENDER_USER, null);
+                        }
+
+                    } else {
+                        tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
+                        jsonObjects.add(tempObject);
+                        sendMessage(Dialog.SENDER_USER, null);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
 
@@ -621,7 +616,7 @@ public class BotActivity extends AppCompatActivity {
     }
 
 
-    private void sendMessage(int senderType) {
+    private void sendMessage(int senderType, String date) {
 
         if (senderType == Dialog.SENDER_USER_WITH_PHOTO)
             alertDialog.dismiss();
@@ -630,7 +625,8 @@ public class BotActivity extends AppCompatActivity {
 
             try {
 
-                tempDialog = new Dialog(senderType, tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title"), tempObject.getString("type"));
+                tempDialog = new Dialog(senderType, date == null ? tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title") : date.split(":")[1],
+                        tempObject.getString("type"));
 
                 refreshRecycleView(tempDialog);
 
@@ -648,7 +644,7 @@ public class BotActivity extends AppCompatActivity {
             }
 
         }
-
+        makeEditable(false);
         etAnswer.setText("");
 
 
@@ -683,7 +679,7 @@ public class BotActivity extends AppCompatActivity {
             tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
             tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
             jsonObjects.add(tempObject);
-            sendMessage(Dialog.SENDER_USER);
+            sendMessage(Dialog.SENDER_USER, null);
             Utility.hideKeyboard(this);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -744,16 +740,16 @@ public class BotActivity extends AppCompatActivity {
     private void socketSetup(boolean connect) {
         if (connect) {
 
-
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
+
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FIRST_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_NEXT_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_END_QUESTION, OnBotActivated);
 
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
-            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnBotActivated);
 
             //leave type bot start
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_SERVICE, OnBotActivated);
@@ -772,13 +768,13 @@ public class BotActivity extends AppCompatActivity {
 
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FIRST_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_NEXT_QUESTION, getIssueQuestion);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_END_QUESTION, getIssueQuestion);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FIRST_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_NEXT_QUESTION, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_END_QUESTION, OnBotActivated);
 
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_FEEDBACK_QUESTION, OnBotActivated);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_CATEGORY_ANSWER, OnStartConfirmation);
-            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_START_CONFIRMATION, OnStartConfirmation);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_CATEGORY_ANSWER, OnBotActivated);
+            GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_START_CONFIRMATION, OnBotActivated);
 
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_SERVICE, OnBotActivated);
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_TYPE, OnBotActivated);
@@ -821,6 +817,7 @@ public class BotActivity extends AppCompatActivity {
                 } else {
 
                     ResizedBitmap = Utility.getResizedBitmap(galleryImageBitmap, 1000);
+
                 }
                 currentPhotoPath = "";
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -863,7 +860,7 @@ public class BotActivity extends AppCompatActivity {
                                     tempObject.getJSONArray("answers").getJSONObject(0).put("title", imageUrl);
                                     tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
                                     jsonObjects.add(tempObject);
-                                    sendMessage(Dialog.SENDER_USER_WITH_PHOTO);
+                                    sendMessage(Dialog.SENDER_USER_WITH_PHOTO, null);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     alertDialog.dismiss();
@@ -890,6 +887,35 @@ public class BotActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public static class DateCalender extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        private int radioId;
+
+        public DateCalender(int radioId) {
+
+            this.radioId = radioId;
+
+        }
+
+        @NonNull
+        @Override
+        public android.app.Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+            Calendar calendar = Calendar.getInstance();
+
+            return new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        }
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+            selectedDate = Utility.convertDate(year + "-" + month + "-" + dayOfMonth, "yyyy-m-d", "yyyy-mm-dd");
+            dateSetLiveData.setValue(radioId + ":" + selectedDate);
+
+
+        }
     }
 
 
