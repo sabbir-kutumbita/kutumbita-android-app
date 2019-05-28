@@ -148,51 +148,18 @@ public class BotActivity extends AppCompatActivity {
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_bot);
-        alertDialog = new SpotsDialog.Builder().setMessage(getResources().getString(R.string.uploading)).setContext(this).build();
-        alertDialog.setCancelable(false);
-        dateSetLiveData = new MutableLiveData<>();
-        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-        gotChatBot = (ChatBot) getIntent().getSerializableExtra(Constant.EXTRA_CHAT_BOT);
-        TYPE = gotChatBot.getSocket_key();
-        preferenceUtility = new PreferenceUtility(this);
-        layout = findViewById(R.id.header);
-        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(gotChatBot.getName());
-
-        linearLayoutOthers = findViewById(R.id.ll);
-        linearLayoutEt = findViewById(R.id.ll2);
-        rcv = findViewById(R.id.rcv);
-        etAnswer = findViewById(R.id.etMessage);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
-        rcv.setLayoutManager(manager);
-
-
-        jsonObjects = new ArrayList<>();
-        adapter = new DialogAdapter(this, dialogs);
-
+        initializer();
         adapter.undoData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
 
-
-                    int termination = dialogs.size() < 4 ? dialogs.size() : 4;
-                    for (int i = 0; i < termination; i++) {
-                        dialogs.remove(dialogs.size() - 1);
-                    }
-
-                    jsonObjects.remove(jsonObjects.size() - 1);
-                    tempObject = jsonObjects.get(jsonObjects.size() - 1);
-                    currentPhotoPath = "";
-
-                    sendMessage(Dialog.SENDER_USER, null);
-
+                    loadPreviousMessage();
 
                 }
 
             }
         });
-        rcv.setAdapter(adapter);
-
 
         dateSetLiveData.observe(BotActivity.this, new Observer<String>() {
             @Override
@@ -213,6 +180,48 @@ public class BotActivity extends AppCompatActivity {
         if (GlobalData.getInstance().getmSocket().connected())
             socketSetup(true);
 
+    }
+
+    private void initializer() {
+
+        GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
+        alertDialog = new SpotsDialog.Builder().setMessage(getResources().getString(R.string.uploading)).setContext(this).build();
+        alertDialog.setCancelable(false);
+        dateSetLiveData = new MutableLiveData<>();
+
+        gotChatBot = (ChatBot) getIntent().getSerializableExtra(Constant.EXTRA_CHAT_BOT);
+        TYPE = gotChatBot.getSocket_key();
+        preferenceUtility = new PreferenceUtility(this);
+        layout = findViewById(R.id.header);
+        ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(gotChatBot.getName());
+
+
+        linearLayoutOthers = findViewById(R.id.ll);
+        linearLayoutEt = findViewById(R.id.ll2);
+        rcv = findViewById(R.id.rcv);
+        etAnswer = findViewById(R.id.etMessage);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        rcv.setLayoutManager(manager);
+
+
+        jsonObjects = new ArrayList<>();
+        adapter = new DialogAdapter(this, dialogs);
+        rcv.setAdapter(adapter);
+
+    }
+
+    private void loadPreviousMessage() {
+
+        int termination = dialogs.size() < 4 ? dialogs.size() : 4;
+        for (int i = 0; i < termination; i++) {
+            dialogs.remove(dialogs.size() - 1);
+        }
+
+        jsonObjects.remove(jsonObjects.size() - 1);
+        tempObject = jsonObjects.get(jsonObjects.size() - 1);
+        currentPhotoPath = "";
+
+        sendMessage(Dialog.SENDER_USER, null);
     }
 
 
@@ -443,21 +452,17 @@ public class BotActivity extends AppCompatActivity {
 
                             DialogFragment dialogFragment = new DateCalender(checkedId);
                             dialogFragment.show(getSupportFragmentManager(), getResources().getString(R.string.select_date));
+                            return;
 
-
-                        } else {
-
-                            tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
-                            jsonObjects.add(tempObject);
-                            sendMessage(Dialog.SENDER_USER, null);
                         }
 
-                    } else {
-                        tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
-                        jsonObjects.add(tempObject);
-                        sendMessage(Dialog.SENDER_USER, null);
-
                     }
+
+                    tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(checkedId));
+                    jsonObjects.add(tempObject);
+                    sendMessage(Dialog.SENDER_USER, null);
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -625,7 +630,8 @@ public class BotActivity extends AppCompatActivity {
 
             try {
 
-                tempDialog = new Dialog(senderType, date == null ? tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title") : date.split(":")[1],
+                tempDialog = new Dialog(senderType, date == null ? tempObject.getJSONArray("user_answer").getJSONObject(0).getString("title") : Utility.convertDate(date.split(":")[1],
+                        "yyyy-MM-dd", "dd MMMM yyyy"),
                         tempObject.getString("type"));
 
                 refreshRecycleView(tempDialog);
@@ -676,11 +682,12 @@ public class BotActivity extends AppCompatActivity {
 
 
         try {
+            Utility.hideKeyboard(this);
             tempObject.getJSONArray("answers").getJSONObject(0).put("title", etAnswer.getText().toString());
             tempObject.getJSONArray("user_answer").put(tempObject.getJSONArray("answers").get(0));
             jsonObjects.add(tempObject);
             sendMessage(Dialog.SENDER_USER, null);
-            Utility.hideKeyboard(this);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -696,6 +703,7 @@ public class BotActivity extends AppCompatActivity {
 
 
             linearLayoutEt.setVisibility(View.VISIBLE);
+            linearLayoutEt.scheduleLayoutAnimation();
             linearLayoutOthers.setVisibility(View.GONE);
 
             try {
@@ -740,6 +748,7 @@ public class BotActivity extends AppCompatActivity {
     private void socketSetup(boolean connect) {
         if (connect) {
 
+
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
 
@@ -751,7 +760,7 @@ public class BotActivity extends AppCompatActivity {
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_START_CONFIRMATION, OnBotActivated);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_CATEGORY_ANSWER, OnBotActivated);
 
-            //leave type bot start
+
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_SERVICE, OnBotActivated);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_TYPE, OnBotActivated);
             GlobalData.getInstance().getmSocket().on(TYPE + RECEIVE_LEAVE_START_DATE, OnBotActivated);
@@ -765,6 +774,7 @@ public class BotActivity extends AppCompatActivity {
 
 
         } else {
+
 
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_ACTIVE, OnBotActivated);
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_BOT_DEACTIVE, OnBotActivated);
@@ -910,8 +920,8 @@ public class BotActivity extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-            selectedDate = Utility.convertDate(year + "-" + month + "-" + dayOfMonth, "yyyy-m-d", "yyyy-mm-dd");
+            int actualMonth = month + 1;
+            selectedDate = Utility.convertDate(year + "-" + actualMonth + "-" + dayOfMonth, "yyyy-M-d", "yyyy-MM-dd");
             dateSetLiveData.setValue(radioId + ":" + selectedDate);
 
 

@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:layoutAnimation="@anim/layout_animation_bottom_to_up"
         android:padding="@dimen/five_dp"
         android:visibility="invisible"
         android:weightSum="7">

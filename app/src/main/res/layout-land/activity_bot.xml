@@ -4,7 +4,7 @@
     android:id="@+id/rlMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SurveyBotActivity">
+    tools:context=".BotActivity">
 
     <include
         android:id="@+id/header"
@@ -13,7 +13,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll"
@@ -26,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layoutAnimation="@anim/layout_animation_bottom_to_up"
         android:orientation="vertical"></LinearLayout>
 
     <LinearLayout
@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layoutAnimation="@anim/layout_animation_bottom_to_up"
         android:orientation="horizontal"
         android:visibility="invisible"
         android:weightSum="7">
