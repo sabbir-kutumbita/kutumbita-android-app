@@ -507,16 +507,22 @@ public class BotActivity extends AppCompatActivity {
         radioButton.setTextColor(getResources().getColor(R.color.primaryColor));
         if (index == -1)
             radioButton.setText(getResources().getString(R.string.finish));
+
+
         else
             radioButton.setText(tempObject.getJSONArray("answers").getJSONObject(index).getString("title"));
+
 
         radioButton.setTextSize(16);
         radioButton.setPadding(25, 25, 25, 25);
 
+
         Drawable dr = getResources().getDrawable(R.drawable.rectangle);
         radioButton.setBackground(dr);
 
+
         radioButton.setGravity(Gravity.CENTER);
+
 
         radioButton.setButtonDrawable(new StateListDrawable());
         rg.addView(radioButton);
