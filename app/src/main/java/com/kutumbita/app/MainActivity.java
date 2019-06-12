@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kutumbita.app.fragment.ChatFragment;
 import com.kutumbita.app.fragment.HomeFragment;
 import com.kutumbita.app.fragment.InboxFragment;
@@ -43,7 +44,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    FirebaseAnalytics firebaseAnalytics;
     Fragment fr;
     BottomNavigationView bnv;
     Fragment currentFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_main);
         Utility.setFullScreen(this);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         preferenceUtility = new PreferenceUtility(this);
         S.L("token", preferenceUtility.getMe().getAccessToken());
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
@@ -156,9 +158,10 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.item_home:
 
+
                         TAB_POSITION = 0;
                         loadHomeFragment();
-
+                        sendToAnalytics(String.valueOf(TAB_POSITION), "home");
 
                         break;
 
@@ -166,25 +169,26 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.item_chat:
                         TAB_POSITION = 1;
                         loadChatFragment();
-
+                        sendToAnalytics(String.valueOf(TAB_POSITION), "chat");
                         break;
 
                     case R.id.item_inbox:
                         TAB_POSITION = 2;
                         loadInboxFragment();
-
+                        sendToAnalytics(String.valueOf(TAB_POSITION), "inbox");
                         break;
 
                     case R.id.item_me:
                         TAB_POSITION = 3;
                         loadMeFragment();
-
+                        sendToAnalytics(String.valueOf(TAB_POSITION), "me");
                         break;
 
                 }
                 return true;
             }
         });
+
 
         bnv.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
@@ -211,6 +215,15 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(receiver, filter);
     }
 
+    private void sendToAnalytics(String id, String name) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Tab");
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+    }
 
     @Override
     protected void onDestroy() {

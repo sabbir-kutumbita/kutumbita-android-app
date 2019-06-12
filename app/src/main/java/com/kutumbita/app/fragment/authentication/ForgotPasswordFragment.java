@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.kutumbita.app.R;
 
 import androidx.annotation.Nullable;
@@ -24,9 +26,9 @@ public class ForgotPasswordFragment extends Fragment {
     }
 
 
-
     View v;
-
+    MaterialButton mButton;
+    TextInputLayout pLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +40,20 @@ public class ForgotPasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
         v = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        mButton=v.findViewById(R.id.bSendCode);
+        pLayout=v.findViewById(R.id.emailWrapper);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(pLayout.getEditText().getText().toString().isEmpty()){
+
+
+                    listener.OnSendCodeClicked(pLayout.getEditText().toString());
+                }
+            }
+        });
         return v;
     }
 
@@ -53,8 +67,6 @@ public class ForgotPasswordFragment extends Fragment {
     public interface OnButtonClickListener {
 
         void OnSendCodeClicked(String emailOrPhone);
-
-        void OnCancelClicked();
 
 
     }

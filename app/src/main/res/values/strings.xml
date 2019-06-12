@@ -61,5 +61,6 @@
     <string name="finish">Finish</string>
     <string name="file_provider">com.kutumbita.app.fileprovider</string>
     <string name="select_date">Select date</string>
+    <string name="pass_suggestion">We need your registered email address or phone number to send your password verification code</string>
 
 </resources>

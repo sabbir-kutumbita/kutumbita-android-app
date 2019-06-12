@@ -28,7 +28,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     AuthenticationViewModel authenticationViewModel;
     Fragment fr;
     PreferenceUtility preferenceUtility;
-    SettingsViewModel settingsViewModel;
+
 
 
     @Override
@@ -157,13 +157,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             public void OnSendCodeClicked(String emailOrPhone) {
 
 
-            }
-
-            @Override
-            public void OnCancelClicked() {
-                getSupportFragmentManager().popBackStack();
-            }
-        });
+            }});
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
     }
 

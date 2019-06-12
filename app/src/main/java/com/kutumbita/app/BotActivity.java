@@ -85,6 +85,8 @@ public class BotActivity extends AppCompatActivity {
 
 
     private static String EMMIT_BOT_ACTIVATE = ":bot_activate";
+
+    private static String EMMIT_BOT_DEACTIVATE = ":end";
     private static String TYPE = "";
     private static String EMMIT_NEXT_ANSWER = ":next_answer";
     private static String EMMIT_END_ANSWER = ":end_answer";
@@ -139,6 +141,10 @@ public class BotActivity extends AppCompatActivity {
     final int GALLERY_IMAGE_REQUEST = 2;
 
     public static String currentPhotoPath = "";
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -317,7 +323,8 @@ public class BotActivity extends AppCompatActivity {
 
             case "emit":
                 makeEditable(false);
-                GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
+                GlobalData.getInstance().getmSocket().emit(tempObject.getJSONArray("user_answer").
+                        getJSONObject(0).getString("event"), new JSONObject(tempObject.toString()));
 
                 break;
 
@@ -800,6 +807,7 @@ public class BotActivity extends AppCompatActivity {
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_REASON, OnBotActivated);
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_DOC, OnBotActivated);
             GlobalData.getInstance().getmSocket().off(TYPE + RECEIVE_LEAVE_END, OnBotActivated);
+            GlobalData.getInstance().getmSocket().emit(TYPE + EMMIT_BOT_DEACTIVATE);
 
         }
     }
