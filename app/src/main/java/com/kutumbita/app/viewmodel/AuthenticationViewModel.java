@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.repository.AuthenticationRepository;
+import com.kutumbita.app.utility.PreferenceUtility;
 
 import org.json.JSONObject;
 
@@ -15,9 +16,11 @@ public class AuthenticationViewModel extends AndroidViewModel {
 
     AuthenticationRepository authenticationRepository;
 
+
     public AuthenticationViewModel(@NonNull Application application) {
         super(application);
         authenticationRepository = AuthenticationRepository.getInstance();
+
     }
 
 
@@ -30,5 +33,10 @@ public class AuthenticationViewModel extends AndroidViewModel {
     public LiveData<Me> meLiveData(String accessToken, String refreshToken) {
 
         return authenticationRepository.getMeLiveData(accessToken, refreshToken);
+    }
+
+    public LiveData<JSONObject> otpCodeLiveData(String emailOrPhone) {
+
+        return authenticationRepository.forgotPasswordCodeGenerator(emailOrPhone);
     }
 }

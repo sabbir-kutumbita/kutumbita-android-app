@@ -50,9 +50,6 @@ public class AuthenticationRepository {
     }
 
 
-
-
-
     public LiveData<Me> getMeLiveData(final String accessToken, final String refreshToken) {
 
 
@@ -126,7 +123,7 @@ public class AuthenticationRepository {
 
     }
 
-    public LiveData<JSONObject> forgotPasswordCodeGenerator(String emailOrPhone) {
+    public LiveData<JSONObject> forgotPasswordCodeGenerator(final String emailOrPhone) {
 
         final MutableLiveData<JSONObject> jsonObject = new MutableLiveData<>();
 
@@ -139,12 +136,12 @@ public class AuthenticationRepository {
         }
 
         final String body = object.toString();
-
+        S.L("body", body);
 
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.FORGOT_PASS_CODE_GENERATOR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                S.L("sign in", response);
+                S.L("OTP", response);
                 try {
 
                     JSONObject object = new JSONObject(response);
@@ -180,6 +177,7 @@ public class AuthenticationRepository {
 
             }
         }) {
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 
@@ -223,7 +221,7 @@ public class AuthenticationRepository {
         }
 
         final String body = object.toString();
-
+        S.L("body", body);
 
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_LOGIN, new Response.Listener<String>() {
             @Override

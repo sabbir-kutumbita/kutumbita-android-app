@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.authentication.VerifyFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,20 +13,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/circularstd_book"
         android:text="Enter your code"
         android:textColor="@color/primaryColor" />
 
-    <com.github.glomadrian.codeinputlib.CodeInput
-        android:id="@+id/codeInput"
 
+    <ImageView
+        android:id="@+id/ivCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEnterCode"
         android:layout_centerHorizontal="true"
+        android:src="@drawable/circle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEnterCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/one_hundred_fifty_dp"
+        android:text="60" />
+
+    <com.github.glomadrian.codeinputlib.CodeInput
+        android:id="@+id/codeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivCounter"
+
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        app:codes="4"
+        app:codes="6"
+        app:hint_color="@color/grey"
+        app:hint_text="Pin code"
         app:text_color="@color/primaryColor" />
 
 </RelativeLayout>

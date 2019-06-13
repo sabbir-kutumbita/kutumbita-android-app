@@ -13,6 +13,7 @@ import com.kutumbita.app.fragment.authentication.ChooserFragment;
 import com.kutumbita.app.fragment.authentication.ForgotPasswordFragment;
 import com.kutumbita.app.fragment.authentication.RequestForAccountFragment;
 import com.kutumbita.app.fragment.authentication.SignInFragment;
+import com.kutumbita.app.fragment.authentication.VerifyFragment;
 import com.kutumbita.app.model.Me;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
@@ -28,7 +29,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     AuthenticationViewModel authenticationViewModel;
     Fragment fr;
     PreferenceUtility preferenceUtility;
-
 
 
     @Override
@@ -156,9 +156,29 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void OnSendCodeClicked(String emailOrPhone) {
 
+                authenticationViewModel.otpCodeLiveData(emailOrPhone).observe(AuthenticationActivity.this, new Observer<JSONObject>() {
+                    @Override
+                    public void onChanged(JSONObject jsonObject) {
 
-            }});
+                        if (jsonObject != null) {
+
+                            loadVerifyFragment();
+                        }
+
+                    }
+                });
+
+            }
+        });
         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
     }
 
+    private void loadVerifyFragment() {
+
+        fr = new VerifyFragment();
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).
+                addToBackStack(null).commitAllowingStateLoss();
+
+    }
 }

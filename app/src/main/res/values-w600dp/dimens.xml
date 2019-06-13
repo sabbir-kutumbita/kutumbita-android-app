@@ -40,4 +40,5 @@
     <dimen name="eight_sp">12sp</dimen>
     <dimen name="sixty_five_dp">97dp</dimen>
     <dimen name="hundred_ten_dp">165dp</dimen>
+    <dimen name="one_hundred_fifty_dp">225dp</dimen>
 </resources>

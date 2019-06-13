@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.kutumbita.app.R;
+import com.kutumbita.app.utility.Utility;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ public class ForgotPasswordFragment extends Fragment {
     View v;
     MaterialButton mButton;
     TextInputLayout pLayout;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +43,36 @@ public class ForgotPasswordFragment extends Fragment {
 
 
         v = inflater.inflate(R.layout.fragment_forgot_password, container, false);
-        mButton=v.findViewById(R.id.bSendCode);
-        pLayout=v.findViewById(R.id.emailWrapper);
+        mButton = v.findViewById(R.id.bSendCode);
+        pLayout = v.findViewById(R.id.emailWrapper);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(pLayout.getEditText().getText().toString().isEmpty()){
+                if (!hasUpError()) {
 
 
-                    listener.OnSendCodeClicked(pLayout.getEditText().toString());
+                    listener.OnSendCodeClicked(pLayout.getEditText().getText().toString());
                 }
             }
         });
         return v;
+    }
+
+    private boolean hasUpError() {
+
+        Utility.hideKeyboard(getActivity());
+
+        if (pLayout.getEditText().getText().toString().isEmpty()) {
+            pLayout.setError(getString(R.string.required));
+            return true;
+        }
+
+
+        pLayout.setErrorEnabled(false);
+
+
+        return false;
     }
 
     OnButtonClickListener listener;
