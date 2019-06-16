@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:parent-3.12.3'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.github.mjn1369:prettydialog:1.0.4'
-
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

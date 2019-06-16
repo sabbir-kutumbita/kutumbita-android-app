@@ -39,4 +39,6 @@
     <dimen name="sixty_five_dp">65dp</dimen>
     <dimen name="hundred_ten_dp">110dp</dimen>
     <dimen name="one_hundred_fifty_dp">150dp</dimen>
+    <dimen name="seventy_five_dp">75dp</dimen>
+    <dimen name="thirty_four_sp">34sp</dimen>
 </resources>

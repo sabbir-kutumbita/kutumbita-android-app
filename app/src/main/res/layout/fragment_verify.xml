@@ -26,27 +26,62 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEnterCode"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/thirty_dp"
         android:src="@drawable/circle" />
 
     <TextView
+        android:id="@+id/tvSecondsValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEnterCode"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/one_hundred_fifty_dp"
-        android:text="60" />
+        android:layout_marginTop="@dimen/sixty_dp"
+        android:fontFamily="@font/circularstd_bold"
+        android:text="60"
 
-    <com.github.glomadrian.codeinputlib.CodeInput
-        android:id="@+id/codeInput"
+        android:textColor="@color/primaryColor"
+        android:textSize="@dimen/thirty_four_sp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivCounter"
+        android:layout_below="@+id/tvSecondsValue"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/circularstd_book"
+        android:text="Seconds"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/twenty_sp" />
 
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        app:codes="6"
-        app:hint_color="@color/grey"
-        app:hint_text="Pin code"
-        app:text_color="@color/primaryColor" />
+    <com.mukesh.OtpView
+        android:id="@+id/otp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivCounter"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp"
+        android:inputType="number"
+        android:textColor="@color/primaryTextColor"
+        app:itemCount="6"
+        app:lineColor="@color/primaryTextColor"
+        app:viewType="line" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bResend"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sixty_dp"
+        android:layout_below="@+id/otp_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/seventy_dp"
+        android:layout_marginLeft="@dimen/sixty_dp"
+        android:layout_marginRight="@dimen/sixty_dp"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:background="@color/primaryColor"
+        android:fontFamily="@font/circularstd_book"
+        android:text="@string/resend"
+        android:textAllCaps="false"
+        android:enabled="false"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="@dimen/fifteen_sp" />
 
 </RelativeLayout>

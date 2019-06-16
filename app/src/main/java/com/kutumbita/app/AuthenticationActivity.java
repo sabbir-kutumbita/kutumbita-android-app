@@ -24,6 +24,9 @@ import com.kutumbita.app.viewmodel.SettingsViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
+
 public class AuthenticationActivity extends AppCompatActivity {
 
     AuthenticationViewModel authenticationViewModel;
@@ -149,6 +152,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     }
 
+    PrettyDialog pDialog;
+
     private void loadForgotPassFragment() {
 
         fr = new ForgotPasswordFragment();
@@ -162,7 +167,21 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                         if (jsonObject != null) {
 
-                            loadVerifyFragment();
+                            pDialog = new PrettyDialog(AuthenticationActivity.this)
+                                    .setTitle(getResources().getString(R.string.code))
+                                    .setMessage(getResources().getString(R.string.code_sent))
+                                    .setIcon(R.drawable.kutumbita_without_logo).addButton(getResources().getString(R.string.ok), R.color.primaryTextColor,
+                                            R.color.secondaryColor, new PrettyDialogCallback() {
+                                                @Override
+                                                public void onClick() {
+
+                                                    pDialog.cancel();
+                                                    loadVerifyFragment();
+
+                                                }
+                                            });
+                            pDialog.show();
+
                         }
 
                     }

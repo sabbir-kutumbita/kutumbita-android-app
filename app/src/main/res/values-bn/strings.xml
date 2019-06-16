@@ -16,7 +16,7 @@
     <string name="logout">লগ আউট</string>
     <string name="chat">চ্যাট</string>
     <string name="inbox">ইনবক্স</string>
-
+    <string name="take_a_photo">Take a photo</string>
     <string name="me">আমি</string>
     <string name="settings">সেটিংস</string>
     <string name="language">ভাষা</string>
@@ -67,6 +67,8 @@
     <string name="finish">Finish</string>
     <string name="select_date">Select date</string>
     <string name="pass_suggestion">We need your registered email address or phone number to send your password verification code</string>
-
+    <string name="resend">পুনরায় কোড পাঠান</string>
+    <string name="code_sent">A security code has been sent to your email/phone</string>
+    <string name="code">security code</string>
 
 </resources>
