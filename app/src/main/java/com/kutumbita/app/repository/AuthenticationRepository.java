@@ -60,7 +60,7 @@ public class AuthenticationRepository {
         StringRequest loginRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_ME, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                S.L("me", response);
+                S.L("response me", response);
                 try {
 
                     JSONObject userObject = new JSONObject(response);
@@ -141,7 +141,92 @@ public class AuthenticationRepository {
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.FORGOT_PASS_CODE_GENERATOR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                S.L("OTP", response);
+                S.L("response OTP", response);
+                try {
+
+                    JSONObject object = new JSONObject(response);
+
+                    jsonObject.setValue(object);
+                    // getMe(object.getString("access_token"), object.getString("refresh_token"));
+                    //getMe(object.getString("access_token"), "refresh");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    jsonObject.setValue(null);
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                try {
+                    S.L("error: " + error.networkResponse.statusCode);
+                    String str = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject object = new JSONObject(str);
+                    JSONObject errorObject = object.getJSONObject("error");
+                    jsonObject.setValue(errorObject);
+
+                } catch (Exception e) {
+                    jsonObject.setValue(null);
+                    e.printStackTrace();
+                }
+
+
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return body == null ? null : body.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            body, "utf-8");
+                    return null;
+                }
+            }
+
+        };
+        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        GlobalData.getInstance().addToRequestQueue(loginRequest);
+
+        return jsonObject;
+    }
+
+    public LiveData<JSONObject> forgotPasswordCodeVerifier(final String emailOrPhone, String secretCode) {
+
+        final MutableLiveData<JSONObject> jsonObject = new MutableLiveData<>();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("username", emailOrPhone);
+            object.put("secret_code", secretCode);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final String body = object.toString();
+
+
+        StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.FORGOT_PASS_CODE_VERIFIER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                S.L("response OTP verify", response);
                 try {
 
                     JSONObject object = new JSONObject(response);
@@ -221,12 +306,12 @@ public class AuthenticationRepository {
         }
 
         final String body = object.toString();
-        S.L("body", body);
+
 
         StringRequest loginRequest = new StringRequest(Request.Method.POST, UrlConstant.URL_LOGIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                S.L("sign in", response);
+                S.L("response sign in", response);
                 try {
 
                     JSONObject object = new JSONObject(response);
@@ -262,6 +347,91 @@ public class AuthenticationRepository {
 
             }
         }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return body == null ? null : body.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                            body, "utf-8");
+                    return null;
+                }
+            }
+
+        };
+        loginRequest.setRetryPolicy(new DefaultRetryPolicy(
+                Constant.TIME_OUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        GlobalData.getInstance().addToRequestQueue(loginRequest);
+
+        return jsonObject;
+    }
+
+    public LiveData<JSONObject> forgotPasswordSetNew(final String password, String accessKey) {
+
+        final MutableLiveData<JSONObject> jsonObject = new MutableLiveData<>();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("access_key", accessKey);
+            object.put("password", password);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final String body = object.toString();
+        S.L("request body", body);
+        StringRequest loginRequest = new StringRequest(Request.Method.PUT, UrlConstant.FORGOT_PASS_SET_PASSWORD, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                S.L("response setNewPass", response);
+                try {
+
+                    JSONObject object = new JSONObject(response);
+
+                    jsonObject.setValue(object);
+                    // getMe(object.getString("access_token"), object.getString("refresh_token"));
+                    //getMe(object.getString("access_token"), "refresh");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    jsonObject.setValue(null);
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+                try {
+                    S.L("error: " + error.networkResponse.statusCode);
+                    String str = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject object = new JSONObject(str);
+                    JSONObject errorObject = object.getJSONObject("error");
+                    jsonObject.setValue(errorObject);
+
+                } catch (Exception e) {
+                    jsonObject.setValue(null);
+                    e.printStackTrace();
+                }
+
+
+            }
+        }) {
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
 

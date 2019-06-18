@@ -39,4 +39,14 @@ public class AuthenticationViewModel extends AndroidViewModel {
 
         return authenticationRepository.forgotPasswordCodeGenerator(emailOrPhone);
     }
+
+    public LiveData<JSONObject> otpCodeVerifyLiveData(String emailOrPhone, String secretCode) {
+
+        return authenticationRepository.forgotPasswordCodeVerifier(emailOrPhone, secretCode);
+    }
+
+    public LiveData<JSONObject> forgotPasswordSetNew(String password, String accessKey) {
+
+        return authenticationRepository.forgotPasswordSetNew(password, accessKey);
+    }
 }

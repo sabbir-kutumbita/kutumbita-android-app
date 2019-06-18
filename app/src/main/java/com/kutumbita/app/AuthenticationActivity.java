@@ -6,15 +6,18 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kutumbita.app.fragment.authentication.ChooserFragment;
 import com.kutumbita.app.fragment.authentication.ForgotPasswordFragment;
 import com.kutumbita.app.fragment.authentication.RequestForAccountFragment;
+import com.kutumbita.app.fragment.authentication.ResetPasswordFragment;
 import com.kutumbita.app.fragment.authentication.SignInFragment;
 import com.kutumbita.app.fragment.authentication.VerifyFragment;
 import com.kutumbita.app.model.Me;
+import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
@@ -32,7 +35,9 @@ public class AuthenticationActivity extends AppCompatActivity {
     AuthenticationViewModel authenticationViewModel;
     Fragment fr;
     PreferenceUtility preferenceUtility;
-
+    PrettyDialog pDialog;
+    public static String emailOrPhone = "";
+    boolean shouldAddStack = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
         });
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).addToBackStack(null).replace(R.id.fr, fr).commitAllowingStateLoss();
 
     }
 
@@ -145,14 +150,18 @@ public class AuthenticationActivity extends AppCompatActivity {
                 loadRequestForAccountFragment();
             }
         });
-        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+        if ((GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) | !shouldAddStack) {
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
-        else
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+            shouldAddStack = true;
 
+        } else {
+
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).addToBackStack(null).replace(R.id.fr, fr)
+                    .commitAllowingStateLoss();
+        }
     }
 
-    PrettyDialog pDialog;
 
     private void loadForgotPassFragment() {
 
@@ -160,7 +169,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         ((ForgotPasswordFragment) fr).setOnButtonClickListener(new ForgotPasswordFragment.OnButtonClickListener() {
             @Override
             public void OnSendCodeClicked(String emailOrPhone) {
-
+                AuthenticationActivity.this.emailOrPhone = emailOrPhone;
                 authenticationViewModel.otpCodeLiveData(emailOrPhone).observe(AuthenticationActivity.this, new Observer<JSONObject>() {
                     @Override
                     public void onChanged(JSONObject jsonObject) {
@@ -170,13 +179,30 @@ public class AuthenticationActivity extends AppCompatActivity {
                             pDialog = new PrettyDialog(AuthenticationActivity.this)
                                     .setTitle(getResources().getString(R.string.code))
                                     .setMessage(getResources().getString(R.string.code_sent))
-                                    .setIcon(R.drawable.kutumbita_without_logo).addButton(getResources().getString(R.string.ok), R.color.primaryTextColor,
+                                    .setIcon(R.drawable.k).addButton(getResources().getString(R.string.ok), R.color.primaryTextColor,
                                             R.color.secondaryColor, new PrettyDialogCallback() {
                                                 @Override
                                                 public void onClick() {
 
                                                     pDialog.cancel();
                                                     loadVerifyFragment();
+
+
+                                                }
+                                            });
+                            pDialog.show();
+
+                        } else {
+
+                            pDialog = new PrettyDialog(AuthenticationActivity.this)
+                                    .setTitle(getResources().getString(R.string.error))
+                                    .setMessage(getResources().getString(R.string.something_went_wrong))
+                                    .setIcon(R.drawable.ic_error_black_24dp).addButton(getResources().getString(R.string.ok), R.color.primaryTextColor,
+                                            R.color.secondaryColor, new PrettyDialogCallback() {
+                                                @Override
+                                                public void onClick() {
+
+                                                    pDialog.cancel();
 
                                                 }
                                             });
@@ -189,15 +215,64 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
         });
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).addToBackStack(null).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).
+                addToBackStack(null).replace(R.id.fr, fr).commitAllowingStateLoss();
     }
 
     private void loadVerifyFragment() {
 
         fr = new VerifyFragment();
+
+        ((VerifyFragment) fr).setOnPinVerifySuccessful(new VerifyFragment.onPinVerifySuccessful() {
+            @Override
+            public void onSuccess(String access_key) {
+                loadResetPasswordFragment(access_key);
+            }
+        });
+
         getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).
-                addToBackStack(null).commitAllowingStateLoss();
+                setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).addToBackStack(null).
+                replace(R.id.fr, fr).commitAllowingStateLoss();
+
+    }
+
+    private void loadResetPasswordFragment(final String access_key) {
+
+        fr = new ResetPasswordFragment();
+        Bundle b = new Bundle();
+        b.putString(Constant.EXTRA_ACCESS_KEY, access_key);
+        fr.setArguments(b);
+        ((ResetPasswordFragment) fr).setOnResetButtonClickListener(new ResetPasswordFragment.OnResetButtonClickListener() {
+            @Override
+            public void OnResetButtonClicked(String password, String accessKey) {
+
+                authenticationViewModel.forgotPasswordSetNew(password, access_key).observe(AuthenticationActivity.this, new Observer<JSONObject>() {
+                    @Override
+                    public void onChanged(JSONObject jsonObject) {
+                        S.T(AuthenticationActivity.this, "New password reset");
+                        pDialog = new PrettyDialog(AuthenticationActivity.this)
+                                .setTitle(getResources().getString(R.string.congrats))
+                                .setMessage(getResources().getString(R.string.password_updated)).setIcon(R.drawable.k).addButton(getResources().getString(R.string.ok), R.color.primaryTextColor,
+                                        R.color.secondaryColor, new PrettyDialogCallback() {
+                                            @Override
+                                            public void onClick() {
+
+                                                pDialog.cancel();
+                                                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                                                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                                                }
+                                                shouldAddStack = false;
+                                                loadSignInFragment();
+                                            }
+                                        });
+                        pDialog.show();
+                    }
+                });
+            }
+        });
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).addToBackStack(null).replace(R.id.fr, fr).commitAllowingStateLoss();
+
 
     }
 }

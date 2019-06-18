@@ -38,10 +38,14 @@ public class UrlConstant {
     public static final String IMAGE_UPLOAD = URL_BASE + "media";
 
     public static final String FORGOT_PASS_CODE_GENERATOR = URL_BASE + "auth/generate-code";
+    public static final String FORGOT_PASS_CODE_VERIFIER = URL_BASE+"auth/verify-code";
+    public static final String FORGOT_PASS_SET_PASSWORD = URL_BASE+"auth/set-password";
+
 
 
     //socket_local
      public static final String URL_SOCKET = "http://10.100.1.205:5222?token=";
+
 
 
     //ngrok socket

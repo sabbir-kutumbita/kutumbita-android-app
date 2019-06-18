@@ -70,5 +70,9 @@
     <string name="resend">পুনরায় কোড পাঠান</string>
     <string name="code_sent">A security code has been sent to your email/phone</string>
     <string name="code">security code</string>
+    <string name="error">Error</string>
+    <string name="password_doesnt_match">password doesn\'t match</string>
+    <string name="congrats">Congratulations</string>
+    <string name="password_updated">your password is successfuly updated, now you can login with your new password</string>
 
 </resources>
