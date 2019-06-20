@@ -21,4 +21,5 @@ public class Constant {
     public static final String EXTRA_CHAT_BOT = "exchat";
     public static final int ONE_SECOND = 1000;
     public static final String EXTRA_ACCESS_KEY = "accesskey";
+    public static final String EXTRA_SHOW_SIGN_IN = "extraSign";
 }

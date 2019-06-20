@@ -1,12 +1,12 @@
 package com.kutumbita.app;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -37,7 +37,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     PreferenceUtility preferenceUtility;
     PrettyDialog pDialog;
     public static String emailOrPhone = "";
-    boolean shouldAddStack = true;
+
+    boolean shouldLoadSign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +46,14 @@ public class AuthenticationActivity extends AppCompatActivity {
         Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_authentication);
         Utility.setFullScreen(this);
+        shouldLoadSign = getIntent().getBooleanExtra(Constant.EXTRA_SHOW_SIGN_IN, false);
         preferenceUtility = new PreferenceUtility(this);
         authenticationViewModel = ViewModelProviders.of(AuthenticationActivity.this).get(AuthenticationViewModel.class);
-        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT)
-            loadChooserFragment();
-        else
+        if (GlobalData.getInstance().getOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT | shouldLoadSign)
+
             loadSignInFragment();
+        else
+            loadChooserFragment();
     }
 
     private void loadChooserFragment() {
@@ -150,9 +153,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 loadRequestForAccountFragment();
             }
         });
-        if ((GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) | !shouldAddStack) {
+        if ((GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) | shouldLoadSign) {
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
-            shouldAddStack = true;
+            shouldLoadSign = false;
 
         } else {
 
@@ -190,6 +193,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                                                 }
                                             });
+                            pDialog.setCancelable(false);
                             pDialog.show();
 
                         } else {
@@ -206,6 +210,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                                                 }
                                             });
+                            pDialog.setCancelable(false);
                             pDialog.show();
 
                         }
@@ -249,7 +254,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 authenticationViewModel.forgotPasswordSetNew(password, access_key).observe(AuthenticationActivity.this, new Observer<JSONObject>() {
                     @Override
                     public void onChanged(JSONObject jsonObject) {
-                        S.T(AuthenticationActivity.this, "New password reset");
+
                         pDialog = new PrettyDialog(AuthenticationActivity.this)
                                 .setTitle(getResources().getString(R.string.congrats))
                                 .setMessage(getResources().getString(R.string.password_updated)).setIcon(R.drawable.k).addButton(getResources().getString(R.string.ok), R.color.primaryTextColor,
@@ -261,10 +266,17 @@ public class AuthenticationActivity extends AppCompatActivity {
                                                 for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                                                     getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                                                 }
-                                                shouldAddStack = false;
-                                                loadSignInFragment();
+
+
+
+                                                Intent goSignIn = new Intent(AuthenticationActivity.this, AuthenticationActivity.class);
+                                                goSignIn.putExtra(Constant.EXTRA_SHOW_SIGN_IN, true);
+                                                startActivity(goSignIn);
+                                                finish();
+
                                             }
                                         });
+                        pDialog.setCancelable(false);
                         pDialog.show();
                     }
                 });

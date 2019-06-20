@@ -106,7 +106,7 @@
             android:textAllCaps="false"
             android:textColor="@color/primaryColor"
             android:textSize="@dimen/fifteen_sp"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bReqForAccount"

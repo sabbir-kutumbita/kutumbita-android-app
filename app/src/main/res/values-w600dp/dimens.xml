@@ -43,4 +43,5 @@
     <dimen name="one_hundred_fifty_dp">225dp</dimen>
     <dimen name="seventy_five_dp">112.5dp</dimen>
     <dimen name="thirty_four_sp">51sp</dimen>
+    <dimen name="eighty_four_dp">126dp</dimen>
 </resources>

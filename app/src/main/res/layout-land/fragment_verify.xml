@@ -12,9 +12,9 @@
         android:id="@+id/tvEnterCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/hundread_dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/one_hundred_fifty_dp"
+        android:layout_marginTop="@dimen/thirty_dp"
         android:fontFamily="@font/circularstd_book"
         android:text="Enter your code"
         android:textColor="@color/primaryColor" />
@@ -25,8 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEnterCode"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/thirty_dp"
+        android:layout_marginLeft="@dimen/thirty_dp"
         android:src="@drawable/circle" />
 
     <TextView
@@ -34,11 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEnterCode"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/sixty_dp"
+        android:layout_marginLeft="@dimen/eighty_four_dp"
+        android:layout_marginTop="@dimen/forty_dp"
         android:fontFamily="@font/circularstd_bold"
         android:text="60"
-
         android:textColor="@color/primaryColor"
         android:textSize="@dimen/thirty_four_sp" />
 
@@ -46,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvSecondsValue"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/sixty_five_dp"
         android:fontFamily="@font/circularstd_book"
         android:text="Seconds"
         android:textColor="@color/primaryTextColor"
@@ -56,10 +54,11 @@
         android:id="@+id/otp_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ivCounter"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginRight="@dimen/eighty_dp"
         android:inputType="number"
+        android:layout_centerVertical="true"
         android:textColor="@color/primaryTextColor"
         app:itemCount="6"
         app:lineColor="@color/primaryTextColor"
@@ -69,19 +68,20 @@
         android:id="@+id/bResend"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixty_dp"
+        android:layout_height="@dimen/forty_dp"
         android:layout_below="@+id/otp_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/seventy_dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/ten_dp"
         android:layout_marginLeft="@dimen/sixty_dp"
+        android:layout_toRightOf="@+id/ivCounter"
         android:layout_marginRight="@dimen/sixty_dp"
         android:layout_marginBottom="@dimen/five_dp"
         android:background="@color/primaryColor"
+        android:enabled="false"
         android:fontFamily="@font/circularstd_book"
         android:text="@string/resend"
         android:textAllCaps="false"
-        android:enabled="false"
         android:textColor="@color/secondaryTextColor"
-        android:textSize="@dimen/fifteen_sp" />
+        android:textSize="@dimen/twelve_sp" />
 
 </RelativeLayout>

@@ -130,6 +130,7 @@ public class VerifyFragment extends Fragment {
 
                                                 }
                                             });
+                            pDialog.setCancelable(false);
                             pDialog.show();
 
                         } else {
