@@ -202,6 +202,7 @@
                     android:layout_marginBottom="@dimen/ten_dp"
                     android:fontFamily="@font/circularstd_book"
                     android:text="@string/yes_i_can_join"
+                    android:visibility="invisible"
                     android:textAllCaps="false"
                     android:textSize="@dimen/fifteen_sp" />
 

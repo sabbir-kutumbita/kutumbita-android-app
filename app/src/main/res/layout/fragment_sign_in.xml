@@ -21,38 +21,11 @@
             android:layout_marginTop="@dimen/hundread_dp"
             android:src="@drawable/kutumbita_without_logo" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passWraper"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
-            android:layout_below="@+id/emailWrapper"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
-            app:passwordToggleEnabled="true">
 
-            9lfHcJ9P
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/grey"
-                android:fontFamily="@font/circularstd_book"
-                android:hint="@string/password"
-
-                android:inputType="textPassword"
-                android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/grey"
-                android:textSize="@dimen/fifteen_sp"
-                tools:text="9636" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!--talha@kutumbita.com-->
-        <!--Password : oGLYW5L1-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailWrapper"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/fifty_dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/ivKutumBita"
             android:layout_marginLeft="@dimen/thirty_dp"
             android:layout_marginTop="@dimen/fifty_dp"
@@ -68,9 +41,31 @@
                 android:hint="@string/email_or_phone"
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/grey"
-                android:textSize="@dimen/fifteen_sp"
-                tools:text="kutumbitasg+sabbir@gmail.com" />
+                android:textSize="@dimen/fifteen_sp" />
 
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passWraper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailWrapper"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            app:passwordToggleEnabled="true">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
+                android:fontFamily="@font/circularstd_book"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
+                android:textSize="@dimen/fifteen_sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,7 +77,6 @@
             android:layout_height="@dimen/sixty_dp"
             android:layout_above="@+id/bForgotPassword"
             android:layout_marginLeft="@dimen/sixty_dp"
-            android:layout_marginTop="@dimen/sixty_dp"
             android:layout_marginRight="@dimen/sixty_dp"
             android:background="@color/primaryColor"
             android:fontFamily="@font/circularstd_book"

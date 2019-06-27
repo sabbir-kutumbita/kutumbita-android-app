@@ -16,7 +16,7 @@
     <string name="logout">লগ আউট</string>
     <string name="chat">চ্যাট</string>
     <string name="inbox">ইনবক্স</string>
-    <string name="take_a_photo">Take a photo</string>
+    <string name="take_a_photo">ছবি তুলুন</string>
     <string name="me">আমি</string>
     <string name="settings">সেটিংস</string>
     <string name="language">ভাষা</string>
@@ -38,6 +38,7 @@
     <string name="new_password">নতুন পাসওয়ার্ড</string>
     <string name="confirm_password">পাসওয়ার্ড নিশ্চিত করুন</string>
     <string name="done">নিশ্চিত</string>
+    <string name="submit">নিশ্চিত</string>
     <string name="password">পাসওয়ার্ড</string>
     <string name="sign_in">সাইন ইন</string>
     <string name="request_for_account">অ্যাকাউন্ট এর জন্য আবেদন করুন</string>
@@ -46,7 +47,7 @@
     <string name="position">পদবী</string>
     <string name="phone">ফোন</string>
     <string name="address">ঠিকানা</string>
-    <string name="nid">জাতীয় আইডি</string>
+    <string name="nid">জাতীয় পরিচয়পত্র</string>
     <string name="joining_date">যোগদানের তারিখ</string>
     <string name="job_type">চাকরির ধরন</string>
     <string name="emergency_phone">জরুরী ফোন</string>
@@ -59,20 +60,21 @@
     <string name="ok">ঠিক আছে</string>
     <string name="current_password">বর্তমান পাসওয়ার্ড</string>
     <string name="change_password">পাসওয়ার্ড পরিবর্তন করুন</string>
-    <string name="something_went_wrong">Something went wrong</string>
-    <string name="uploading">Uploading photo...</string>
-    <string name="photo_upload_aborted">Photo upload aborted</string>
-    <string name="empty_inbox">Inbox Empty</string>
-    <string name="empty_inbox_details">Your inbox is empty, you will see messages here when they arrive</string>
-    <string name="finish">Finish</string>
-    <string name="select_date">Select date</string>
-    <string name="pass_suggestion">We need your registered email address or phone number to send your password verification code</string>
+    <string name="something_went_wrong">কিছু একটা ভুল হয়েছে</string>
+    <string name="uploading">ফটো আপলোড হচ্ছে...</string>
+    <string name="photo_upload_aborted">ফটো আপলোড বাতিল করা হল</string>
+    <string name="empty_inbox">কোন ম্যাসেজ নেই</string>
+    <string name="empty_inbox_details">ইনবক্সে কোন ম্যাসেজ নেই, আপনাকে প্রেরিত ম্যাসেজ গুলি এখানে দেখাবে</string>
+    <string name="finish">শেষ করুন</string>
+    <string name="select_date">তারিখ বাছাই করুন</string>
+    <string name="pass_suggestion">আপনার রেজিস্টারকৃত ইমেইল অথবা ফোন নাম্বার এইজন্য প্রয়োজন যেন আমরা আপনাকে একটি ভেরিফিকেশন কোড পাঠাতে পারি।</string>
     <string name="resend">পুনরায় কোড পাঠান</string>
-    <string name="code_sent">A security code has been sent to your email/phone</string>
-    <string name="code">security code</string>
-    <string name="error">Error</string>
-    <string name="password_doesnt_match">password doesn\'t match</string>
-    <string name="congrats">Congratulations</string>
-    <string name="password_updated">your password is successfuly updated, now you can login with your new password</string>
+    <string name="code_sent">আপনার ইমেইল থিকানা/ফোন নম্বরে একটি ভেরিফিকেশন কোড পাঠানো হয়েছে</string>
+    <string name="code">সিকিউরিটি কোড</string>
+    <string name="error">ভুল</string>
+    <string name="password_doesnt_match">পাসওয়ার্ড মিলেনি</string>
+    <string name="congrats">অভিনন্দন</string>
+    <string name="password_updated">আপনার পাসওয়ার্ড হালনাগাদ সফল হয়েছে, এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারবেন</string>
+    <string name="factory">কারখানা</string>
 
 </resources>

@@ -39,12 +39,13 @@ public class GlobalData extends Application {
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null) {
 
+
             initializeSocket();
 
         }
 
         mInstance = this;
-        orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+        orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         touchTime = System.currentTimeMillis();
 
 
@@ -52,6 +53,7 @@ public class GlobalData extends Application {
 
 
     }
+
 
     private void buildOkHttpClient() {
 

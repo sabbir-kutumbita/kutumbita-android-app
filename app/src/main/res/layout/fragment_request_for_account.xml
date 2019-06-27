@@ -18,6 +18,31 @@
             android:layout_marginTop="@dimen/hundread_dp"
             android:src="@drawable/kutumbita_without_logo" />
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/emailWrapper"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/thirty_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_marginBottom="@dimen/ten_dp">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/grey"
+                android:fontFamily="@font/circularstd_book"
+                android:hint="@string/name"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/grey"
+                android:textSize="@dimen/fifteen_sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailWrapper"
             android:layout_width="match_parent"
@@ -64,37 +89,16 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nameWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/emailWrapper"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/thirty_dp"
-            android:layout_marginRight="@dimen/thirty_dp"
-            android:layout_marginBottom="@dimen/ten_dp">
 
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/grey"
-                android:fontFamily="@font/circularstd_book"
-                android:hint="@string/name"
-                android:textColor="@color/primaryTextColor"
-                android:textColorHint="@color/grey"
-                android:textSize="@dimen/fifteen_sp" />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bReqForAccount"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/sixty_dp"
-            android:layout_above="@+id/bSignIn"
             android:layout_centerHorizontal="true"
+           android:layout_below="@+id/companyNameWrapper"
+            android:layout_marginTop="@dimen/forty_dp"
             android:layout_marginLeft="@dimen/eighty_dp"
             android:layout_marginRight="@dimen/eighty_dp"
             android:layout_marginBottom="@dimen/ten_dp"
@@ -106,21 +110,7 @@
             android:textSize="@dimen/fifteen_sp" />
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/bSignIn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/sixty_dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/eighty_dp"
-            android:layout_marginRight="@dimen/eighty_dp"
-            android:layout_marginBottom="@dimen/thirty_dp"
-            android:fontFamily="@font/circularstd_book"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="@dimen/fifteen_sp" />
+
 
     </RelativeLayout>
 </ScrollView>

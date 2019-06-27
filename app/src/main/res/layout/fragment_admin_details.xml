@@ -53,6 +53,7 @@
             android:fontFamily="@font/circularstd_book"
             android:text="@string/acknowledged"
             android:textAllCaps="false"
+            android:visibility="invisible"
             android:textSize="@dimen/fifteen_sp" />
 
 

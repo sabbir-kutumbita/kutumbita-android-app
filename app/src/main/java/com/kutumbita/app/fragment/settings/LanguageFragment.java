@@ -45,11 +45,13 @@ public class LanguageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
-
         v = inflater.inflate(R.layout.fragment_language, container, false);
 
         radioGroup = v.findViewById(R.id.rgLang);
+        if (preferenceUtility.getMe().getLanguage().contentEquals("bn"))
+            radioGroup.check(R.id.rbBang);
+        else
+            radioGroup.check(R.id.rbEng);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -58,7 +60,6 @@ public class LanguageFragment extends Fragment {
 
 
                     languageStringLiveData.setValue("bn");
-
 
 
                 } else {

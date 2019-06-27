@@ -65,6 +65,7 @@ public class ResetPasswordFragment extends Fragment {
     OnResetButtonClickListener listener;
 
     public void setOnResetButtonClickListener(OnResetButtonClickListener listener) {
+
         this.listener = listener;
 
     }

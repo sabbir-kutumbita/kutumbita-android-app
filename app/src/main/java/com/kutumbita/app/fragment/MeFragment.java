@@ -127,7 +127,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((TextView) positionLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getDepartment());
         ((ImageView) positionLayout.findViewById(R.id.icon)).setImageResource(R.drawable.position);
 
-        ((TextView) companyNameLayout.findViewById(R.id.key)).setText(getString(R.string.company));
+        ((TextView) companyNameLayout.findViewById(R.id.key)).setText(getString(R.string.factory));
         ((TextView) companyNameLayout.findViewById(R.id.value)).setText(preferenceUtility.getMe().getFactory());
         ((ImageView) companyNameLayout.findViewById(R.id.icon)).setImageResource(R.drawable.company_name);
 
@@ -144,8 +144,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ((ImageView) nIdLayout.findViewById(R.id.icon)).setImageResource(R.drawable.nid);
 
         ((TextView) joiningDateLayout.findViewById(R.id.key)).setText(getString(R.string.joining_date));
-        ((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy",
-                preferenceUtility.getMe().getJoinedDate()));
+        //((TextView) joiningDateLayout.findViewById(R.id.value)).setText(DateUtility.changeDateFormat("yyyy-MM-dd'T'HH:mm:SS'Z'", "dd MMMM yyyy",
+          //      preferenceUtility.getMe().getJoinedDate()));
         ((ImageView) joiningDateLayout.findViewById(R.id.icon)).setImageResource(R.drawable.joining_date);
 
         ((TextView) jobTypeLayout.findViewById(R.id.key)).setText(getString(R.string.job_type));

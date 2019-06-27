@@ -101,11 +101,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         Utility.hideKeyboard(getActivity());
 
         if (idInput.getEditText().getText().toString().isEmpty()) {
-            idInput.setError(getString(R.string.required));
+           // idInput.setError(getString(R.string.required));
             return true;
         }
         if (passInput.getEditText().getText().toString().isEmpty()) {
-            passInput.setError(getString(R.string.required));
+           // passInput.setError(getString(R.string.required));
             return true;
         }
 
