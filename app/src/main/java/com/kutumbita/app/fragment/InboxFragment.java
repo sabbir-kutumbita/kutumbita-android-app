@@ -26,6 +26,7 @@ import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.UrlConstant;
+import com.kutumbita.app.viewmodel.InboxViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,31 +64,46 @@ public class InboxFragment extends Fragment {
 
     View v;
     PreferenceUtility preferenceUtility;
-    ArrayList<Inbox> inboxes = new ArrayList<>();
+    //ArrayList<Inbox> inboxes = new ArrayList<>();
     RecyclerView rcv;
     InboxAdapter adapter;
     View layout;
-    StringRequest inboxRequest;
+    // StringRequest inboxRequest;
     SwipeRefreshLayout swipeRefreshLayout;
     BroadcastReceiver receiver;
+    InboxViewModel inboxViewModel;
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
             swipeRefreshLayout.setRefreshing(true);
-            parseInbox();
+
+
+            inboxViewModel.getInboxLiveData().observe(getActivity(), new Observer<ArrayList<Inbox>>() {
+                @Override
+                public void onChanged(ArrayList<Inbox> inboxes) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    if (inboxes != null)
+                        loadRecycleView(inboxes);
+
+
+                }
+            });
         }
     };
+
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferenceUtility = new PreferenceUtility(getActivity());
+        inboxViewModel = ViewModelProviders.of(getActivity()).get(InboxViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
 
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
@@ -131,87 +148,13 @@ public class InboxFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (inboxRequest != null) {
-
-            inboxRequest.cancel();
-        }
         if (getActivity() != null)
             getActivity().unregisterReceiver(receiver);
 
     }
 
-    private void parseInbox() {
 
-        inboxRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                inboxes.clear();
-                S.L(response);
-                try {
-                    JSONObject object = new JSONObject(response);
-                    JSONArray jsonArray = object.getJSONArray("results");
-
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        JSONObject resultObject = jsonArray.getJSONObject(i);
-                        JSONObject messageTypeObject = resultObject.getJSONObject("message_type");
-                        inboxes.add(new Inbox(resultObject.getString("uuid"), resultObject.getString("title"), resultObject.getString("message_body"),
-                                resultObject.getString("sent_at"), resultObject.getString("timezone"),
-                                resultObject.getString("company_uuid"), resultObject.getString("link"),
-                                resultObject.getString("venue"), resultObject.getString("start_date_time"), resultObject.getString("start_date_time"),
-                                resultObject.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
-                                messageTypeObject.getString("icon"))));
-
-                    }
-                } catch (JSONException e) {
-
-
-                    e.printStackTrace();
-
-                }
-                swipeRefreshLayout.setRefreshing(false);
-                loadRecycleView();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // S.L("error: " + error.networkResponse.statusCode);
-                swipeRefreshLayout.setRefreshing(false);
-                try {
-                    String str = new String(error.networkResponse.data, "UTF-8");
-                    JSONObject object = new JSONObject(str);
-                    JSONObject errorObject = object.getJSONObject("error");
-                    S.T(getActivity(), errorObject.getString("message"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }) {
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "Bearer " + preferenceUtility.getMe().getAccessToken());
-                return params;
-            }
-
-
-        };
-
-        inboxRequest.setRetryPolicy(new DefaultRetryPolicy(
-                Constant.TIME_OUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        GlobalData.getInstance().addToRequestQueue(inboxRequest);
-
-    }
-
-    private void loadRecycleView() {
+    private void loadRecycleView(ArrayList<Inbox> inboxes) {
 
         if (inboxes.size() > 0) {
             adapter = new InboxAdapter(getActivity(), inboxes);
@@ -225,6 +168,7 @@ public class InboxFragment extends Fragment {
             });
 
             rcv.setAdapter(adapter);
+
         } else {
 
             new PrettyDialog(getActivity())
