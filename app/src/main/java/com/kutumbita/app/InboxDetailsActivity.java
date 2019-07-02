@@ -57,11 +57,11 @@ public class InboxDetailsActivity extends AppCompatActivity {
     View layout;
 
 //    SettingsViewModel settingsViewModel;
-//
+
 //    @Override
 //    public void onUserInteraction() {
 //        super.onUserInteraction();
-//
+
 //        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
 //            if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
 //                settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
@@ -114,6 +114,8 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+
+
         super.onPause();
         if (messageDetailsRequest != null)
             messageDetailsRequest.cancel();
@@ -137,7 +139,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
                             object.getString("sent_at"), object.getString("timezone"),
                             object.getString("company_uuid"), object.getString("link"),
                             object.getString("venue"), object.getString("start_date_time"), object.getString("start_date_time"),
-                            object.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
+                            object.getString("image"),null, new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
                             messageTypeObject.getString("icon")));
 
 

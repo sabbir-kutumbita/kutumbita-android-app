@@ -41,19 +41,20 @@ public class InboxRepository {
 
     }
 
-    public LiveData<ArrayList<Inbox>> getInboxLiveData(final String accessToken) {
+    public LiveData<ArrayList<Inbox>> getInboxLiveData(int pageNumber, int numberOfItemInASinglePage, final String accessToken) {
 
-        final MutableLiveData<ArrayList<Inbox>> inboxLiveData= new MutableLiveData<>();
+        final MutableLiveData<ArrayList<Inbox>> inboxLiveData = new MutableLiveData<>();
 
-       StringRequest inboxRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX, new Response.Listener<String>() {
+        StringRequest inboxRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX + "?page=" + pageNumber + "&page_size=" + numberOfItemInASinglePage, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                ArrayList<Inbox> inboxes= new ArrayList<>();
+                ArrayList<Inbox> inboxes = new ArrayList<>();
                 S.L(response);
+
                 try {
                     JSONObject object = new JSONObject(response);
+                    JSONObject paginatorObject = object.getJSONObject("paginator");
                     JSONArray jsonArray = object.getJSONArray("results");
-
 
                     for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -63,27 +64,31 @@ public class InboxRepository {
                                 resultObject.getString("sent_at"), resultObject.getString("timezone"),
                                 resultObject.getString("company_uuid"), resultObject.getString("link"),
                                 resultObject.getString("venue"), resultObject.getString("start_date_time"), resultObject.getString("start_date_time"),
-                                resultObject.getString("image"), new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
+                                resultObject.getString("image"),
+                                new Inbox.Paginator(paginatorObject.getInt("total_count"), paginatorObject.getInt("page_size"), paginatorObject.getInt("total_pages"), paginatorObject.getInt("current_page")),
+                                new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
                                 messageTypeObject.getString("icon"))));
 
                     }
 
                     inboxLiveData.setValue(inboxes);
+
                 } catch (JSONException e) {
 
                     inboxLiveData.setValue(null);
+
                     e.printStackTrace();
 
                 }
 
 
-
             }
         }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                    inboxLiveData.setValue(null);
+                inboxLiveData.setValue(null);
                 try {
                     String str = new String(error.networkResponse.data, "UTF-8");
                     JSONObject object = new JSONObject(str);

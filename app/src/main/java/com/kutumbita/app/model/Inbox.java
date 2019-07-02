@@ -7,10 +7,10 @@ public class Inbox implements Serializable {
 
 
     MessageType messageType;
-
+    Paginator paginator;
     String uuId, title, body, sentTime, timeZone, companyUuid, link, venue, startDate, endDate, image;
 
-    public Inbox(String uuId, String title, String body, String sentTime, String timeZone, String companyUuid, String link, String venue, String startDate, String endDate, String image, MessageType messageType) {
+    public Inbox(String uuId, String title, String body, String sentTime, String timeZone, String companyUuid, String link, String venue, String startDate, String endDate, String image, Paginator paginator, MessageType messageType) {
         this.uuId = uuId;
         this.title = title;
         this.body = body;
@@ -22,9 +22,18 @@ public class Inbox implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.image = image;
+        this.paginator = paginator;
         this.messageType = messageType;
 
 
+    }
+
+    public Paginator getPaginator() {
+        return paginator;
+    }
+
+    public void setPaginator(Paginator paginator) {
+        this.paginator = paginator;
     }
 
     public MessageType getMessageType() {
@@ -161,5 +170,52 @@ public class Inbox implements Serializable {
         }
     }
 
+    public static class Paginator implements Serializable {
+
+
+        int totalMsg, numberOfItemPerPage, totalPage, currentPage;
+
+        public Paginator(int totalMsg, int numberOfItemPerPage, int totalPage, int currentPage) {
+
+            this.totalMsg = totalMsg;
+            this.numberOfItemPerPage = numberOfItemPerPage;
+            this.totalPage = totalPage;
+            this.currentPage = currentPage;
+
+
+        }
+
+        public int getTotalMsg() {
+            return totalMsg;
+        }
+
+        public void setTotalMsg(int totalMsg) {
+            this.totalMsg = totalMsg;
+        }
+
+        public int getNumberOfItemPerPage() {
+            return numberOfItemPerPage;
+        }
+
+        public void setNumberOfItemPerPage(int numberOfItemPerPage) {
+            this.numberOfItemPerPage = numberOfItemPerPage;
+        }
+
+        public int getTotalPage() {
+            return totalPage;
+        }
+
+        public void setTotalPage(int totalPage) {
+            this.totalPage = totalPage;
+        }
+
+        public int getCurrentPage() {
+            return currentPage;
+        }
+
+        public void setCurrentPage(int currentPage) {
+            this.currentPage = currentPage;
+        }
+    }
 
 }

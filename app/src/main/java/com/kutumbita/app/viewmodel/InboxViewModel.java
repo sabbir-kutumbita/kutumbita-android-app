@@ -21,11 +21,11 @@ public class InboxViewModel extends AndroidViewModel {
     public InboxViewModel(@NonNull Application application) {
         super(application);
         preferenceUtility = new PreferenceUtility(application.getApplicationContext());
-        inboxRepository= InboxRepository.getInstance();
+        inboxRepository = InboxRepository.getInstance();
     }
 
-    public LiveData<ArrayList<Inbox>>  getInboxLiveData() {
-        inboxLiveData = inboxRepository.getInboxLiveData(preferenceUtility.getMe().getAccessToken());
+    public LiveData<ArrayList<Inbox>> getInboxLiveData(int pageNumber, int itemInASinglePage) {
+        inboxLiveData = inboxRepository.getInboxLiveData(pageNumber, itemInASinglePage,preferenceUtility.getMe().getAccessToken());
         return inboxLiveData;
     }
 }

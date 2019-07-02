@@ -71,5 +71,6 @@
     <string name="congrats">Congratulations</string>
     <string name="password_updated">your password is successfuly updated, now you can login with your new password</string>
     <string name="factory">Factory</string>
+    <string name="load_more">Load more</string>
 
 </resources>

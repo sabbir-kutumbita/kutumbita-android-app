@@ -76,5 +76,6 @@
     <string name="congrats">অভিনন্দন</string>
     <string name="password_updated">আপনার পাসওয়ার্ড হালনাগাদ সফল হয়েছে, এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারবেন</string>
     <string name="factory">কারখানা</string>
+    <string name="load_more">Load more</string>
 
 </resources>

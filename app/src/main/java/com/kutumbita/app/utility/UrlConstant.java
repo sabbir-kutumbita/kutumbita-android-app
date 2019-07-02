@@ -20,7 +20,7 @@ public class UrlConstant {
     // public static final String URL_BASE = "http://10.100.1.202:5100/android/api/v1/";
 
     //STAGING
-  // public static final String URL_BASE = "http://demo.kinship.ai:5100/mobile/api/v1/";
+   //public static final String URL_BASE = "http://demo.kinship.ai:5100/mobile/api/v1/";
 
     //release domain
     // public static final String URL_BASE = "http://app.kinship.ai:5100/mobile/api/v1/";
@@ -33,6 +33,7 @@ public class UrlConstant {
 
     public static final String URL_ME = URL_BASE + "me";
     public static final String URL_INBOX_DETAILS = URL_BASE + "inbox/";
+
     public static final String URL_TOKEN = URL_BASE + "token";
 
     public static final String URL_AVAILABLE_BOTS = URL_BASE + "me/bots";

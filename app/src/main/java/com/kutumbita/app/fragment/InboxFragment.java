@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.button.MaterialButton;
 import com.kutumbita.app.GlobalData;
 import com.kutumbita.app.InboxDetailsActivity;
 import com.kutumbita.app.R;
@@ -68,6 +69,8 @@ public class InboxFragment extends Fragment {
     RecyclerView rcv;
     InboxAdapter adapter;
     View layout;
+    MaterialButton bLoadMore;
+
     // StringRequest inboxRequest;
     SwipeRefreshLayout swipeRefreshLayout;
     BroadcastReceiver receiver;
@@ -78,7 +81,7 @@ public class InboxFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
 
 
-            inboxViewModel.getInboxLiveData().observe(getActivity(), new Observer<ArrayList<Inbox>>() {
+            inboxViewModel.getInboxLiveData(1,5).observe(getActivity(), new Observer<ArrayList<Inbox>>() {
                 @Override
                 public void onChanged(ArrayList<Inbox> inboxes) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -109,6 +112,8 @@ public class InboxFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.inbox));
+
+        bLoadMore= v.findViewById(R.id.bLoadMore);
         rcv = v.findViewById(R.id.rcvInbox);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -122,6 +127,13 @@ public class InboxFragment extends Fragment {
                 R.color.primaryTextColor);
         swipeRefreshLayout.setOnRefreshListener(listener);
         swipeRefreshLayout.setRefreshing(true);
+        bLoadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -131,6 +143,7 @@ public class InboxFragment extends Fragment {
         };
         listener.onRefresh();
         return v;
+
     }
 
 

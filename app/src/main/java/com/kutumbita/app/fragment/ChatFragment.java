@@ -39,7 +39,7 @@ public class ChatFragment extends Fragment {
     public ChatFragment() {
         // Required empty public constructor
     }
-
+    ChatFragmentViewModel chatFragmentViewModel;
     View v, layout;
     RecyclerView rcv;
     ChatBotAdapter adapter;
@@ -71,7 +71,7 @@ public class ChatFragment extends Fragment {
         }
     };
 
-    ChatFragmentViewModel chatFragmentViewModel;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,11 +90,13 @@ public class ChatFragment extends Fragment {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 
         }
+
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rcv.setLayoutManager(gridLayoutManager);
         rcv.setItemAnimator(new DefaultItemAnimator());
         if (getResources().getConfiguration().smallestScreenWidthDp >= 600) {
-            rcv.addItemDecoration(new GridSpacingItemDecoration(4, 70, true));
+            rcv.addItemDecoration(new GridSpacingItemDecoration(4,
+                    70, true));
         } else {
             rcv.addItemDecoration(new GridSpacingItemDecoration(3, 50, true));
         }

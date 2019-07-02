@@ -15,7 +15,8 @@
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header">
+        android:layout_below="@+id/header"
+        android:layout_marginBottom="@dimen/forty_dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvInbox"
@@ -27,6 +28,17 @@
             tools:orientation="vertical"
             tools:scrollbars="vertical"
             tools:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bLoadMore"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/forty_dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:text="@string/load_more" />
 </RelativeLayout>
