@@ -70,7 +70,8 @@ public class InboxFragment extends Fragment {
     InboxAdapter adapter;
     View layout;
     MaterialButton bLoadMore;
-
+    int totalItemInASinglePage = 0;
+    int currentPage = 0;
     // StringRequest inboxRequest;
     SwipeRefreshLayout swipeRefreshLayout;
     BroadcastReceiver receiver;
@@ -78,22 +79,12 @@ public class InboxFragment extends Fragment {
     SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            swipeRefreshLayout.setRefreshing(true);
+            currentPage = 0;
+            arrInbox.clear();
+            requestInbox();
 
-
-            inboxViewModel.getInboxLiveData(1,5).observe(getActivity(), new Observer<ArrayList<Inbox>>() {
-                @Override
-                public void onChanged(ArrayList<Inbox> inboxes) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    if (inboxes != null)
-                        loadRecycleView(inboxes);
-
-
-                }
-            });
         }
     };
-
 
 
     @Override
@@ -108,12 +99,11 @@ public class InboxFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
         v = inflater.inflate(R.layout.fragment_inbox, container, false);
         layout = v.findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.inbox));
 
-        bLoadMore= v.findViewById(R.id.bLoadMore);
+        bLoadMore = v.findViewById(R.id.bLoadMore);
         rcv = v.findViewById(R.id.rcvInbox);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -130,6 +120,7 @@ public class InboxFragment extends Fragment {
         bLoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                requestInbox();
 
 
             }
@@ -146,6 +137,62 @@ public class InboxFragment extends Fragment {
 
     }
 
+    private void requestInbox() {
+
+        swipeRefreshLayout.setRefreshing(true);
+
+        currentPage = currentPage + 1;
+        inboxViewModel.getInboxLiveData(currentPage, 10).observe(getActivity(), new Observer<ArrayList<Inbox>>() {
+            @Override
+            public void onChanged(ArrayList<Inbox> inboxes) {
+                swipeRefreshLayout.setRefreshing(false);
+                if (inboxes != null) {
+                    arrInbox.addAll(inboxes);
+                    if (currentPage <= arrInbox.get(0).getPaginator().getTotalPage())
+                        loadRecycleView();
+                }
+
+            }
+        });
+    }
+
+    ArrayList<Inbox> arrInbox = new ArrayList<>();
+
+    private void loadRecycleView() {
+
+
+        if (arrInbox.size() > 0) {
+            adapter = new InboxAdapter(getActivity(), arrInbox);
+            adapter.inBoxLiveData.observe(this, new Observer<Inbox>() {
+                @Override
+                public void onChanged(Inbox inbox) {
+                    Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
+                    goDetails.putExtra(Constant.EXTRA_UUID, inbox.getUuId());
+                    startActivity(goDetails);
+                }
+            });
+
+            rcv.setAdapter(adapter);
+            if(currentPage!=1)
+                rcv.smoothScrollToPosition(arrInbox.size());
+
+            if(currentPage==arrInbox.get(0).getPaginator().getTotalPage()){
+
+                bLoadMore.setVisibility(View.GONE);
+            }else{
+
+                bLoadMore.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+
+            new PrettyDialog(getActivity())
+                    .setTitle(getResources().getString(R.string.empty_inbox))
+                    .setMessage(getResources().getString(R.string.empty_inbox_details))
+                    .setIcon(R.drawable.ic_error_outline_black_24dp)
+                    .show();
+        }
+    }
 
     @Override
     public void onResume() {
@@ -164,32 +211,6 @@ public class InboxFragment extends Fragment {
         if (getActivity() != null)
             getActivity().unregisterReceiver(receiver);
 
-    }
-
-
-    private void loadRecycleView(ArrayList<Inbox> inboxes) {
-
-        if (inboxes.size() > 0) {
-            adapter = new InboxAdapter(getActivity(), inboxes);
-            adapter.inBoxLiveData.observe(this, new Observer<Inbox>() {
-                @Override
-                public void onChanged(Inbox inbox) {
-                    Intent goDetails = new Intent(getActivity(), InboxDetailsActivity.class);
-                    goDetails.putExtra(Constant.EXTRA_UUID, inbox.getUuId());
-                    startActivity(goDetails);
-                }
-            });
-
-            rcv.setAdapter(adapter);
-
-        } else {
-
-            new PrettyDialog(getActivity())
-                    .setTitle(getResources().getString(R.string.empty_inbox))
-                    .setMessage(getResources().getString(R.string.empty_inbox_details))
-                    .setIcon(R.drawable.ic_error_outline_black_24dp)
-                    .show();
-        }
     }
 
 

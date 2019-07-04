@@ -116,6 +116,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
     protected void onPause() {
 
 
+
         super.onPause();
         if (messageDetailsRequest != null)
             messageDetailsRequest.cancel();

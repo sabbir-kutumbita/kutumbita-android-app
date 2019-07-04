@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.InboxFragment">
+    android:fillViewport="true"
+    android:layout_height="match_parent">
 
+    <RelativeLayout
 
-    <!-- TODO: Update blank fragment layout -->
-    <include
-        android:id="@+id/header"
-        layout="@layout/header"></include>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        android:layout_marginBottom="@dimen/forty_dp">
+        tools:context=".fragment.InboxFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcvInbox"
+
+        <!-- TODO: Update blank fragment layout -->
+        <include
+            android:id="@+id/header"
+            layout="@layout/header"></include>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl"
+            android:layout_below="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:itemCount="10"
-            tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/row_inbox"
-            tools:orientation="vertical"
-            tools:scrollbars="vertical"
-            tools:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_above="@+id/bLoadMore">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvInbox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:itemCount="10"
+                tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/row_inbox"
+                tools:orientation="vertical"
+                tools:scrollbars="vertical"
+                tools:spanCount="2"></androidx.recyclerview.widget.RecyclerView>
 
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/bLoadMore"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/forty_dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:text="@string/load_more" />
-</RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bLoadMore"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="@string/load_more" />
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
