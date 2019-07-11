@@ -148,8 +148,17 @@ public class InboxFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
                 if (inboxes != null) {
                     arrInbox.addAll(inboxes);
-                    if (currentPage <= arrInbox.get(0).getPaginator().getTotalPage())
-                        loadRecycleView();
+                    if (arrInbox.size() > 0) {
+                        if (currentPage <= arrInbox.get(0).getPaginator().getTotalPage())
+                            loadRecycleView();
+                    }else{
+
+                        new PrettyDialog(getActivity())
+                                .setTitle(getResources().getString(R.string.empty_inbox))
+                                .setMessage(getResources().getString(R.string.empty_inbox_details))
+                                .setIcon(R.drawable.ic_error_outline_black_24dp)
+                                .show();
+                    }
                 }
 
             }

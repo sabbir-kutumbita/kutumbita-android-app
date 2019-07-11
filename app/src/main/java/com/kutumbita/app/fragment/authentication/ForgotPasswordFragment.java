@@ -64,7 +64,7 @@ public class ForgotPasswordFragment extends Fragment {
         Utility.hideKeyboard(getActivity());
 
         if (pLayout.getEditText().getText().toString().isEmpty()) {
-            pLayout.setError(getString(R.string.required));
+
             return true;
         }
 

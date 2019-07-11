@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "134404469540",
-    "firebase_url": "https://kutumbita-mobile-mvp.firebaseio.com",
-    "project_id": "kutumbita-mobile-mvp",
-    "storage_bucket": "kutumbita-mobile-mvp.appspot.com"
+    "project_number": "298292842497",
+    "firebase_url": "https://kinship-170e8.firebaseio.com",
+    "project_id": "kinship-170e8",
+    "storage_bucket": "kinship-170e8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:134404469540:android:a1f4501f523cd02a",
+        "mobilesdk_app_id": "1:298292842497:android:343962933b499f86",
         "android_client_info": {
-          "package_name": "com.kutumbita.app"
+          "package_name": "ai.kinship.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "134404469540-0d4pit3jgihl4rkec2mnfqtprfbt4uip.apps.googleusercontent.com",
+          "client_id": "298292842497-p5io6jhc1o5m5ffejdt3v0tsuockkqpc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.kutumbita.app",
+            "package_name": "ai.kinship.app",
             "certificate_hash": "f5e0c691f79abb4c0041b62eef869eabb2490a13"
           }
         },
         {
-          "client_id": "134404469540-bsgf56qfhp4fsr2sj3s88ninvo6g0ouj.apps.googleusercontent.com",
+          "client_id": "298292842497-vngojs6d4rgs7hr2lpt9k5icndv8ddql.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxBrBbk1CgR94tpCkXQuukuzwPUUrHVE8"
+          "current_key": "AIzaSyDJy9jHsgktFcEuPb-2gTc_jEIz3Bgbcn0"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "134404469540-bsgf56qfhp4fsr2sj3s88ninvo6g0ouj.apps.googleusercontent.com",
+              "client_id": "298292842497-vngojs6d4rgs7hr2lpt9k5icndv8ddql.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

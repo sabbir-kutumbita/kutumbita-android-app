@@ -67,7 +67,7 @@ public class InboxRepository {
                                 resultObject.getString("image"),
                                 new Inbox.Paginator(paginatorObject.getInt("total_count"), paginatorObject.getInt("page_size"), paginatorObject.getInt("total_pages"), paginatorObject.getInt("current_page")),
                                 new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
-                                messageTypeObject.getString("icon"))));
+                                        messageTypeObject.getString("icon"))));
 
                     }
 

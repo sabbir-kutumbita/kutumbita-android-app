@@ -3,7 +3,7 @@ package com.kutumbita.app.utility;
 public class UrlConstant {
 
     //local
-     public static final String URL_BASE = "http://10.100.1.205:5100/mobile/api/v1/";
+    // public static final String URL_BASE = "http://10.100.1.205:5100/mobile/api/v1/";
 
 
     //Talha vai
@@ -20,7 +20,7 @@ public class UrlConstant {
     // public static final String URL_BASE = "http://10.100.1.202:5100/android/api/v1/";
 
     //STAGING
-   //public static final String URL_BASE = "http://demo.kinship.ai:5100/mobile/api/v1/";
+    public static final String URL_BASE = "http://demo.kinship.ai:5100/mobile/api/v1/";
 
     //release domain
     // public static final String URL_BASE = "http://app.kinship.ai:5100/mobile/api/v1/";
@@ -47,9 +47,8 @@ public class UrlConstant {
     public static final String FORGOT_PASS_SET_PASSWORD = URL_BASE + "auth/set-password";
 
 
-
     //socket_local
-     public static final String URL_SOCKET = "http://10.100.1.205:5222?token=";
+    // public static final String URL_SOCKET = "http://10.100.1.205:5222?token=";
 
 
     //ngrok socket
@@ -64,12 +63,12 @@ public class UrlConstant {
     //socket_global
     //public static final String URL_SOCKET = "http://52.221.241.27:5222?token=";
 
-    //socket)talha
-    // public static final String URL_SOCKET = "http://10.100.1.76:5222?token=";
+    //socket talha
+    //public static final String URL_SOCKET = "http://10.100.1.76:5222?token=";
 
     //socket_staging
-    //public static final String URL_SOCKET = "http://demo.kinship.ai:5222?token=";
+     public static final String URL_SOCKET = "http://demo.kinship.ai:5222?token=";
 
     //socket release
-   // public static final String URL_SOCKET = "http://app.kinship.ai:5222?token=";
+    // public static final String URL_SOCKET = "http://app.kinship.ai:5222?token=";
 }

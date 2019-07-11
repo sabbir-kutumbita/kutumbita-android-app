@@ -37,8 +37,8 @@
     <string name="type_a_new_password">নতুন পাসওয়ার্ড টাইপ করুন</string>
     <string name="new_password">নতুন পাসওয়ার্ড</string>
     <string name="confirm_password">পাসওয়ার্ড নিশ্চিত করুন</string>
-    <string name="done">নিশ্চিত</string>
-    <string name="submit">নিশ্চিত</string>
+    <string name="done">সম্পন্ন করুন</string>
+    <string name="submit">জমা দিন</string>
     <string name="password">পাসওয়ার্ড</string>
     <string name="sign_in">সাইন ইন</string>
     <string name="request_for_account">অ্যাকাউন্ট এর জন্য আবেদন করুন</string>
@@ -76,6 +76,6 @@
     <string name="congrats">অভিনন্দন</string>
     <string name="password_updated">আপনার পাসওয়ার্ড হালনাগাদ সফল হয়েছে, এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারবেন</string>
     <string name="factory">কারখানা</string>
-    <string name="load_more">Load more</string>
+    <string name="load_more">আরও লোড করুন</string>
 
 </resources>

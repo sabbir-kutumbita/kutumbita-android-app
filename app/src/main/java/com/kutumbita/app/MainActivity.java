@@ -281,6 +281,10 @@ public class MainActivity extends AppCompatActivity {
         S.L("fcm_token", preferenceUtility.getFcmToken());
         S.L("user_id", preferenceUtility.getMe().getUuId());
         JSONObject object = new JSONObject();
+
+
+
+
         try {
             object.put("user_uuid", preferenceUtility.getMe().getUuId());
             object.put("device_token", preferenceUtility.getFcmToken());
@@ -293,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
         StringRequest loginRequest = new StringRequest(Request.Method.PUT, UrlConstant.URL_TOKEN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 S.L("fcm", response);
             }
 
