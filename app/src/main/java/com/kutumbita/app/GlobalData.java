@@ -1,7 +1,9 @@
 package com.kutumbita.app;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -28,14 +30,12 @@ public class GlobalData extends Application {
     PreferenceUtility preferenceUtility;
     private static GlobalData mInstance;
     private Socket mSocket;
-    private int orientation;
     private long touchTime;
     OkHttpClient okHttpClient;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         preferenceUtility = new PreferenceUtility(this);
 
         if (preferenceUtility.getMe() != null) {
@@ -47,7 +47,7 @@ public class GlobalData extends Application {
 
 
         mInstance = this;
-        orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+
         touchTime = System.currentTimeMillis();
 
 
@@ -78,13 +78,6 @@ public class GlobalData extends Application {
 
     }
 
-    public int getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(int orientation) {
-        this.orientation = orientation;
-    }
 
     public void initializeSocket() {
 

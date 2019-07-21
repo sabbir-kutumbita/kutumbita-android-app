@@ -34,8 +34,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,11 +102,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         Utility.hideKeyboard(getActivity());
 
         if (idInput.getEditText().getText().toString().isEmpty()) {
-           // idInput.setError(getString(R.string.required));
+            // idInput.setError(getString(R.string.required));
             return true;
         }
         if (passInput.getEditText().getText().toString().isEmpty()) {
-           // passInput.setError(getString(R.string.required));
+            // passInput.setError(getString(R.string.required));
             return true;
         }
 

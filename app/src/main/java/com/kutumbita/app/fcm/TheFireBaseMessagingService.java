@@ -42,6 +42,7 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
     }
 
     public void sendNotification(String title, String message, String uuId) {
+
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
 

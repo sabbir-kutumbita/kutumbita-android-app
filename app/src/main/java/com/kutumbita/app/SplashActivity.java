@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 
 import com.google.gson.Gson;
+import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
 import com.kutumbita.app.utility.Utility;
@@ -27,14 +28,17 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
-        setContentView(R.layout.activity_splash);
-        Utility.setFullScreen(this);
-        preferenceUtility = new PreferenceUtility(this);
-        Thread thread = new Thread(new WaitThread());
-        thread.start();
+
+
+            setContentView(R.layout.activity_splash);
+            Utility.setFullScreen(this);
+            preferenceUtility = new PreferenceUtility(this);
+            Thread thread = new Thread(new WaitThread());
+            thread.start();
+
 
     }
+
 
 
     class WaitThread implements Runnable {

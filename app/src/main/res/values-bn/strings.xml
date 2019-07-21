@@ -56,7 +56,7 @@
     <string name="company">কোম্পানি</string>
     <string name="photo_uploader">ফটো আপলোডার</string>
     <string name="camera_roll">গ্যালারি থেকে ছবি আপলোড করুন</string>
-    <string name="permission_needed">অ্যাপ্লিকেশন টি ব্যাবহার করার জন্য সবগুলি পারমিশন এর অনুমতি দিন</string>
+    <string name="permission_needed">অ্যাপ্লিকেশন টি ব্যাবহার করার জন্য সবগুলির অনুমতি দিন</string>
     <string name="ok">ঠিক আছে</string>
     <string name="current_password">বর্তমান পাসওয়ার্ড</string>
     <string name="change_password">পাসওয়ার্ড পরিবর্তন করুন</string>
@@ -77,5 +77,6 @@
     <string name="password_updated">আপনার পাসওয়ার্ড হালনাগাদ সফল হয়েছে, এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারবেন</string>
     <string name="factory">কারখানা</string>
     <string name="load_more">আরও লোড করুন</string>
+    <string name="unable">Unable to log in with provided credentials.</string>
 
 </resources>

@@ -63,7 +63,7 @@ public class InboxRepository {
                         inboxes.add(new Inbox(resultObject.getString("uuid"), resultObject.getString("title"), resultObject.getString("message_body"),
                                 resultObject.getString("sent_at"), resultObject.getString("timezone"),
                                 resultObject.getString("company_uuid"), resultObject.getString("link"),
-                                resultObject.getString("venue"), resultObject.getString("start_date_time"), resultObject.getString("start_date_time"),
+                                resultObject.getString("venue"), resultObject.getString("start_date_time"), resultObject.getString("end_date_time"),
                                 resultObject.getString("image"),
                                 new Inbox.Paginator(paginatorObject.getInt("total_count"), paginatorObject.getInt("page_size"), paginatorObject.getInt("total_pages"), paginatorObject.getInt("current_page")),
                                 new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),

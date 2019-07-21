@@ -34,40 +34,11 @@ public class SettingsActivity extends AppCompatActivity {
     PreferenceUtility preferenceUtility;
     AuthenticationViewModel authenticationViewModel;
     SettingsViewModel settingsViewModel;
-//    @Override
-//    public void onUserInteraction() {
-//        super.onUserInteraction();
-//
-//        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-//            if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
-//                settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
-//                settingsViewModel.isLoggedOut().observe(this, new Observer<Boolean>() {
-//                    @Override
-//                    public void onChanged(Boolean aBoolean) {
-//                        if (aBoolean) {
-//
-//                            preferenceUtility.deleteUser(preferenceUtility.getMe());
-//                            Intent intent = new Intent(Constant.ACTION_BROADCAST_LOGOUT);
-//                            sendBroadcast(intent);
-//                            Intent goSplash = new Intent(SettingsActivity.this, SplashActivity.class);
-//                            startActivity(goSplash);
-//                            finish();
-//                        }
-//                    }
-//                });
-//
-//            } else {
-//
-//                GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
-//            }
-//
-//        }
-//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_settings);
         preferenceUtility = new PreferenceUtility(this);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
@@ -81,8 +52,6 @@ public class SettingsActivity extends AppCompatActivity {
         layout = findViewById(R.id.header);
         ((TextView) layout.findViewById(R.id.tvTbTitle)).setText(getString(R.string.settings));
         fragment = new SettingsFragment();
-        //fragment.setEnterTransition(new Slide(Gravity.RIGHT));
-        //fragment.setExitTransition(new Slide(Gravity.LEFT));
         fragment.logoutClicked.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {

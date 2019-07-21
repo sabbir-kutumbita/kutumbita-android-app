@@ -3,9 +3,12 @@ package com.kutumbita.app;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +17,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
@@ -143,6 +147,13 @@ public class BotActivity extends AppCompatActivity {
     public static String currentPhotoPath = "";
 
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            finish();
+        }
+    };
 
 
 
@@ -151,7 +162,6 @@ public class BotActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_bot);
         initializer();
@@ -182,6 +192,9 @@ public class BotActivity extends AppCompatActivity {
 
             }
         });
+
+        IntentFilter filter = new IntentFilter(Constant.ACTION_BROADCAST_USER_SESSION);
+        registerReceiver(receiver, filter);
 
         if (GlobalData.getInstance().getmSocket().connected())
             socketSetup(true);
@@ -837,6 +850,7 @@ public class BotActivity extends AppCompatActivity {
             if (!uploadThread.isInterrupted()) {
                 Bitmap ResizedBitmap;
                 if (!currentPhotoPath.isEmpty()) {
+
                     ResizedBitmap = Utility.getResizedBitmap(BitmapFactory.decodeFile(currentPhotoPath), 1000);
                 } else {
 
@@ -875,6 +889,7 @@ public class BotActivity extends AppCompatActivity {
                     } else {
 
                         runOnUiThread(new Runnable() {
+
                             @Override
                             public void run() {
 

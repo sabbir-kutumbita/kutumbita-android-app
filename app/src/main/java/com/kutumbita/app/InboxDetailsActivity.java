@@ -92,7 +92,6 @@ public class InboxDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_inbox_details);
         Utility.setFullScreen(this);
         uuID = getIntent().getStringExtra(Constant.EXTRA_UUID);

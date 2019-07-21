@@ -10,7 +10,7 @@
     <string name="logout">Log Out</string>
     <string name="chat">Chat</string>
     <string name="inbox">Inbox</string>
-    <string name="submit">submit</string>
+    <string name="submit">Submit</string>
     <string name="me">Me</string>
     <string name="settings">Settings</string>
     <string name="language">Language</string>
@@ -53,24 +53,25 @@
     <string name="permission_needed">All permissions needed to be granted to use this application!</string>
     <string name="ok">OK</string>
     <string name="current_password">Current Password</string>
-    <string name="change_password">Change your password</string>
+    <string name="change_password">Change password</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="uploading">Uploading photo...</string>
     <string name="photo_upload_aborted">Photo upload aborted</string>
     <string name="empty_inbox">Inbox Empty</string>
     <string name="empty_inbox_details">Your inbox is empty, you will see messages here when they arrive</string>
     <string name="finish">Finish</string>
-    <string name="file_provider">com.kutumbita.app.fileprovider</string>
+    <string name="file_provider">ai.kinship.app.fileprovider</string>
     <string name="select_date">Select date</string>
     <string name="pass_suggestion">We need your registered email address or phone number to send your password verification code</string>
     <string name="resend">Resend code</string>
     <string name="code_sent">A security code has been sent to your email/phone</string>
-    <string name="code">security code</string>
+    <string name="code">Security code</string>
     <string name="error">Error</string>
-    <string name="password_doesnt_match">password doesn\'t match</string>
+    <string name="password_doesnt_match">Password doesn\'t match</string>
     <string name="congrats">Congratulations</string>
     <string name="password_updated">your password is successfully updated, now you can login with your new password</string>
     <string name="factory">Factory</string>
     <string name="load_more">Load more</string>
+    <string name="unable">Unable to log in with provided credentials.</string>
 
 </resources>

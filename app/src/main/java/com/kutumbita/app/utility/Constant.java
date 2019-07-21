@@ -24,4 +24,6 @@ public class Constant {
     public static final int ONE_SECOND = 1000;
     public static final String EXTRA_ACCESS_KEY = "accesskey";
     public static final String EXTRA_SHOW_SIGN_IN = "extraSign";
+    public static final String ACTION_BROADCAST_USER_SESSION = "com.kutumbita.app.SESSION";
+    public static final String SAVE_STATE ="saveState" ;
 }

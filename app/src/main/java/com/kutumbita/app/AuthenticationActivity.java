@@ -1,9 +1,14 @@
 package com.kutumbita.app;
 
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -40,20 +45,32 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     boolean shouldLoadSign;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_authentication);
         Utility.setFullScreen(this);
         shouldLoadSign = getIntent().getBooleanExtra(Constant.EXTRA_SHOW_SIGN_IN, false);
         preferenceUtility = new PreferenceUtility(this);
         authenticationViewModel = ViewModelProviders.of(AuthenticationActivity.this).get(AuthenticationViewModel.class);
-        if (GlobalData.getInstance().getOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT | shouldLoadSign)
 
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT | shouldLoadSign) {
             loadSignInFragment();
-        else
+        } else {
+            // code for landscape mode
             loadChooserFragment();
+        }
+
+        ;
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     private void loadChooserFragment() {
@@ -116,25 +133,28 @@ public class AuthenticationActivity extends AppCompatActivity {
                                             preferenceUtility.setMe(me);
                                             GlobalData.getInstance().initializeSocket();
                                             Utility.detectLanguage(preferenceUtility.getMe().getLanguage(), AuthenticationActivity.this);
+
+                                            Intent intent = new Intent(Constant.ACTION_BROADCAST_USER_SESSION);
+                                            sendBroadcast(intent);
+
                                             Intent goMain = new Intent(AuthenticationActivity.this, MainActivity.class);
                                             startActivity(goMain);
                                             finish();
 
                                         } else {
 
-                                            S.T(AuthenticationActivity.this, "Something went wrong");
+                                            S.T(AuthenticationActivity.this, getResources().getString(R.string.unable));
                                         }
                                     }
                                 });
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                S.T(AuthenticationActivity.this, "Something went wrong");
+                                S.T(AuthenticationActivity.this, getResources().getString(R.string.unable));
                             }
 
                         } else {
-
-                            S.T(AuthenticationActivity.this, "Something went wrong");
+                            S.T(AuthenticationActivity.this, getResources().getString(R.string.unable));
                         }
                     }
                 });
@@ -153,7 +173,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 loadRequestForAccountFragment();
             }
         });
-        if ((GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) | shouldLoadSign) {
+        if ((getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) | shouldLoadSign) {
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
             shouldLoadSign = false;
 
@@ -226,6 +246,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void loadVerifyFragment() {
 
+
         fr = new VerifyFragment();
 
         ((VerifyFragment) fr).setOnPinVerifySuccessful(new VerifyFragment.onPinVerifySuccessful() {
@@ -266,7 +287,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                                                 for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                                                     getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                                                 }
-
 
 
                                                 Intent goSignIn = new Intent(AuthenticationActivity.this, AuthenticationActivity.class);

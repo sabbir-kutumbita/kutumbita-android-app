@@ -92,8 +92,10 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         authenticationViewModel.meLiveData(preferenceUtility.getMe().getAccessToken(), preferenceUtility.getMe().getRefreshToken()).observe(this, new Observer<Me>() {
             @Override
             public void onChanged(Me me) {
-                preferenceUtility.setMe(me);
-                loadProfileData();
+                if(me!=null)
+                    preferenceUtility.setMe(me);
+                    loadProfileData();
+
             }
         });
 

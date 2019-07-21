@@ -27,6 +27,7 @@
             android:authorities="@string/file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
@@ -35,16 +36,28 @@
         </provider>
 
 
-        <activity android:name=".BotActivity" />
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".BotActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AuthenticationActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".AuthenticationActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
 
         <service android:name=".fcm.TheFireBaseMessagingService">
             <intent-filter>
@@ -52,14 +65,20 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".InboxDetailsActivity">
+        <activity
+            android:name=".InboxDetailsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="INBOX_DETAILS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

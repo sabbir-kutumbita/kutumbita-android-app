@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utility.setOrientation(this, GlobalData.getInstance().getOrientation());
         setContentView(R.layout.activity_main);
         Utility.setFullScreen(this);
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         loadHomeFragment();
-        if (GlobalData.getInstance().getOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             putToken();
 
         IntentFilter filter = new IntentFilter();
@@ -283,8 +284,6 @@ public class MainActivity extends AppCompatActivity {
         JSONObject object = new JSONObject();
 
 
-
-
         try {
             object.put("user_uuid", preferenceUtility.getMe().getUuId());
             object.put("device_token", preferenceUtility.getFcmToken());
@@ -354,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
     public void onUserInteraction() {
         super.onUserInteraction();
 
-        if (GlobalData.getInstance().getOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (System.currentTimeMillis() > GlobalData.getInstance().getTouchTime() + Constant.MAXIMUM_UN_TOUCHED_TIME) {
                 settingsViewModel.isLoggedOut().observe(this, new Observer<Boolean>() {
                     @Override
