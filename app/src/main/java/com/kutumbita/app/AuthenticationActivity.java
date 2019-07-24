@@ -161,6 +161,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
 
+
             @Override
             public void onForgotPasswordClicked() {
 
@@ -168,11 +169,15 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             }
 
+
             @Override
             public void onRequestButtonClicked() {
+
                 loadRequestForAccountFragment();
+
             }
         });
+
         if ((getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) | shouldLoadSign) {
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.fr, fr).commitAllowingStateLoss();
             shouldLoadSign = false;

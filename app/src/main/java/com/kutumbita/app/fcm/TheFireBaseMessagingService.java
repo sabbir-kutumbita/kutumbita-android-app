@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.kutumbita.app.InboxDetailsActivity;
 import com.kutumbita.app.R;
+import com.kutumbita.app.SplashActivity;
 import com.kutumbita.app.utility.Constant;
 import com.kutumbita.app.utility.PreferenceUtility;
 import com.kutumbita.app.utility.S;
@@ -27,6 +28,7 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
         S.L("token", s);
         preferenceUtility.setFcmToken(s);
 
+
     }
 
 
@@ -34,9 +36,11 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         super.onMessageReceived(remoteMessage);
-        S.L("push", remoteMessage.getData().toString());
+        S.L("push", remoteMessage.toString());
+
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null)
+
             sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("exUuid"));
 
     }
@@ -51,9 +55,13 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
+        Intent goDetails;
+        if (uuId != null) {
+            goDetails = new Intent(this, InboxDetailsActivity.class);
+            goDetails.putExtra(Constant.EXTRA_UUID, uuId);
+        } else
+            goDetails = new Intent(this, SplashActivity.class);
 
-        Intent goDetails = new Intent(this, InboxDetailsActivity.class);
-        goDetails.putExtra(Constant.EXTRA_UUID, uuId);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 100, goDetails, PendingIntent.FLAG_UPDATE_CURRENT);
 

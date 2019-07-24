@@ -95,7 +95,6 @@ public class InboxDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inbox_details);
         Utility.setFullScreen(this);
         uuID = getIntent().getStringExtra(Constant.EXTRA_UUID);
-        S.L("exUUid", uuID);
         preferenceUtility = new PreferenceUtility(this);
         GlobalData.getInstance().setTouchTime(System.currentTimeMillis());
         layout = findViewById(R.id.header);
@@ -113,9 +112,6 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-
-
-
         super.onPause();
         if (messageDetailsRequest != null)
             messageDetailsRequest.cancel();
@@ -129,6 +125,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
         messageDetailsRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX_DETAILS + uuID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
 
                 swipeRefreshLayout.setRefreshing(false);
                 try {
