@@ -98,7 +98,6 @@ public class Utility {
 
     public static void detectLanguage(String lCode, Context context) {
 
-
         Locale locale = new Locale(lCode);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
