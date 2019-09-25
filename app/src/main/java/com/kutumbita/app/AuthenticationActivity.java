@@ -38,9 +38,13 @@ import libs.mjn.prettydialog.PrettyDialogCallback;
 public class AuthenticationActivity extends AppCompatActivity {
 
     AuthenticationViewModel authenticationViewModel;
+
     Fragment fr;
+
     PreferenceUtility preferenceUtility;
+
     PrettyDialog pDialog;
+
     public static String emailOrPhone = "";
 
     boolean shouldLoadSign;
@@ -62,16 +66,10 @@ public class AuthenticationActivity extends AppCompatActivity {
             loadChooserFragment();
         }
 
-        ;
-
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-    }
 
     private void loadChooserFragment() {
 

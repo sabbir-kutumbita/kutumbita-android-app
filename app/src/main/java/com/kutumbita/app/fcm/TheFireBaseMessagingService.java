@@ -41,6 +41,7 @@ public class TheFireBaseMessagingService extends FirebaseMessagingService {
         preferenceUtility = new PreferenceUtility(this);
         if (preferenceUtility.getMe() != null)
 
+
             sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("exUuid"));
 
     }

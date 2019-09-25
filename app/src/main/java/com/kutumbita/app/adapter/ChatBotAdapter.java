@@ -22,12 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatBotAdapter extends RecyclerView.Adapter<ChatBotAdapter.TheViewHolder> {
 
+
     LayoutInflater inflater;
     List<ChatBot> listModel = Collections.EMPTY_LIST;
     Context c;
     View v = null;
     public MutableLiveData<ChatBot> inBoxLiveData;
     PreferenceUtility preferenceUtility;
+
 
     public ChatBotAdapter(Context c, List<ChatBot> listModel) {
         inflater = LayoutInflater.from(c);

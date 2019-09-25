@@ -135,7 +135,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
                     inboxDetails = new Inbox(object.getString("uuid"), object.getString("title"), object.getString("message_body"),
                             object.getString("sent_at"), object.getString("timezone"),
                             object.getString("company_uuid"), object.getString("link"),
-                            object.getString("venue"), object.getString("start_date_time"), object.getString("start_date_time"),
+                            object.getString("venue"), object.getString("start_date_time"), object.getString("end_date_time"),
                             object.getString("image"),null, new Inbox.MessageType(messageTypeObject.getString("uuid"), messageTypeObject.getString("title"),
                             messageTypeObject.getString("icon")));
 
