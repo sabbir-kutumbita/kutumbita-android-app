@@ -119,7 +119,7 @@ public class InboxDetailsActivity extends AppCompatActivity {
 
     private void parseDetails() {
 
-        S.L("link", UrlConstant.URL_INBOX_DETAILS + uuID);
+       // S.L("link", UrlConstant.URL_INBOX_DETAILS + uuID);
 
 
         messageDetailsRequest = new StringRequest(Request.Method.GET, UrlConstant.URL_INBOX_DETAILS + uuID, new Response.Listener<String>() {
